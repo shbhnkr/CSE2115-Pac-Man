@@ -1,6 +1,7 @@
-# Pac-Man
-Pac-Man is a maze arcade game developed and released by Namco in 1980. 
-This is an implementation of the game.(Work in progress)
+## Pac-Man 
+
+- Pac-Man is a maze arcade game developed and released by Namco in 1980. 
+ This is an implementation of the game.(Work in progress)
 ---
 ## SEM Group 29 
 - Teaching Assistant : Noah
