@@ -3,3 +3,4 @@
 
 Group Members 
 - Swastik Agarwal. Platform: Windows 10, using Intellij.
+- Akif Yüksel. Platform: Windows 10, using Intellij.
