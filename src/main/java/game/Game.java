@@ -6,11 +6,12 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
 
+    public static final long serialVersionUID = 4328743;
     public static final int WIDTH = 649;
     public static final int HEIGHT = 480;
     public static final String TITLE = "Pac-Man";
+    private static boolean isRunning = false;
     public Thread thread;
-    private boolean isRunning = false;
 
     public Game() {
         Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
@@ -30,6 +31,14 @@ public class Game extends Canvas implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         game.start();
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     public synchronized void start() {
