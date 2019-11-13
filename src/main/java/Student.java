@@ -35,7 +35,6 @@ public class Student {
     }
 
     /**
-     * Determine whether the current Student object represents the same Student as the passed object.
      *
      * @param other Object to compare to the current Student
      * @return boolean with a truthy value in case of equality
