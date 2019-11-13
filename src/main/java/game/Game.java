@@ -3,21 +3,28 @@ package game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.net.URL;
 
 public class Game extends Canvas implements Runnable {
 
     public static final long serialVersionUID = 4328743;
-    public static final int WIDTH = 700;
-    public static final int HEIGHT = 500;
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 300;
     public static final String TITLE = "Pac-Man";
     private static boolean isRunning = false;
-    public Thread thread;
+    public transient Player player;
+    public transient Level level;
+    private transient Thread thread;
+
 
     public Game() {
         Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
         setPreferredSize(dimension);
         setMinimumSize(dimension);
         setMaximumSize(dimension);
+        player = new Player(Game.WIDTH / 2, Game.HEIGHT / 2);
+        URL path = ClassLoader.getSystemResource("board.txt");
+        level = new Level(path);
     }
 
     public static void main(String[] args) {
@@ -33,15 +40,7 @@ public class Game extends Canvas implements Runnable {
         game.start();
     }
 
-    public Thread getThread() {
-        return thread;
-    }
-
-    public void setThread(Thread thread) {
-        this.thread = thread;
-    }
-
-    public synchronized void start() {
+    private synchronized void start() {
         if (isRunning) {
             return;
         }
@@ -52,7 +51,7 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-    public synchronized void stop() {
+    private synchronized void stop() {
         if (!isRunning) {
             return;
         }
@@ -66,7 +65,7 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-    public void make() {
+    private void make() {
         BufferStrategy bufferStrategy = getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
@@ -75,6 +74,8 @@ public class Game extends Canvas implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        player.render(graphics);
+        level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
     }
