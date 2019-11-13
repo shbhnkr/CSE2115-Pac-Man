@@ -7,8 +7,8 @@ import java.awt.image.BufferStrategy;
 public class Game extends Canvas implements Runnable {
 
     public static final long serialVersionUID = 4328743;
-    public static final int WIDTH = 649;
-    public static final int HEIGHT = 480;
+    public static final int WIDTH = 700;
+    public static final int HEIGHT = 500;
     public static final String TITLE = "Pac-Man";
     private static boolean isRunning = false;
     public Thread thread;
