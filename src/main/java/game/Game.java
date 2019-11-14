@@ -1,30 +1,60 @@
 package game;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Canvas;
+
+import java.awt.Color;
+
+import java.awt.Dimension;
+
+import java.awt.Graphics;
+
 import java.awt.image.BufferStrategy;
+
+import java.io.File;
+
+import java.io.FileNotFoundException;
+
 import java.net.URL;
+
+import java.util.Scanner;
+
+import javax.swing.JFrame;
+
 
 public class Game extends Canvas implements Runnable {
 
     public static final long serialVersionUID = 4328743;
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 300;
     public static final String TITLE = "Pac-Man";
+    public static int WIDTH = 0;
+    public static int HEIGHT = 0;
     private static boolean isRunning = false;
-    public transient Player player;
     public transient Level level;
     private transient Thread thread;
 
-
+    /**
+    /Game class.
+     */
     public Game() {
-        Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
-        setPreferredSize(dimension);
-        setMinimumSize(dimension);
-        setMaximumSize(dimension);
-        player = new Player(Game.WIDTH / 2, Game.HEIGHT / 2);
-        URL path = ClassLoader.getSystemResource("board.txt");
-        level = new Level(path);
+        URL path = ClassLoader.getSystemResource("board2.txt");
+        File file = new File(path.getFile());
+        Scanner sc;
+        try {
+            sc = new Scanner(file);
+            int n = 0;
+            while (sc.hasNextLine()) {
+                WIDTH = 20 * (sc.nextLine().length());
+                n++;
+            }
+            HEIGHT = 20 * n;
+            Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
+            setPreferredSize(dimension);
+            setMinimumSize(dimension);
+            setMaximumSize(dimension);
+            level = new Level(path,WIDTH,HEIGHT);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
     public static void main(String[] args) {
@@ -74,7 +104,6 @@ public class Game extends Canvas implements Runnable {
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        player.render(graphics);
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();

@@ -13,11 +13,12 @@ public class Level {
 
     public transient Wall[][] walls;
     public transient Pellet[][] pellets;
+    public transient Player player;
 
-    public Level(URL path) {
-        this.width = 20;
-        this.height = 15;
-        char pixels[][] = new char[20][15];
+    public Level(URL path, int width1, int height1) {
+        this.width = width1/20;
+        this.height = height1/20;
+        char pixels[][] = new char[width][height];
         System.out.println(path.getFile());
         File file = new File(path.getFile());
         Scanner sc;
@@ -34,8 +35,8 @@ public class Level {
                 }
                 n++;
             }
-            walls = new Wall[20][15];
-            pellets = new Pellet[20][15];
+            walls = new Wall[width][height];
+            pellets = new Pellet[width][height];
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
@@ -44,6 +45,9 @@ public class Level {
                             break;
                         case '.':
                             pellets[x][y] = new Pellet(x * 20, y * 20);
+                            break;
+                        case 'p':
+                            player = new Player(x*20,y*20);
                             break;
                         case ' ':
                             System.out.println("nothing");
@@ -69,6 +73,8 @@ public class Level {
 
                 if (pellets[x][y] != null)
                     pellets[x][y].render(g);
+                if(player!=null)
+                    player.render(g);
             }
         }
     }
