@@ -1,9 +1,13 @@
 package game;
 
-import java.awt.*;
+import java.awt.Graphics;
+
 import java.io.File;
+
 import java.io.FileNotFoundException;
+
 import java.net.URL;
+
 import java.util.Scanner;
 
 public class Level {
@@ -15,16 +19,21 @@ public class Level {
     public transient Pellet[][] pellets;
     public transient Player player;
 
+    /**
+     * Generates a level from given file.
+     * @param path Path
+     * @param width1 Width
+     * @param height1 Height
+     */
     public Level(URL path, int width1, int height1) {
-        this.width = width1/20;
-        this.height = height1/20;
-        char pixels[][] = new char[width][height];
+        this.width = width1 / 20;
+        this.height = height1 / 20;
+        char [][]pixels = new char[width][height];
         System.out.println(path.getFile());
         File file = new File(path.getFile());
         Scanner sc;
         try {
             sc = new Scanner(file);
-
             int n = 0;
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
@@ -47,7 +56,7 @@ public class Level {
                             pellets[x][y] = new Pellet(x * 20, y * 20);
                             break;
                         case 'p':
-                            player = new Player(x*20,y*20);
+                            player = new Player(x * 20, y * 20);
                             break;
                         case ' ':
                             System.out.println("nothing");
@@ -58,23 +67,27 @@ public class Level {
                     }
                 }
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-
         }
     }
 
+    /**
+     * Renders a screen.
+     * @param g Graphics
+     */
     public void render(Graphics g) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (walls[x][y] != null)
+                if (walls[x][y] != null) {
                     walls[x][y].render(g);
-
-                if (pellets[x][y] != null)
+                }
+                if (pellets[x][y] != null) {
                     pellets[x][y].render(g);
-                if(player!=null)
+                }
+                if (player != null) {
                     player.render(g);
+                }
             }
         }
     }

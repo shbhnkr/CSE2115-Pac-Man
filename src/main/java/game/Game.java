@@ -1,23 +1,14 @@
 package game;
 
 import java.awt.Canvas;
-
 import java.awt.Color;
-
 import java.awt.Dimension;
-
 import java.awt.Graphics;
-
 import java.awt.image.BufferStrategy;
-
 import java.io.File;
-
 import java.io.FileNotFoundException;
-
 import java.net.URL;
-
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 
 
@@ -25,14 +16,38 @@ public class Game extends Canvas implements Runnable {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
-    public static int WIDTH = 0;
-    public static int HEIGHT = 0;
-    private static boolean isRunning = false;
+    public int width = 0;
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int height = 0;
+    private static boolean isRunning;
+
+    static {
+        isRunning = false;
+    }
+
     public transient Level level;
     private transient Thread thread;
 
     /**
-    /Game class.
+     * Game class.
      */
     public Game() {
         URL path = ClassLoader.getSystemResource("board2.txt");
@@ -42,21 +57,26 @@ public class Game extends Canvas implements Runnable {
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
-                WIDTH = 20 * (sc.nextLine().length());
+                width = 20 * (sc.nextLine().length());
                 n++;
             }
-            HEIGHT = 20 * n;
-            Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
+            height = 20 * n;
+            Dimension dimension = new Dimension(width, height);
             setPreferredSize(dimension);
             setMinimumSize(dimension);
             setMaximumSize(dimension);
-            level = new Level(path,WIDTH,HEIGHT);
+            level = new Level(path, width, height);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
 
         }
     }
 
+    /**
+     * Initialize the game board.
+     *
+     * @param args args.
+     */
     public static void main(String[] args) {
         Game game = new Game();
         JFrame frame = new JFrame();
@@ -70,6 +90,9 @@ public class Game extends Canvas implements Runnable {
         game.start();
     }
 
+    /**
+     * Start.
+     */
     private synchronized void start() {
         if (isRunning) {
             return;
@@ -81,6 +104,9 @@ public class Game extends Canvas implements Runnable {
 
     }
 
+    /**
+     * Stop.
+     */
     private synchronized void stop() {
         if (!isRunning) {
             return;
@@ -94,7 +120,9 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-
+    /**
+     * Render the game board.
+     */
     private void make() {
         BufferStrategy bufferStrategy = getBufferStrategy();
         if (bufferStrategy == null) {
@@ -103,7 +131,7 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        graphics.fillRect(0, 0, getWidth(), getHeight());
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
@@ -111,13 +139,9 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-
-
         while (isRunning) {
             make();
-
         }
         stop();
-
     }
 }
