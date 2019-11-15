@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +14,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
@@ -44,6 +46,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public transient Level level;
+    public transient Player player;
     private transient Thread thread;
 
     /**
@@ -100,8 +103,6 @@ public class Game extends Canvas implements Runnable {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
-
-
     }
 
     /**
@@ -135,6 +136,7 @@ public class Game extends Canvas implements Runnable {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
+        addKeyListener(this);
     }
 
     @Override
@@ -143,5 +145,40 @@ public class Game extends Canvas implements Runnable {
             make();
         }
         stop();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        System.out.println(e.getKeyCode());
+        if (key == KeyEvent.VK_W)  {
+            player.movePlayer(0, -1);
+            System.out.println("north");
+        }
+
+        if(key == KeyEvent.VK_A){
+            player.movePlayer(-1, 0);
+            System.out.println("west");
+        }
+
+        if(key == KeyEvent.VK_S){
+            player.movePlayer(0, 1);
+            System.out.println("east");
+        }
+
+        if(key == KeyEvent.VK_D) {
+            player.movePlayer(1, 0);
+            System.out.println("south");
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
