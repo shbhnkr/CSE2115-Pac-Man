@@ -1,15 +1,13 @@
 package game;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
 
@@ -19,6 +17,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
     public int width = 0;
+
+
+    public List<Unit> units;
 
     @Override
     public int getWidth() {
@@ -158,23 +159,50 @@ public class Game extends Canvas implements Runnable, KeyListener {
         System.out.println(e.getKeyCode());
         if (key == KeyEvent.VK_W)  {
             player.movePlayer(0, -1);
+
+            if (validMove(MoveGenerator.UP(player.getLocation()))) {
+                player.movePlayer(MoveGenerator.UP(player.getLocation()));
+            }
             System.out.println("north");
         }
 
         if(key == KeyEvent.VK_A){
             player.movePlayer(-1, 0);
+
+            if (validMove(MoveGenerator.LEFT(player.getLocation()))) {
+                player.movePlayer(MoveGenerator.LEFT(player.getLocation()));
+            }
             System.out.println("west");
         }
 
         if(key == KeyEvent.VK_S){
             player.movePlayer(0, 1);
+            player.movePlayer(MoveGenerator.LEFT(player.getLocation()));
+
+            if (validMove(MoveGenerator.DOWN(player.getLocation()))) {
+                player.movePlayer(MoveGenerator.DOWN(player.getLocation()));
+            }
             System.out.println("east");
         }
 
-        if(key == KeyEvent.VK_D) {
+        if(key == KeyEvent.VK_D ) {
             player.movePlayer(1, 0);
+            if (validMove(MoveGenerator.RIGHT(player.getLocation()))) {
+                player.movePlayer(MoveGenerator.RIGHT(player.getLocation()));
+            }
+
             System.out.println("south");
         }
+    }
+
+    private boolean validMove(Point position) {
+        for (Unit u : units) {
+            if (u.getType().equals("wall") &&  u.getLocation().equals(position)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override

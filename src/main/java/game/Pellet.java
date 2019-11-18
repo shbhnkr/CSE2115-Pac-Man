@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Pellet extends Rectangle {
+public class Pellet extends Unit {
 
     public static final long serialVersionUID = 4328743;
 
