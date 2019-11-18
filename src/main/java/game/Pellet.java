@@ -16,4 +16,9 @@ public class Pellet extends Unit {
         g.setColor(new Color(0xe6e600));
         g.fillRect(x + 7, y + 7, width, height);
     }
+
+    @Override
+    String getType() {
+        return ".";
+    }
 }

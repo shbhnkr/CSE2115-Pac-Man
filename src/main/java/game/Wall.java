@@ -16,4 +16,9 @@ public class Wall extends Unit {
         g.setColor(new Color(33, 0, 127));
         g.fillRect(x, y, width, height);
     }
+
+    @Override
+    String getType() {
+        return "#";
+    }
 }

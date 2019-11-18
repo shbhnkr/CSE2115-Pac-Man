@@ -23,4 +23,9 @@ public class Player extends Unit {
         this.setLocation(this.x + dx, this.y + dy);
 
     }
+
+    @Override
+    String getType() {
+        return "P";
+    }
 }

@@ -197,7 +197,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private boolean validMove(Point position) {
         for (Unit u : units) {
-            if (u.getType().equals("wall") &&  u.getLocation().equals(position)) {
+            if (u.getType().equals("#") &&  u.getLocation().equals(position)) {
                 return false;
             }
         }
