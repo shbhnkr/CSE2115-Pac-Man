@@ -45,6 +45,8 @@ public class Game extends Canvas implements Runnable {
 
     public transient Level level;
     private transient Thread thread;
+    public static final SpriteSheet spriteSheet = new SpriteSheet("/sprite/pacman.png");
+
 
     /**
      * Game class.
@@ -70,6 +72,7 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
 
         }
+
     }
 
     /**
