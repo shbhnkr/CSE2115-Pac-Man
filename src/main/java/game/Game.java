@@ -15,19 +15,15 @@ import javax.swing.JFrame;
 public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
-    public static final String TITLE = "Pac-Man";
-    public int width = 0;
+    private static final String TITLE = "Pac-Man";
+    private int width = 0;
+    private int height = 0;
 
-
-    public List<Unit> units;
+    private List<Unit> units;
 
     @Override
     public int getWidth() {
         return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     @Override
@@ -35,22 +31,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
 
-    public int height = 0;
+
     private static boolean isRunning;
 
     static {
         isRunning = false;
     }
 
-    public transient Level level;
-    public transient Player player;
+    private transient Level level;
+    private transient Player player;
     private transient Thread thread;
 
-    protected GameSettings settings;
+    private GameSettings settings;
 
     /**
      * Game class.
@@ -60,28 +53,58 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         URL path = ClassLoader.getSystemResource("board2.txt");
         File file = new File(path.getFile());
+
+        Dimension dimension = this.calculateDimensions(file);
+        this.setComponentDimensions(dimension);
+        this.level = new Level(path, width, height, this.settings.getSquareSize());
+    }
+
+    /**
+     * Sets the canvas component sizes
+     * @param dimension
+     */
+    private void setComponentDimensions(Dimension dimension) {
+        setPreferredSize(dimension);
+        setMinimumSize(dimension);
+        setMaximumSize(dimension);
+    }
+
+    /**
+     * Checks the given input file for max width and height.
+     * @param file
+     * @return
+     */
+    private Dimension calculateDimensions(File file) {
         Scanner sc;
         try {
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
-                width = this.settings.getSquareSize() * (sc.nextLine().length());
+                this.width = this.settings.getSquareSize() * (sc.nextLine().length());
                 n++;
             }
-            height = this.settings.getSquareSize() * n;
-            Dimension dimension = new Dimension(width, height);
-            setPreferredSize(dimension);
-            setMinimumSize(dimension);
-            setMaximumSize(dimension);
-            level = new Level(path, width, height, this.settings.getSquareSize());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
+            this.height = this.settings.getSquareSize() * n;
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
+
+        return new Dimension(width, height);
     }
 
+    /**
+     * Initializes a Jframe class, specifies settings and binds it to the current Game / Component.
+     */
+    private void initFrame() {
+        JFrame frame = new JFrame();
+        frame.setTitle(Game.TITLE);
+        frame.add(this);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
-
+    }
     /**
      * Initialize the game board.
      *
@@ -91,14 +114,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         GameSettings settings = new GameSettings(20);
         Game game = new Game(settings);
 
-        JFrame frame = new JFrame();
-        frame.setTitle(Game.TITLE);
-        frame.add(game);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        game.initFrame();
         game.start();
     }
 
@@ -163,6 +179,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         System.out.println(e.getKeyCode());
 
@@ -216,10 +237,5 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 
         return true;
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }

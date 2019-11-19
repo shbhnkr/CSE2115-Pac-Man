@@ -59,7 +59,7 @@ public class Level {
                             this.player = new Player(x * squareSize, y * squareSize);
                             break;
                         case ' ':
-                            System.out.println("nothing");
+//                            System.out.println("nothing");
                             break;
                         default:
                             System.out.println("invalid");
