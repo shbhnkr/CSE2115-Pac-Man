@@ -208,12 +208,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         if(key == KeyEvent.VK_S){
 //            player.movePlayer(0, 1);
-            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
 
             if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
             }
-            System.out.println("east");
+            System.out.println("south");
         }
 
         if(key == KeyEvent.VK_D ) {
@@ -222,7 +221,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
             }
 
-            System.out.println("south");
+            System.out.println("east");
         }
     }
 
