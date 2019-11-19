@@ -50,10 +50,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public transient Player player;
     private transient Thread thread;
 
+    protected GameSettings settings;
+
     /**
      * Game class.
      */
-    public Game() {
+    public Game(GameSettings settings) {
+        this.settings = settings;
+
         URL path = ClassLoader.getSystemResource("board2.txt");
         File file = new File(path.getFile());
         Scanner sc;
@@ -61,20 +65,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
-                width = 20 * (sc.nextLine().length());
+                width = this.settings.getSquareSize() * (sc.nextLine().length());
                 n++;
             }
-            height = 20 * n;
+            height = this.settings.getSquareSize() * n;
             Dimension dimension = new Dimension(width, height);
             setPreferredSize(dimension);
             setMinimumSize(dimension);
             setMaximumSize(dimension);
-            level = new Level(path, width, height);
+            level = new Level(path, width, height, this.settings.getSquareSize());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
 
         }
     }
+
+
 
     /**
      * Initialize the game board.
@@ -82,7 +88,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
      * @param args args.
      */
     public static void main(String[] args) {
-        Game game = new Game();
+        GameSettings settings = new GameSettings(20);
+        Game game = new Game(settings);
+
         JFrame frame = new JFrame();
         frame.setTitle(Game.TITLE);
         frame.add(game);
@@ -157,38 +165,40 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         System.out.println(e.getKeyCode());
-        if (key == KeyEvent.VK_W)  {
-            player.movePlayer(0, -1);
 
-            if (validMove(MoveGenerator.UP(player.getLocation()))) {
-                player.movePlayer(MoveGenerator.UP(player.getLocation()));
+        player = level.player;
+        if (key == KeyEvent.VK_W)  {
+//            player.movePlayer(0, -1);
+
+            if (validMove(MoveBuilder.UP(player.getLocation()))) {
+                player.movePlayer(MoveBuilder.UP(player.getLocation()));
             }
             System.out.println("north");
         }
 
         if(key == KeyEvent.VK_A){
-            player.movePlayer(-1, 0);
+//            player.movePlayer(-1, 0);
 
-            if (validMove(MoveGenerator.LEFT(player.getLocation()))) {
-                player.movePlayer(MoveGenerator.LEFT(player.getLocation()));
+            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
+                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
             }
             System.out.println("west");
         }
 
         if(key == KeyEvent.VK_S){
-            player.movePlayer(0, 1);
-            player.movePlayer(MoveGenerator.LEFT(player.getLocation()));
+//            player.movePlayer(0, 1);
+            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
 
-            if (validMove(MoveGenerator.DOWN(player.getLocation()))) {
-                player.movePlayer(MoveGenerator.DOWN(player.getLocation()));
+            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
+                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
             }
             System.out.println("east");
         }
 
         if(key == KeyEvent.VK_D ) {
-            player.movePlayer(1, 0);
-            if (validMove(MoveGenerator.RIGHT(player.getLocation()))) {
-                player.movePlayer(MoveGenerator.RIGHT(player.getLocation()));
+//            player.movePlayer(1, 0);
+            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
+                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
             }
 
             System.out.println("south");
@@ -196,11 +206,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private boolean validMove(Point position) {
-        for (Unit u : units) {
-            if (u.getType().equals("#") &&  u.getLocation().equals(position)) {
-                return false;
+        if (this.units !=null) {
+            for (Unit u : units) {
+                if (u != null && u.getType().equals("#") &&  u.getLocation().equals(position)) {
+                    return false;
+                }
             }
         }
+
 
         return true;
     }

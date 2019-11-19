@@ -2,7 +2,7 @@ package game;
 
 import java.awt.*;
 
-public class MoveGenerator {
+public class MoveBuilder {
 
     static Point UP(Point current) {
         return new Point( (int ) current.getX(), (int) current.getY() + 10);
