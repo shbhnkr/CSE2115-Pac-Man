@@ -57,6 +57,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Dimension dimension = this.calculateDimensions(file);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
+        addKeyListener(this);
     }
 
     /**
@@ -161,7 +162,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        addKeyListener(this);
     }
 
     @Override
