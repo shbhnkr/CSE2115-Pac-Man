@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
      * Game class.
      */
     public Game() {
-        URL path = ClassLoader.getSystemResource("board2.txt");
+        URL path = ClassLoader.getSystemResource("board.txt");
         File file = new File(path.getFile());
         Scanner sc;
         try {
