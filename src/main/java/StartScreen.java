@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
+
 public class StartScreen {
     public static JFrame frame1;
     private transient JTextField textField1;
@@ -24,14 +25,14 @@ public class StartScreen {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 Game game = new Game();
-                Register.rFrame = new JFrame();
-                Register.rFrame.setTitle(Game.TITLE);
-                Register.rFrame.add(game);
-                Register.rFrame.setResizable(false);
-                Register.rFrame.pack();
-                Register.rFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                Register.rFrame.setLocationRelativeTo(null);
-                Register.rFrame.setVisible(true);
+                JFrame frame = new JFrame();
+                frame.setTitle(Game.TITLE);
+                frame.add(game);
+                frame.setResizable(false);
+                frame.pack();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
                 game.start();
                 frame1.setVisible(false);
             }
@@ -39,14 +40,14 @@ public class StartScreen {
         newUserClickHereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Register");
-                frame.setContentPane(new Register().panel1);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(500, 300);
-                frame.setBackground(Color.BLACK);
-                frame.setLocation(500, 300);
-                frame.setResizable(false);
-                frame.setVisible(true);
+                Register.rFrame = new JFrame("Register");
+                Register.rFrame.setContentPane(new Register().panel1);
+                Register.rFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                Register.rFrame.setSize(500, 300);
+                Register.rFrame.setBackground(Color.BLACK);
+                Register.rFrame.setLocation(500, 300);
+                Register.rFrame.setResizable(false);
+                Register.rFrame.setVisible(true);
                 frame1.setVisible(false);
 
             }

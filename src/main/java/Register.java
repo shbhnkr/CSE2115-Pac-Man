@@ -25,6 +25,7 @@ public class Register {
                 System.out.println(enterUsernameTextField.getText() + " Username");
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
                 StartScreen.frame1.setVisible(true);
+                rFrame.setVisible(false);
             }
         });
     }
