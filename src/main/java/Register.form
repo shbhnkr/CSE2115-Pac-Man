@@ -67,7 +67,7 @@
           <text value="Button"/>
         </properties>
       </component>
-      <component id="bfbfc" class="javax.swing.JTextArea" binding="PACMANTextArea" default-binding="true">
+      <component id="bfbfc" class="javax.swing.JTextArea" binding="pacmanTextArea">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="6" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
