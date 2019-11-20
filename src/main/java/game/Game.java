@@ -96,7 +96,7 @@ public class Game extends Canvas implements Runnable {
     /**
      * Start.
      */
-    private synchronized void start() {
+    public synchronized void start() {
         if (isRunning) {
             return;
         }
