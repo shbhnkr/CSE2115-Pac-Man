@@ -3,6 +3,8 @@ import game.Game;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.*;
 
 
@@ -22,8 +24,15 @@ public class StartScreen {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                PreparedStatement ps;
+                ResultSet rs;
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
+                String Uname = textField1.getText();
+                String pwd = String.valueOf(passwordField1.getPassword());
+
+                String query = "";
+
                 Game game = new Game();
                 JFrame frame = new JFrame();
                 frame.setTitle(Game.TITLE);
