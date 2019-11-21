@@ -46,12 +46,28 @@ public class Register {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(enterUsernameTextField.getText() + " Username");
-                System.out.println(enterPasswordPasswordField.getText() + " Password");
-                StartScreen.frame1.setVisible(true);
-                rFrame.setVisible(false);
+                if(!display(enterPasswordPasswordField.getText()))
+                {
+                    enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255,0,0)));
+                }
+                else{
+                    StartScreen.frame1.setVisible(true);
+                    rFrame.setVisible(false);
+                }
             }
         });
     }
+    /**
+     * checks if password is possible.
+     */
+    public static boolean display(String password) {
+        if (password.matches(".*[0-9]{1,}.*") && password.matches(".*[@#$]{1,}.*")
+                && password.length() >= 6 && password.length() <= 20) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
