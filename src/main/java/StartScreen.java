@@ -33,10 +33,16 @@ public class StartScreen {
                 String Uname = textField1.getText();
                 String pwd = String.valueOf(passwordField1.getPassword());
 
-                String query = "";
+                String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
                 try {
                     ps = DBConnection.getConnection().prepareStatement(query);
+                    ps.setString(1, Uname);
+                    ps.setString(2, pwd);
                     rs = ps.executeQuery();
+                    if(rs.next()){
+                        JOptionPane.showMessageDialog(null, "YES");
+                    }
+                    JOptionPane.showMessageDialog(null, "NO");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
