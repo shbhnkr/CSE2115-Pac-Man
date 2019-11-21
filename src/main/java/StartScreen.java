@@ -1,3 +1,4 @@
+import Database.DBConnection;
 import game.Game;
 
 import java.awt.*;
@@ -5,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 
 
@@ -32,7 +34,12 @@ public class StartScreen {
                 String pwd = String.valueOf(passwordField1.getPassword());
 
                 String query = "";
-
+                try {
+                    ps = DBConnection.getConnection().prepareStatement(query);
+                    rs = ps.executeQuery();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 Game game = new Game();
                 JFrame frame = new JFrame();
                 frame.setTitle(Game.TITLE);
