@@ -2,6 +2,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +18,7 @@ public class Register {
     private transient JPasswordField enterPasswordPasswordField;
     private transient JTextArea pacmanTextArea;
     private transient Font font;
+    private transient char passwordChar;
 
     /**
      * Constructor.
@@ -33,6 +36,49 @@ public class Register {
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
 
+        passwordChar = enterPasswordPasswordField.getEchoChar();
+        enterPasswordPasswordField.setEchoChar((char) 0);
+        enterPasswordPasswordField.setText("Create Password");
+        enterPasswordPasswordField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (enterPasswordPasswordField.getText().equals("Create Password")) {
+                    enterPasswordPasswordField.setText("");
+                    enterPasswordPasswordField.setEchoChar(passwordChar);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (enterPasswordPasswordField.getText().equals("")) {
+                    enterPasswordPasswordField.setEchoChar((char) 0);
+                    enterPasswordPasswordField.setText("Create Password");
+
+                } else {
+
+                    enterPasswordPasswordField.setEchoChar(passwordChar);
+                }
+
+            }
+        });
+
+        enterUsernameTextField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent fe) {
+                if (enterUsernameTextField.getText().equals("Create Username")) {
+                    enterUsernameTextField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                if (enterUsernameTextField.getText().equals("")) {
+                    enterUsernameTextField.setText("Create Username");
+                }
+
+            }
+        });
         Dimension dimension = new Dimension(5, 5);
         enterUsernameTextField.setPreferredSize(dimension);
         enterPasswordPasswordField.setPreferredSize(dimension);
@@ -46,17 +92,17 @@ public class Register {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!display(enterPasswordPasswordField.getText()))
-                {
-                    enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255,0,0)));
-                }
-                else{
+                if (!display(enterPasswordPasswordField.getText())) {
+                    enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(
+                            0, 0, 1, 0, new Color(255, 0, 0)));
+                } else {
                     StartScreen.frame1.setVisible(true);
                     rFrame.setVisible(false);
                 }
             }
         });
     }
+
     /**
      * checks if password is possible.
      */

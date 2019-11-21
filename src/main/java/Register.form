@@ -30,6 +30,7 @@
         </constraints>
         <properties>
           <background color="-16777216"/>
+          <font name="Segoe UI"/>
           <foreground color="-1584621"/>
           <text value=""/>
           <toolTipText value="Enter Password"/>
@@ -43,8 +44,9 @@
         </constraints>
         <properties>
           <background color="-16777216"/>
+          <font name="Segoe UI"/>
           <foreground color="-1584621"/>
-          <text value=""/>
+          <text value="Create Username"/>
           <toolTipText value="Enter username"/>
         </properties>
       </component>
