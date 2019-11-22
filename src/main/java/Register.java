@@ -82,7 +82,7 @@ public class Register {
         Dimension dimension = new Dimension(5, 5);
         enterUsernameTextField.setPreferredSize(dimension);
         enterPasswordPasswordField.setPreferredSize(dimension);
-        Color color = new Color(255, 255, 255);
+        Color color = new Color(255, 255, 0);
         enterUsernameTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         button1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
