@@ -1,11 +1,25 @@
 import game.Game;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
-
-
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class StartScreen {
     public static JFrame frame1;
@@ -14,11 +28,26 @@ public class StartScreen {
     private transient JPasswordField passwordField1;
     private transient JButton loginButton;
     private transient JButton newUserClickHereButton;
+    private transient Font font;
+    private transient JTextArea pacmanText;
+    private transient char password;
+
 
     /**
      * Constructor.
      */
     public StartScreen() {
+        URL path = ClassLoader.getSystemResource("crackman.ttf");
+        File file = new File(path.getFile());
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, file);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +78,59 @@ public class StartScreen {
                 Register.rFrame.setResizable(false);
                 Register.rFrame.setVisible(true);
                 frame1.setVisible(false);
+
+            }
+        });
+        Dimension dimension = new Dimension(5, 5);
+        textField1.setPreferredSize(dimension);
+        passwordField1.setPreferredSize(dimension);
+        pacmanText.setFont(new Font("crackman", Font.PLAIN, 35));
+        loginButton.setFont(new Font("crackman", Font.PLAIN, 20));
+        newUserClickHereButton.setFont(new Font("crackman", Font.PLAIN, 20));
+        Color color = new Color(0, 0, 0);
+        textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
+        passwordField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
+        loginButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+
+        textField1.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField1.getText().equals("Enter Username")) {
+                    textField1.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField1.getText().equals("")) {
+                    textField1.setText("Enter Username");
+                }
+            }
+        });
+
+        password = passwordField1.getEchoChar();
+        passwordField1.setEchoChar((char) 0);
+        passwordField1.setText("Enter Password");
+        passwordField1.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (passwordField1.getText().equals("Enter Password")) {
+                    passwordField1.setText("");
+                    passwordField1.setEchoChar(password);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (passwordField1.getText().equals("")) {
+                    passwordField1.setEchoChar((char) 0);
+                    passwordField1.setText("Enter Password");
+
+                } else {
+
+                    passwordField1.setEchoChar(password);
+                }
 
             }
         });
