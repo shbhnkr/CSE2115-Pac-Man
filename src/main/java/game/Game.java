@@ -16,10 +16,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     private static final String TITLE = "Pac-Man";
-    private int width = 0;
-    private int height = 0;
+    private static int width = 0;
+    private static int height = 0;
 
-    private List<Unit> units;
+//    private static List<Unit> units;
 
     @Override
     public int getWidth() {
@@ -43,12 +43,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private transient Player player;
     private transient Thread thread;
 
-    private GameSettings settings;
+    private transient GameSettings settings;
 
     /**
      * Game class.
      */
-    public Game(GameSettings settings) {
+     private Game(GameSettings settings) {
         this.settings = settings;
 
         URL path = ClassLoader.getSystemResource("board2.txt");
@@ -62,7 +62,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     /**
      * Sets the canvas component sizes
-     * @param dimension
+     * @param dimension the dimension of which the components are going to be set.
      */
     private void setComponentDimensions(Dimension dimension) {
         setPreferredSize(dimension);
@@ -72,8 +72,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     /**
      * Checks the given input file for max width and height.
-     * @param file
-     * @return
+     * @param file the file to calculate dimensions of.
+     * @return dimensions of file.
      */
     private Dimension calculateDimensions(File file) {
         Scanner sc;
@@ -81,10 +81,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
-                this.width = this.settings.getSquareSize() * (sc.nextLine().length());
+                width = this.settings.getSquareSize() * (sc.nextLine().length());
                 n++;
             }
-            this.height = this.settings.getSquareSize() * n;
+            height = this.settings.getSquareSize() * n;
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -191,50 +191,48 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (key == KeyEvent.VK_W)  {
 //            player.movePlayer(0, -1);
 
-            if (validMove(MoveBuilder.UP(player.getLocation()))) {
+//            if (validMove(MoveBuilder.UP(player.getLocation()))) {
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
-            }
+//            }
             System.out.println("north");
         }
 
         if(key == KeyEvent.VK_A){
 //            player.movePlayer(-1, 0);
 
-            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
+//            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
                 player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-            }
+//            }
             System.out.println("west");
         }
 
         if(key == KeyEvent.VK_S){
 //            player.movePlayer(0, 1);
 
-            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
+//            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-            }
+//            }
             System.out.println("south");
         }
 
         if(key == KeyEvent.VK_D ) {
 //            player.movePlayer(1, 0);
-            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
+//            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
                 player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-            }
+//            }
 
             System.out.println("east");
         }
     }
 
-    private boolean validMove(Point position) {
-        if (this.units !=null) {
-            for (Unit u : units) {
-                if (u != null && u.getType().equals("#") &&  u.getLocation().equals(position)) {
-                    return false;
-                }
-            }
-        }
-
-
-        return true;
-    }
+//    private boolean validMove(Point position) {
+//        if (this.units !=null) {
+//            for (Unit u : units) {
+//                if (u != null && u.getType().equals("#") &&  u.getLocation().equals(position)) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
 }
