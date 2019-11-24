@@ -1,13 +1,16 @@
 package game;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.List;
+//import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
 
@@ -19,7 +22,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int width = 0;
     private static int height = 0;
 
-//    private static List<Unit> units;
+    //private static List<Unit> units;
 
     @Override
     public int getWidth() {
@@ -47,6 +50,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     /**
      * Game class.
+     * @param settings the settings to use.
      */
      private Game(GameSettings settings) {
         this.settings = settings;
@@ -61,7 +65,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     /**
-     * Sets the canvas component sizes
+     * Sets the canvas component sizes.
      * @param dimension the dimension of which the components are going to be set.
      */
     private void setComponentDimensions(Dimension dimension) {
@@ -75,6 +79,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
      * @param file the file to calculate dimensions of.
      * @return dimensions of file.
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     private Dimension calculateDimensions(File file) {
         Scanner sc;
         try {

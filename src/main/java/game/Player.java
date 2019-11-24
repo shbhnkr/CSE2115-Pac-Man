@@ -1,6 +1,8 @@
 package game;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Point;
 
 public class Player extends Unit {
     public static final long serialVersionUID = 4328743;
