@@ -18,6 +18,12 @@ public class Level {
     public transient Wall[][] walls;
     public transient Pellet[][] pellets;
     public transient Player player;
+    public transient Inky inky;
+    public transient Blinky blinky;
+    public transient Pinky pinky;
+    public transient Clyde clyde;
+
+
 
     /**
      * Generates a level from given file.
@@ -58,6 +64,18 @@ public class Level {
                         case 'p':
                             player = new Player(x * 20, y * 20);
                             break;
+                        case 'i':
+                            inky = new Inky(x * 20, y * 20);
+                            break;
+                        case 'b':
+                            blinky = new Blinky(x * 20, y * 20);
+                            break;
+                        case 'g':
+                            pinky = new Pinky(x * 20, y * 20);
+                            break;
+                        case 'c':
+                            clyde = new Clyde(x * 20, y * 20);
+                            break;
                         case ' ':
                             System.out.println("nothing");
                             break;
@@ -87,6 +105,18 @@ public class Level {
                 }
                 if (player != null) {
                     player.render(g);
+                }
+                if (inky != null) {
+                    inky.render(g);
+                }
+                if (blinky != null) {
+                    blinky.render(g);
+                }
+                if (pinky != null) {
+                    pinky.render(g);
+                }
+                if (clyde != null) {
+                    clyde.render(g);
                 }
             }
         }

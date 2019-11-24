@@ -45,12 +45,14 @@ public class Game extends Canvas implements Runnable {
 
     public transient Level level;
     private transient Thread thread;
+    public static final SpriteSheet spriteSheet = new SpriteSheet("/sprite/pacman.png");
+
 
     /**
      * Game class.
      */
     public Game() {
-        URL path = ClassLoader.getSystemResource("board2.txt");
+        URL path = ClassLoader.getSystemResource("board.txt");
         File file = new File(path.getFile());
         Scanner sc;
         try {
@@ -70,6 +72,7 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
 
         }
+
     }
 
     /**
@@ -93,7 +96,7 @@ public class Game extends Canvas implements Runnable {
     /**
      * Start.
      */
-    private synchronized void start() {
+    public synchronized void start() {
         if (isRunning) {
             return;
         }

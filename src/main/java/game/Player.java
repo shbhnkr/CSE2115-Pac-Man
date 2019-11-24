@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -11,9 +10,15 @@ public class Player extends Rectangle {
         setBounds(x, y, 20, 20);
     }
 
+    /**
+     * renders the player on board.
+     * @param g Graphics
+     */
     public void render(Graphics g) {
-        g.setColor(Color.YELLOW);
-        g.fillRect(x, y, width, height);
+        SpriteSheet sheet = Game.spriteSheet;
+        g.drawImage(sheet.getSprite(0,0),x,y, null);
+        //g.setColor(Color.YELLOW);
+        //g.fillRect(x, y, width, height);
     }
 
 }
