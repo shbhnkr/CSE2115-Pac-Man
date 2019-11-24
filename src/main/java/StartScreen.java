@@ -1,4 +1,5 @@
 import game.Game;
+import game.GameSettings;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,7 +32,7 @@ public class StartScreen {
     private transient Font font;
     private transient JTextArea pacmanText;
     private transient char password;
-
+    private transient GameSettings settings;
 
     /**
      * Constructor.
@@ -53,7 +54,7 @@ public class StartScreen {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
-                Game game = new Game();
+                Game game = new Game(settings);
                 JFrame frame = new JFrame();
                 frame.setTitle(Game.TITLE);
                 frame.add(game);

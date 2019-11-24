@@ -1,10 +1,12 @@
 package game;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.Point;
 
-public class Player extends Rectangle {
+public class Player extends Unit {
     public static final long serialVersionUID = 4328743;
+
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
@@ -21,4 +23,17 @@ public class Player extends Rectangle {
         //g.fillRect(x, y, width, height);
     }
 
+    public void movePlayer(Point movePosition) {
+        this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
+    }
+
+    public void movePlayer(int dx, int dy) {
+        this.setLocation(this.x + dx, this.y + dy);
+
+    }
+
+    @Override
+    String getType() {
+        return "P";
+    }
 }

@@ -31,9 +31,9 @@ public class Level {
      * @param width1 Width
      * @param height1 Height
      */
-    public Level(URL path, int width1, int height1) {
-        this.width = width1 / 20;
-        this.height = height1 / 20;
+    public Level(URL path, int width1, int height1, int squareSize) {
+        this.width = width1 / squareSize;
+        this.height = height1 / squareSize;
         char [][]pixels = new char[width][height];
         System.out.println(path.getFile());
         File file = new File(path.getFile());
@@ -56,13 +56,13 @@ public class Level {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
                         case '#':
-                            walls[x][y] = new Wall(x * 20, y * 20);
+                            walls[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
                         case '.':
-                            pellets[x][y] = new Pellet(x * 20, y * 20);
+                            pellets[x][y] = new Pellet(x * squareSize, y * squareSize);
                             break;
                         case 'p':
-                            player = new Player(x * 20, y * 20);
+                            this.player = new Player(x * squareSize, y * squareSize);
                             break;
                         case 'i':
                             inky = new Inky(x * 20, y * 20);
@@ -77,7 +77,6 @@ public class Level {
                             clyde = new Clyde(x * 20, y * 20);
                             break;
                         case ' ':
-                            System.out.println("nothing");
                             break;
                         default:
                             System.out.println("invalid");
