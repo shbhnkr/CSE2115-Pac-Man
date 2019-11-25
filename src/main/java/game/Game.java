@@ -1,41 +1,28 @@
 package game;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-//import java.util.List;
 import java.util.Scanner;
-import javax.swing.JFrame;
+import javax.swing.*;
+
+//import java.util.List;
 
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
+    public static final SpriteSheet spriteSheet = new SpriteSheet("/sprite/pacman.png");
     private static int width = 0;
-    private static int height = 0;
 
     //private static List<Unit> units;
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-
-
+    private static int height = 0;
     private static boolean isRunning;
 
     static {
@@ -45,13 +32,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private transient Level level;
     private transient Player player;
     private transient Thread thread;
-    public static final SpriteSheet spriteSheet = new SpriteSheet("/sprite/pacman.png");
-
-
     private transient GameSettings settings;
 
     /**
      * Game class.
+     *
      * @param settings the settings to use.
      */
     public Game(GameSettings settings) {
@@ -65,8 +50,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
         addKeyListener(this);
     }
 
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
     /**
      * Sets the canvas component sizes.
+     *
      * @param dimension the dimension of which the components are going to be set.
      */
     private void setComponentDimensions(Dimension dimension) {
@@ -77,6 +74,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     /**
      * Checks the given input file for max width and height.
+     *
      * @param file the file to calculate dimensions of.
      * @return dimensions of file.
      */
@@ -110,18 +108,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-    }
-    /**
-     * Initialize the game board.
-     *
-     * @param args args.
-     */
-    public static void main(String[] args) {
-        GameSettings settings = new GameSettings(20);
-        Game game = new Game(settings);
-
-        game.initFrame();
-        game.start();
     }
 
     /**
@@ -179,6 +165,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        System.out.println("adds " + e);
 
     }
 
@@ -193,42 +180,43 @@ public class Game extends Canvas implements Runnable, KeyListener {
         System.out.println(e.getKeyCode());
 
         player = level.player;
-        if (key == KeyEvent.VK_W)  {
+        if (key == KeyEvent.VK_W) {
 //            player.movePlayer(0, -1);
 
 //            if (validMove(MoveBuilder.UP(player.getLocation()))) {
-                player.movePlayer(MoveBuilder.UP(player.getLocation()));
+            player.movePlayer(MoveBuilder.UP(player.getLocation()));
 //            }
             System.out.println("north");
         }
 
-        if(key == KeyEvent.VK_A){
+        if (key == KeyEvent.VK_A) {
 //            player.movePlayer(-1, 0);
 
 //            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
-                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
 //            }
             System.out.println("west");
         }
 
-        if(key == KeyEvent.VK_S){
+        if (key == KeyEvent.VK_S) {
 //            player.movePlayer(0, 1);
 
 //            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
-                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+            player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
 //            }
             System.out.println("south");
         }
 
-        if(key == KeyEvent.VK_D ) {
+        if (key == KeyEvent.VK_D) {
 //            player.movePlayer(1, 0);
 //            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
-                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+            player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
 //            }
 
             System.out.println("east");
         }
     }
+
 
 //    private boolean validMove(Point position) {
 //        if (this.units !=null) {

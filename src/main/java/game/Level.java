@@ -79,7 +79,6 @@ public class Level {
                         case ' ':
                             break;
                         default:
-                            System.out.println("invalid");
                             break;
                     }
                 }
