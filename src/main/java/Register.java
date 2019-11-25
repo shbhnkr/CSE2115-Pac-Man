@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import javax.swing.*;
 
 
@@ -24,6 +25,11 @@ public class Register {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(enterUsernameTextField.getText() + " Username");
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
+                String uName = enterUsernameTextField.getText();
+                String pwd = enterPasswordPasswordField.getText();
+
+                PreparedStatement ps;
+                String query ="INSERT INTO login(username, password) VALUES ('" + uName + "', '" + pwd + "')";
                 StartScreen.frame1.setVisible(true);
                 rFrame.setVisible(false);
             }
