@@ -12,8 +12,10 @@ public class Pinky extends Rectangle {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.PINK);
-        g.fillRect(x, y, width, height);
+        SpriteSheet sheet = Game.pinkySprite;
+        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
+        //g.setColor(Color.PINK);
+        //g.fillRect(x, y, width, height);
     }
 
 }

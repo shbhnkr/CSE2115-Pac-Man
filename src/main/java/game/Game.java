@@ -18,7 +18,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
-    public static final SpriteSheet spriteSheet = new SpriteSheet("/sprite/pacman.png");
+    public static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
+    public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
+    public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
+    public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
+    public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     private static int width = 0;
 
     //private static List<Unit> units;

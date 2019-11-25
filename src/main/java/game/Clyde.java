@@ -12,8 +12,10 @@ public class Clyde extends Rectangle {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.ORANGE);
-        g.fillRect(x, y, width, height);
+        SpriteSheet sheet = Game.clydeSprite;
+        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
+        //g.setColor(Color.ORANGE);
+        //g.fillRect(x, y, width, height);
     }
 
 }

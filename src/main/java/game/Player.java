@@ -17,8 +17,8 @@ public class Player extends Unit {
      * @param g Graphics
      */
     public void render(Graphics g) {
-        SpriteSheet sheet = Game.spriteSheet;
-        g.drawImage(sheet.getSprite(0,0),x,y, null);
+        SpriteSheet sheet = Game.playerSprite;
+        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
         //g.setColor(Color.YELLOW);
         //g.fillRect(x, y, width, height);
     }
