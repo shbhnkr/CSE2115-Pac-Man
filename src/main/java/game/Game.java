@@ -1,6 +1,7 @@
 package game;
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,11 +10,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
-import javax.swing.*;
 
 import static game.Level.pellets;
 import static game.Level.pixels;
-import static game.Player.*;
+import static game.Player.xPixel;
+import static game.Player.yPixel;
 
 //import java.util.List;
 
@@ -189,64 +190,51 @@ public class Game extends Canvas implements Runnable, KeyListener {
         player = level.player;
         if (key == KeyEvent.VK_W) {
 //            player.movePlayer(0, -1);
-        xPixel = 16;
-        yPixel = 0;
+            xPixel = 16;
+            yPixel = 0;
 //            if (validMove(MoveBuilder.UP(player.getLocation()))) {
-            player.movePlayer(MoveBuilder.UP(player.getLocation()));
-//            }
-            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-                case '#':
-                    player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-                    break;
-                case '.':
-                    Pellet pel = null;
-                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                    break;
-                default:
-                    break;
-            }
+            if (player.getLocation().y == 0) {
+                Point point = new Point(player.getLocation().x, getHeight() - 20);
+                player.movePlayer(point);
 
-            System.out.println("north");
+                moveUp();
+            }
+//            }
+            else {
+                player.movePlayer(MoveBuilder.UP(player.getLocation()));
+                moveUp();
+
+                System.out.println("north");
+            }
         }
 
         if (key == KeyEvent.VK_A) {
-//            player.movePlayer(-1, 0);
             xPixel = 16;
             yPixel = 48;
-//            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
-            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-//            }
-            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-                case '#':
-                    player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-                    break;
-                case '.':
-                    Pellet pel = null;
-                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                    break;
-                default:
-                    break;
+            if (player.getLocation().x == 0) {
+                Point point = new Point(getWidth() - 20, player.getLocation().y);
+                player.movePlayer(point);
+                moveLeft();
+            } else {
+                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+                moveLeft();
+                System.out.println("west");
             }
-            System.out.println("west");
         }
 
         if (key == KeyEvent.VK_S) {
 //            player.movePlayer(0, 1);
-        xPixel = 16;
-        yPixel = 32;
+            xPixel = 16;
+            yPixel = 32;
 //            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
-            player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+            if (player.getLocation().y == getHeight() - 20) {
+                Point point = new Point(player.getLocation().x, 0);
+                player.movePlayer(point);
+                moveDown();
+            } else {
+                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
 //            }
-            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-                case '#':
-                    player.movePlayer(MoveBuilder.UP(player.getLocation()));
-                    break;
-                case '.':
-                    Pellet pel = null;
-                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                    break;
-                default:
-                    break;
+                moveDown();
             }
 
             System.out.println("south");
@@ -255,24 +243,78 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (key == KeyEvent.VK_D) {
             xPixel = 16;
             yPixel = 16;
+            System.out.println(player.getLocation().x + " wrap " + player.getLocation().y);
 //            player.movePlayer(1, 0);
 //            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
-            player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-//            }
-            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-                case '#':
-                    player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-                    break;
-                case '.':
-                    Pellet pel = null;
-                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                    break;
-                default:
-                    break;
+            System.out.println(getWidth());
+            if (player.getLocation().x == getWidth() - 20) {
+                System.out.println(player.getLocation().x + " duhs");
+                Point point = new Point(0, player.getLocation().y);
+                player.movePlayer(point);
+                moveRight();
+            } else {
+                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+                moveRight();
             }
 
             System.out.println("east");
 
+        }
+    }
+
+    private void moveUp() {
+        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+            case '#':
+                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+                break;
+            case '.':
+                Pellet pel = null;
+                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void moveDown() {
+        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+            case '#':
+                player.movePlayer(MoveBuilder.UP(player.getLocation()));
+                break;
+            case '.':
+                Pellet pel = null;
+                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void moveLeft() {
+        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+            case '#':
+                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+                break;
+            case '.':
+                Pellet pel = null;
+                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void moveRight() {
+        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+            case '#':
+                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+                break;
+            case '.':
+                Pellet pel = null;
+                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                break;
+            default:
+                break;
         }
     }
 
