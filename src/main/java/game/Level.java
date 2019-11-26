@@ -16,12 +16,32 @@ public class Level {
     public transient int height;
 
     public transient Wall[][] walls;
-    public transient Pellet[][] pellets;
+
+
+    public transient static Pellet[][] pellets;
     public transient Player player;
     public transient Inky inky;
     public transient Blinky blinky;
     public transient Pinky pinky;
     public transient Clyde clyde;
+
+    public static Pellet[][] getPellets() {
+        return pellets;
+    }
+
+    public static void setPellets(Pellet[][] pellets) {
+        Level.pellets = pellets;
+    }
+
+    public static char[][] getPixels() {
+        return pixels;
+    }
+
+    public static void setPixels(char[][] pixels) {
+        Level.pixels = pixels;
+    }
+
+    public static char[][] pixels;
 
 
 
@@ -34,8 +54,8 @@ public class Level {
     public Level(URL path, int width1, int height1, int squareSize) {
         this.width = width1 / squareSize;
         this.height = height1 / squareSize;
-        char [][]pixels = new char[width][height];
-        System.out.println(path.getFile());
+        setPixels(new char[width][height]);
+        System.out.println(width+" dhd"+height );
         File file = new File(path.getFile());
         Scanner sc;
         try {
@@ -46,12 +66,12 @@ public class Level {
                 System.out.println(s + " number " + n);
                 for (int i = 0; i < s.length(); i++) {
 
-                    pixels[i][n] = s.charAt(i);
+                    getPixels()[i][n] = s.charAt(i);
                 }
                 n++;
             }
             walls = new Wall[width][height];
-            pellets = new Pellet[width][height];
+             setPellets(new Pellet[width][height]);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
@@ -59,7 +79,7 @@ public class Level {
                             walls[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
                         case '.':
-                            pellets[x][y] = new Pellet(x * squareSize, y * squareSize);
+                            getPellets()[x][y] = new Pellet(x * squareSize, y * squareSize);
                             break;
                         case 'p':
                             this.player = new Player(x * squareSize, y * squareSize);
@@ -93,8 +113,13 @@ public class Level {
      * @param g Graphics
      */
     public void render(Graphics g) {
+        //System.out.println(width+" " +height+"dtyas");
+        //int n = 0;
+        System.out.println("po");
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
+                //System.out.println(n+" dtffgyas");
+               // n++;
                 if (walls[x][y] != null) {
                     walls[x][y].render(g);
                 }
@@ -103,6 +128,7 @@ public class Level {
                 }
                 if (player != null) {
                     player.render(g);
+
                 }
                 if (inky != null) {
                     inky.render(g);
