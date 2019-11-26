@@ -11,6 +11,10 @@ import java.net.URL;
 import java.util.Scanner;
 import javax.swing.*;
 
+import static game.Level.pellets;
+import static game.Level.pixels;
+import static game.Player.*;
+
 //import java.util.List;
 
 
@@ -169,7 +173,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("adds " + e);
 
     }
 
@@ -186,38 +189,90 @@ public class Game extends Canvas implements Runnable, KeyListener {
         player = level.player;
         if (key == KeyEvent.VK_W) {
 //            player.movePlayer(0, -1);
-
+        xPixel = 16;
+        yPixel = 0;
 //            if (validMove(MoveBuilder.UP(player.getLocation()))) {
             player.movePlayer(MoveBuilder.UP(player.getLocation()));
 //            }
+            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+                case '#':
+                    player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+                    break;
+                case '.':
+                    Pellet pel = null;
+                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                    break;
+                default:
+                    break;
+            }
+
             System.out.println("north");
         }
 
         if (key == KeyEvent.VK_A) {
 //            player.movePlayer(-1, 0);
-
+            xPixel = 16;
+            yPixel = 48;
 //            if (validMove(MoveBuilder.LEFT(player.getLocation()))) {
             player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
 //            }
+            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+                case '#':
+                    player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+                    break;
+                case '.':
+                    Pellet pel = null;
+                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                    break;
+                default:
+                    break;
+            }
             System.out.println("west");
         }
 
         if (key == KeyEvent.VK_S) {
 //            player.movePlayer(0, 1);
-
+        xPixel = 16;
+        yPixel = 32;
 //            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
             player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
 //            }
+            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+                case '#':
+                    player.movePlayer(MoveBuilder.UP(player.getLocation()));
+                    break;
+                case '.':
+                    Pellet pel = null;
+                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                    break;
+                default:
+                    break;
+            }
+
             System.out.println("south");
         }
 
         if (key == KeyEvent.VK_D) {
+            xPixel = 16;
+            yPixel = 16;
 //            player.movePlayer(1, 0);
 //            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
             player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
 //            }
+            switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
+                case '#':
+                    player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+                    break;
+                case '.':
+                    Pellet pel = null;
+                    pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                    break;
+                default:
+                    break;
+            }
 
             System.out.println("east");
+
         }
     }
 
