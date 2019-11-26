@@ -1,7 +1,10 @@
+import Database.DBConnection;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.*;
 
 
@@ -29,7 +32,15 @@ public class Register {
                 String pwd = enterPasswordPasswordField.getText();
 
                 PreparedStatement ps;
-                String query ="INSERT INTO login(username, password) VALUES ('" + uName + "', '" + pwd + "')";
+                String query = "INSERT INTO login(username, password) VALUES ('" + uName + "', '" + pwd + "')";
+                try {
+                    ps = DBConnection.getConnection().prepareStatement(query);
+                    ps.setString(1, uName);
+                    ps.setString(2, pwd);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
                 StartScreen.frame1.setVisible(true);
                 rFrame.setVisible(false);
             }
