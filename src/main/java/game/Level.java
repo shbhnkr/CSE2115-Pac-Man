@@ -55,7 +55,6 @@ public class Level {
         this.width = width1 / squareSize;
         this.height = height1 / squareSize;
         setPixels(new char[width][height]);
-        System.out.println(width+" dhd"+height );
         File file = new File(path.getFile());
         Scanner sc;
         try {
@@ -63,7 +62,6 @@ public class Level {
             int n = 0;
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
-                System.out.println(s + " number " + n);
                 for (int i = 0; i < s.length(); i++) {
 
                     getPixels()[i][n] = s.charAt(i);
@@ -115,7 +113,6 @@ public class Level {
     public void render(Graphics g) {
         //System.out.println(width+" " +height+"dtyas");
         //int n = 0;
-        System.out.println("po");
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 //System.out.println(n+" dtffgyas");
