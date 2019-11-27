@@ -1,54 +1,30 @@
 package game;
 
-import java.awt.Graphics;
-
+import java.awt.*;
 import java.io.File;
-
 import java.io.FileNotFoundException;
-
 import java.net.URL;
-
 import java.util.Scanner;
 
 public class Level {
 
+
     public transient int width;
     public transient int height;
-
     public transient Wall[][] walls;
-
-
-    public transient static Pellet[][] pellets;
     public transient Player player;
     public transient Inky inky;
     public transient Blinky blinky;
     public transient Pinky pinky;
     public transient Clyde clyde;
-
-    public static Pellet[][] getPellets() {
-        return pellets;
-    }
-
-    public static void setPellets(Pellet[][] pellets) {
-        Level.pellets = pellets;
-    }
-
-    public static char[][] getPixels() {
-        return pixels;
-    }
-
-    public static void setPixels(char[][] pixels) {
-        Level.pixels = pixels;
-    }
-
+    public static Pellet[][] pellets;
     public static char[][] pixels;
-
-
 
     /**
      * Generates a level from given file.
-     * @param path Path
-     * @param width1 Width
+     *
+     * @param path    Path
+     * @param width1  Width
      * @param height1 Height
      */
     public Level(URL path, int width1, int height1, int squareSize) {
@@ -69,7 +45,7 @@ public class Level {
                 n++;
             }
             walls = new Wall[width][height];
-             setPellets(new Pellet[width][height]);
+            setPellets(new Pellet[width][height]);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
@@ -106,8 +82,25 @@ public class Level {
         }
     }
 
+    public static Pellet[][] getPellets() {
+        return pellets;
+    }
+
+    public static void setPellets(Pellet[][] pellets) {
+        Level.pellets = pellets;
+    }
+
+    public static char[][] getPixels() {
+        return pixels;
+    }
+
+    public static void setPixels(char[][] pixels) {
+        Level.pixels = pixels;
+    }
+
     /**
      * Renders a screen.
+     *
      * @param g Graphics
      */
     public void render(Graphics g) {
@@ -116,7 +109,7 @@ public class Level {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 //System.out.println(n+" dtffgyas");
-               // n++;
+                // n++;
                 if (walls[x][y] != null) {
                     walls[x][y].render(g);
                 }

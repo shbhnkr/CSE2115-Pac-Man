@@ -1,6 +1,5 @@
 package game;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,8 +15,6 @@ import static game.Level.pixels;
 import static game.Player.xPixel;
 import static game.Player.yPixel;
 
-//import java.util.List;
-
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
@@ -30,7 +27,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     private static int width = 0;
 
-    //private static List<Unit> units;
+
     private static int height = 0;
     private static boolean isRunning;
 
@@ -189,18 +186,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         player = level.player;
         if (key == KeyEvent.VK_W) {
-//            player.movePlayer(0, -1);
+            int n1 = 0;
+            while (n1 < 200) {
+                xPixel = 32;
+                yPixel = 0;
+                player.render(getGraphics());
+                n1++;
+            }
             xPixel = 16;
             yPixel = 0;
-//            if (validMove(MoveBuilder.UP(player.getLocation()))) {
             if (player.getLocation().y == 0) {
                 Point point = new Point(player.getLocation().x, getHeight() - 20);
                 player.movePlayer(point);
 
                 moveUp();
-            }
-//            }
-            else {
+            } else {
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
                 moveUp();
 
@@ -209,6 +209,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         if (key == KeyEvent.VK_A) {
+            int n1 = 0;
+            while (n1 < 200) {
+                xPixel = 32;
+                yPixel = 48;
+                player.render(getGraphics());
+                n1++;
+            }
             xPixel = 16;
             yPixel = 48;
             if (player.getLocation().x == 0) {
@@ -223,17 +230,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         if (key == KeyEvent.VK_S) {
-//            player.movePlayer(0, 1);
+            int n1 = 0;
+            while (n1 < 200) {
+                xPixel = 32;
+                yPixel = 32;
+                player.render(getGraphics());
+                n1++;
+            }
             xPixel = 16;
             yPixel = 32;
-//            if (validMove(MoveBuilder.DOWN(player.getLocation()))) {
             if (player.getLocation().y == getHeight() - 20) {
                 Point point = new Point(player.getLocation().x, 0);
                 player.movePlayer(point);
                 moveDown();
             } else {
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-//            }
                 moveDown();
             }
 
@@ -241,12 +252,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         if (key == KeyEvent.VK_D) {
+            int n1 = 0;
+            while (n1 < 200) {
+                xPixel = 32;
+                yPixel = 16;
+                player.render(getGraphics());
+                n1++;
+            }
             xPixel = 16;
             yPixel = 16;
             System.out.println(player.getLocation().x + " wrap " + player.getLocation().y);
-//            player.movePlayer(1, 0);
-//            if (validMove(MoveBuilder.RIGHT(player.getLocation()))) {
-            System.out.println(getWidth());
             if (player.getLocation().x == getWidth() - 20) {
                 System.out.println(player.getLocation().x + " duhs");
                 Point point = new Point(0, player.getLocation().y);
@@ -319,14 +334,4 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
 
-//    private boolean validMove(Point position) {
-//        if (this.units !=null) {
-//            for (Unit u : units) {
-//                if (u != null && u.getType().equals("#") &&  u.getLocation().equals(position)) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
 }
