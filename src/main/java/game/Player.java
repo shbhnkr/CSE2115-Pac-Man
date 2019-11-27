@@ -34,6 +34,6 @@ public class Player extends Unit {
 
     @Override
     String getType() {
-        return "P";
+        return "p";
     }
 }
