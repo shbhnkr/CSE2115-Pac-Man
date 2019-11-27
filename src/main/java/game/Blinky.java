@@ -30,7 +30,6 @@ public class Blinky extends Unit {
     }
 
     public void moveBlinky(Player player) {
-        //TODO
         Unit target = findPlayer(player);
         if (target == null) {
             return;
@@ -39,8 +38,10 @@ public class Blinky extends Unit {
 
         List<Point> path = shortestPath(getLocation(), destination, this);
         if (path != null && !path.isEmpty()) {
-            this.setLocation((int) path.get(0).getX(), (int) path.get(0).getX());
-            path.remove(0);
+            for(int i = 0; i < path.size();) {
+                this.setLocation((int) path.get(0).getX(), (int) path.get(0).getX());
+                path.remove(0);
+            }
         }
     }
     @Override
