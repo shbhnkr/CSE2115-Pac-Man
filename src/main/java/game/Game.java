@@ -45,7 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
      */
     public Game(GameSettings settings) {
         this.settings = settings;
-        URL path = ClassLoader.getSystemResource("board.txt");
+        URL path = ClassLoader.getSystemResource("board2.txt");
         File file = new File(path.getFile());
 
         Dimension dimension = this.calculateDimensions(file);
