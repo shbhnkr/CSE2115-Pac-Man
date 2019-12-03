@@ -51,8 +51,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
      */
     public Game(GameSettings settings) {
         this.settings = settings;
-        URL path = ClassLoader.getSystemResource("board3.txt");
-
+        URL path = ClassLoader.getSystemResource("board2.txt");
         File file = new File(path.getFile());
 
         Dimension dimension = this.calculateDimensions(file);
@@ -164,9 +163,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        Random rand = new Random();
-        int random = rand.nextInt(4);
-        moveRandy(random);
+        if(randy != null) {
+            Random rand = new Random();
+            int random = rand.nextInt(4);
+            moveRandy(random);
+        }
     }
 
     @Override
