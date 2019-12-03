@@ -26,8 +26,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
     public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     private static int width = 0;
-
-
     private static int height = 0;
     private static boolean isRunning;
 
@@ -154,7 +152,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             return;
         }
         Graphics graphics = bufferStrategy.getDrawGraphics();
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(Color.black);
         graphics.fillRect(0, 0, getWidth(), getHeight());
         level.render(graphics);
         graphics.dispose();

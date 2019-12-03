@@ -13,7 +13,7 @@ public class Wall extends Unit {
     }
 
     public void render(Graphics g) {
-        g.setColor(new Color(33, 0, 127));
+        g.setColor(new Color(0,0,255));
         g.fillRect(x, y, width, height);
     }
 

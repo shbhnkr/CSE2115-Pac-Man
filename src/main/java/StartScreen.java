@@ -66,6 +66,7 @@ public class StartScreen {
                 frame.setVisible(true);
                 game.start();
                 frame1.setVisible(false);
+
             }
         });
         newUserClickHereButton.addActionListener(new ActionListener() {
