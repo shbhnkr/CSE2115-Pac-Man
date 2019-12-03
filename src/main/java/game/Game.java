@@ -27,7 +27,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
     public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     public static final SpriteSheet randySprite = new SpriteSheet("/sprite/ghost_green.png");
-
+    public static int pelletCount = 0;
+    public static int pelletLeft = 0;
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
@@ -163,7 +164,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        if(randy != null) {
+        if (randy != null) {
             Random rand = new Random();
             int random = rand.nextInt(4);
             moveRandy(random);
@@ -188,7 +189,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                         randy.moveGhost(point);
                     }
                     randy.moveUpGhost();
-                    System.out.println("GHOST SHOULD MOVE UP");
                     break;
                 case 1:
                     if (randy.getLocation().y == getHeight() - 20) {
@@ -196,7 +196,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                         randy.moveGhost(point);
                     }
                     randy.moveDownGhost();
-                    System.out.println("GHOST SHOULD MOVE DOWN");
                     break;
                 case 2:
                     if (randy.getLocation().x == 0) {
@@ -204,7 +203,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                         randy.moveGhost(point);
                     }
                     randy.moveLeftGhost();
-                    System.out.println("GHOST SHOULD MOVE LEFT");
                     break;
                 default:
                     if (randy.getLocation().x == getWidth() - 20) {
@@ -212,7 +210,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                         randy.moveGhost(point);
                     }
                     randy.moveRightGhost();
-                    System.out.println("GHOST SHOULD MOVE RIGHT");
                     break;
             }
             timeSinceLastMove = currentTime;
@@ -232,8 +229,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        System.out.println(e.getKeyCode());
-
         player = level.player;
         if (key == KeyEvent.VK_W) {
             int n1 = 0;
@@ -257,7 +252,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
                 moveUp();
 
-                System.out.println("north");
             }
         }
 
@@ -281,7 +275,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             } else {
                 player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
                 moveLeft();
-                System.out.println("west");
+
             }
         }
 
@@ -307,7 +301,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 moveDown();
             }
 
-            System.out.println("south");
+
         }
 
         if (key == KeyEvent.VK_D) {
@@ -320,12 +314,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
             xPixelPlayer = 16;
             yPixelPlayer = 16;
-            System.out.println(player.getLocation().x + " wrap " + player.getLocation().y);
             if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
                 return;
             }
             if (player.getLocation().x == getWidth() - 20) {
-                System.out.println(player.getLocation().x + " duhs");
                 Point point = new Point(0, player.getLocation().y);
                 player.movePlayer(point);
                 moveRight();
@@ -334,18 +326,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 moveRight();
             }
 
-            System.out.println("east");
 
         }
     }
 
     private void moveUp() {
+        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
                 break;
             case '.':
+                pelletLeft++;
+                if (pelletLeft == pelletCount) System.out.println("WIN");
                 Pellet pel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
 //            case 'r':
@@ -357,12 +352,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveDown() {
+        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
+
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
                 break;
             case '.':
+                pelletLeft++;
+                if (pelletLeft == pelletCount) System.out.println("WIN");
                 Pellet pel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
 //            case 'r':
@@ -374,11 +375,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveLeft() {
+        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
+
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
                 break;
             case '.':
+                pelletLeft++;
+                if (pelletLeft == pelletCount) System.out.println("WIN");
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
@@ -391,11 +398,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveRight() {
+        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
+
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
                 break;
             case '.':
+                pelletLeft++;
+                if (pelletLeft == pelletCount) System.out.println("WIN");
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;

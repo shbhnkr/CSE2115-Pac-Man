@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
 
+import static game.Game.pelletCount;
+
 public class Level {
 
 
@@ -54,6 +56,7 @@ public class Level {
                             walls[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
                         case '.':
+                            pelletCount++;
                             getPellets()[x][y] = new Pellet(x * squareSize, y * squareSize);
                             break;
                         case 'p':
