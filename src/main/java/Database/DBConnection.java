@@ -4,27 +4,43 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/*
-making a class that can access a database
+/**
+ * Create connection to Database using jdbc.
  */
 public class DBConnection {
-    public static Connection getConnection() {
+
+    String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
+    String username = "pu_pManProject";
+    String password = "HEUGEA4u7zN1";
 
 
+    transient private Connection connection;
+    private static DBConnection single_instance = null;
+
+    /**
+     * Creates connection to database in tu delft servers.
+     */
+    private DBConnection() {
+        Connection connection = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            /*
-            access the database with the servername/databaseName, username and password
-             */
-            Connection connection = DriverManager.getConnection("jdbc:mysql://projects-db.ewi.tudelft.nl/projects_pManProject", "pu_pManProject\n", "HEUGEA4u7zN1\n");
-            return connection;
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            System.out.println("");
+            e.printStackTrace();
         }
-        return null;
 
+        this.connection = connection;
     }
 
+    /**
+     * Returns connection made to database.
+     *
+     * @return - Connection object to database
+     */
+    public static Connection getConnection() {
+        if (single_instance == null) {
+            single_instance = new DBConnection();
+        }
+
+        return single_instance.connection;
+    }
 }
