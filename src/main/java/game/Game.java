@@ -186,32 +186,36 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     if (randy.getLocation().y == 0) {
                         Point point = new Point(randy.getLocation().x, getHeight() - 20);
                         randy.moveGhost(point);
+                    } else {
+                        randy.moveUpGhost();
                     }
-                    randy.moveUpGhost();
                     System.out.println("GHOST SHOULD MOVE UP");
                     break;
                 case 1:
                     if (randy.getLocation().y == getHeight() - 20) {
                         Point point = new Point(randy.getLocation().x, 0);
                         randy.moveGhost(point);
+                    } else {
+                        randy.moveDownGhost();
                     }
-                    randy.moveDownGhost();
                     System.out.println("GHOST SHOULD MOVE DOWN");
                     break;
                 case 2:
                     if (randy.getLocation().x == 0) {
                         Point point = new Point(getWidth() - 20, randy.getLocation().y);
                         randy.moveGhost(point);
+                    } else {
+                        randy.moveLeftGhost();
                     }
-                    randy.moveLeftGhost();
                     System.out.println("GHOST SHOULD MOVE LEFT");
                     break;
                 default:
                     if (randy.getLocation().x == getWidth() - 20) {
                         Point point = new Point(0, randy.getLocation().y);
                         randy.moveGhost(point);
+                    } else {
+                        randy.moveRightGhost();
                     }
-                    randy.moveRightGhost();
                     System.out.println("GHOST SHOULD MOVE RIGHT");
                     break;
             }
