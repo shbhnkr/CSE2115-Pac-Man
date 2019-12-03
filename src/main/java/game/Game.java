@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Random;
 import java.util.Scanner;
 
 import static game.Level.pellets;
@@ -162,7 +163,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        moveRandy();
+        Random rand = new Random();
+        int random = rand.nextInt(4);
+        moveRandy(random);
     }
 
     @Override
@@ -173,23 +176,39 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-    public void moveRandy() {
+    public void moveRandy(int random) {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
-            switch ((int) (Math.random() * 5)) {
+            switch (random) {
                 case 0:
+                    if (randy.getLocation().y == 0) {
+                        Point point = new Point(randy.getLocation().x, getHeight() - 20);
+                        randy.moveGhost(point);
+                    }
                     randy.moveUpGhost();
                     System.out.println("GHOST SHOULD MOVE UP");
                     break;
                 case 1:
+                    if (randy.getLocation().y == getHeight() - 20) {
+                        Point point = new Point(randy.getLocation().x, 0);
+                        randy.moveGhost(point);
+                    }
                     randy.moveDownGhost();
                     System.out.println("GHOST SHOULD MOVE DOWN");
                     break;
                 case 2:
+                    if (randy.getLocation().x == 0) {
+                        Point point = new Point(getWidth() - 20, randy.getLocation().y);
+                        randy.moveGhost(point);
+                    }
                     randy.moveLeftGhost();
                     System.out.println("GHOST SHOULD MOVE LEFT");
                     break;
                 default:
+                    if (randy.getLocation().x == getWidth() - 20) {
+                        Point point = new Point(0, randy.getLocation().y);
+                        randy.moveGhost(point);
+                    }
                     randy.moveRightGhost();
                     System.out.println("GHOST SHOULD MOVE RIGHT");
                     break;
@@ -224,6 +243,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
             xPixelPlayer = 16;
             yPixelPlayer = 0;
+            if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
+                return;
+            }
             if (player.getLocation().y == 0) {
                 Point point = new Point(player.getLocation().x, getHeight() - 20);
                 player.movePlayer(point);
@@ -247,6 +269,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
             xPixelPlayer = 16;
             yPixelPlayer = 48;
+            if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
+                return;
+            }
             if (player.getLocation().x == 0) {
                 Point point = new Point(getWidth() - 20, player.getLocation().y);
                 player.movePlayer(point);
@@ -268,6 +293,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
             xPixelPlayer = 16;
             yPixelPlayer = 32;
+            if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
+                return;
+            }
             if (player.getLocation().y == getHeight() - 20) {
                 Point point = new Point(player.getLocation().x, 0);
                 player.movePlayer(point);
@@ -291,6 +319,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             xPixelPlayer = 16;
             yPixelPlayer = 16;
             System.out.println(player.getLocation().x + " wrap " + player.getLocation().y);
+            if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
+                return;
+            }
             if (player.getLocation().x == getWidth() - 20) {
                 System.out.println(player.getLocation().x + " duhs");
                 Point point = new Point(0, player.getLocation().y);
