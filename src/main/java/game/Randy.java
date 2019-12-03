@@ -41,9 +41,9 @@ public class Randy extends Unit {
             case '#':
                 moveGhost(MoveBuilder.DOWN(getLocation()));
                 break;
-            case 'p':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'p':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -55,9 +55,9 @@ public class Randy extends Unit {
             case '#':
                 moveGhost(MoveBuilder.UP(getLocation()));
                 break;
-            case 'p':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'p':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -69,9 +69,9 @@ public class Randy extends Unit {
             case '#':
                 moveGhost(MoveBuilder.RIGHT(getLocation()));
                 break;
-            case 'p':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'p':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -83,9 +83,9 @@ public class Randy extends Unit {
             case '#':
                 moveGhost(MoveBuilder.LEFT(getLocation()));
                 break;
-            case 'p':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'p':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }

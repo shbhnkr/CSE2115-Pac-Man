@@ -347,9 +347,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
-            case 'r':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'r':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -364,9 +364,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
-            case 'r':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'r':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -381,9 +381,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
-            case 'r':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'r':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
@@ -398,9 +398,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
-            case 'r':
-                System.out.println("PLAYER SHOULD DIE NOW");
-                break;
+//            case 'r':
+//                System.out.println("PLAYER SHOULD DIE NOW");
+//                break;
             default:
                 break;
         }
