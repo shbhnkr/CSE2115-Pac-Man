@@ -52,6 +52,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game(GameSettings settings) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource("board3.txt");
+
         File file = new File(path.getFile());
 
         Dimension dimension = this.calculateDimensions(file);
@@ -158,7 +159,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             return;
         }
         Graphics graphics = bufferStrategy.getDrawGraphics();
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(Color.black);
         graphics.fillRect(0, 0, getWidth(), getHeight());
         level.render(graphics);
         graphics.dispose();
