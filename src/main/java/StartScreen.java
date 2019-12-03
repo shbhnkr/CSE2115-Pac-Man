@@ -1,14 +1,13 @@
 import Database.DBConnection;
 import game.Game;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.*;
-
 
 
 public class StartScreen {
@@ -32,31 +31,35 @@ public class StartScreen {
                 System.out.println(passwordField1.getText() + " Password");
                 String Uname = textField1.getText();
                 String pwd = String.valueOf(passwordField1.getPassword());
-
+                boolean pop = false;
                 String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
                 try {
                     ps = DBConnection.getConnection().prepareStatement(query);
                     ps.setString(1, Uname);
                     ps.setString(2, pwd);
                     rs = ps.executeQuery();
-                    if(rs.next()){
+                    if (rs.next()) {
+                        pop = true;
                         JOptionPane.showMessageDialog(null, "YES");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "NO");
                     }
-                    JOptionPane.showMessageDialog(null, "NO");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                Game game = new Game();
-                JFrame frame = new JFrame();
-                frame.setTitle(Game.TITLE);
-                frame.add(game);
-                frame.setResizable(false);
-                frame.pack();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-                game.start();
-                frame1.setVisible(false);
+                if (pop) {
+                    Game game = new Game();
+                    JFrame frame = new JFrame();
+                    frame.setTitle(Game.TITLE);
+                    frame.add(game);
+                    frame.setResizable(false);
+                    frame.pack();
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setLocationRelativeTo(null);
+                    frame.setVisible(true);
+                    game.start();
+                    frame1.setVisible(false);
+                }
             }
         });
         newUserClickHereButton.addActionListener(new ActionListener() {

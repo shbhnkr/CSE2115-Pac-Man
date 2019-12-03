@@ -9,9 +9,9 @@ import java.sql.SQLException;
  */
 public class DBConnection {
 
-    String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
-    String username = "pu_pManProject";
-    String password = "HEUGEA4u7zN1";
+    transient String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
+    transient String username = "pu_pManProject";
+    transient String password = "HEUGEA4u7zN1";
 
 
     transient private Connection connection;

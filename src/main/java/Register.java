@@ -32,11 +32,18 @@ public class Register {
                 String pwd = enterPasswordPasswordField.getText();
 
                 PreparedStatement ps;
-                String query = "INSERT INTO login(username, password) VALUES ('" + uName + "', '" + pwd + "')";
+                String query = "INSERT INTO login(username, password) VALUES (?, ?)";
                 try {
                     ps = DBConnection.getConnection().prepareStatement(query);
                     ps.setString(1, uName);
                     ps.setString(2, pwd);
+                    if(ps.executeUpdate() > 0){
+                        JOptionPane.showMessageDialog(null, "new user added");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "nope");
+
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
