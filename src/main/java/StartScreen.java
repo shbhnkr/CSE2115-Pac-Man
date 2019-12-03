@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,9 @@ public class StartScreen {
     private transient JPasswordField passwordField1;
     private transient JButton loginButton;
     private transient JButton newUserClickHereButton;
-
+    private transient Connection conn;
+    private transient ResultSet rs;
+    private transient boolean pop;
     /**
      * Constructor.
      */
@@ -25,16 +28,17 @@ public class StartScreen {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PreparedStatement ps;
-                ResultSet rs;
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 String Uname = textField1.getText();
                 String pwd = String.valueOf(passwordField1.getPassword());
-                boolean pop = false;
+                pop = false;
+
                 String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
+
                 try {
-                    ps = DBConnection.getConnection().prepareStatement(query);
+                    conn = DBConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(query);
                     ps.setString(1, Uname);
                     ps.setString(2, pwd);
                     rs = ps.executeQuery();
@@ -46,7 +50,21 @@ public class StartScreen {
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                } finally {
+                        try {
+                            rs.close();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                    }
+
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
+
                 if (pop) {
                     Game game = new Game();
                     JFrame frame = new JFrame();
