@@ -331,14 +331,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveUp() {
-        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("WIN");
+                if (pelletLeft == pelletCount) System.out.println("No pellets");
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
@@ -352,15 +351,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveDown() {
-        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
-
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("WIN");
+                if (pelletLeft == pelletCount) System.out.println("WINN");
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
 
@@ -375,8 +372,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveLeft() {
-        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
-
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
@@ -398,15 +393,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void moveRight() {
-        System.out.println(pelletLeft + " pLeft " + pelletCount + " pCount");
-
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("WIN");
+                if (pelletLeft == pelletCount) System.out.println("Win");
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
