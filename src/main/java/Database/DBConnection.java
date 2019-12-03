@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Create connection to Database using jdbc.
+ *a class to connect to a database.
  */
 public class DBConnection {
 
@@ -38,9 +38,10 @@ public class DBConnection {
     }
 
     /**
-     * Returns connection made to database.
+     * Returns a connection made to the database
+     * if there isn't one already.
      *
-     * @return - Connection object to database
+     * @return - Connection status
      */
     public static Connection getConnection() {
         if (single_instance == null) {
