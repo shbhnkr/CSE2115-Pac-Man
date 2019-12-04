@@ -230,7 +230,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         player = level.player;
-        if (key == KeyEvent.VK_W) {
+        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             int n1 = 0;
             while (n1 < 200) {
                 xPixelPlayer = 32;
@@ -255,7 +255,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if (key == KeyEvent.VK_A) {
+        if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
             int n1 = 0;
             while (n1 < 200) {
                 xPixelPlayer = 32;
@@ -279,7 +279,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if (key == KeyEvent.VK_S) {
+        if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
             int n1 = 0;
             while (n1 < 200) {
                 xPixelPlayer = 32;
@@ -304,7 +304,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         }
 
-        if (key == KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             int n1 = 0;
             while (n1 < 200) {
                 xPixelPlayer = 32;
@@ -337,7 +337,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("No pellets");
+                if (pelletLeft == pelletCount) {
+                    win();
+                }
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
@@ -347,6 +349,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 //                break;
             default:
                 break;
+
         }
     }
 
@@ -357,10 +360,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("WINN");
+                if (pelletLeft == pelletCount) {
+                    win();
+                }
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
 //            case 'r':
@@ -378,11 +382,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("WIN");
+                if (pelletLeft == pelletCount) {
+                    win();
+                }
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+
                 break;
 //            case 'r':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -399,18 +405,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 break;
             case '.':
                 pelletLeft++;
-                if (pelletLeft == pelletCount) System.out.println("Win");
+                if (pelletLeft == pelletCount) {
+                    win();
+                }
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 break;
 //            case 'r':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
+ //               System.out.println("PLAYER SHOULD DIE NOW");
+
+ //               break;
             default:
                 break;
         }
     }
 
-
+    public void win(){
+        System.out.println("WIN");
+        stop();
+    }
 }
