@@ -26,7 +26,7 @@ public class Randy extends Unit {
      */
     public void render(Graphics g) {
         SpriteSheet sheet = Game.randySprite;
-        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
+        g.drawImage(sheet.getSprite(xPixelGhost, yPixelGhost),x,y,18,18, null);
         //g.setColor(Color.GREEN);
         //g.fillRect(x, y, width, height);
     }
@@ -37,6 +37,8 @@ public class Randy extends Unit {
 
     public void moveUpGhost() {
         moveGhost(MoveBuilder.UP(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 0;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 moveGhost(MoveBuilder.DOWN(getLocation()));
@@ -51,6 +53,8 @@ public class Randy extends Unit {
 
     public void moveDownGhost() {
         moveGhost(MoveBuilder.DOWN(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 32;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 moveGhost(MoveBuilder.UP(getLocation()));
@@ -65,6 +69,8 @@ public class Randy extends Unit {
 
     public void moveLeftGhost() {
         moveGhost(MoveBuilder.LEFT(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 48;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 moveGhost(MoveBuilder.RIGHT(getLocation()));
@@ -79,6 +85,8 @@ public class Randy extends Unit {
 
     public void moveRightGhost() {
         moveGhost(MoveBuilder.RIGHT(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 16;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 moveGhost(MoveBuilder.LEFT(getLocation()));
