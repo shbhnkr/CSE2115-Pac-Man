@@ -24,11 +24,10 @@ public class DBConnection {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, username, password);
-            this.connection = connection;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        this.connection = connection;
     }
 
     /**
