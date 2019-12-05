@@ -336,19 +336,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
                 break;
             case '.':
-
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletLeft++;
-                if (pelletLeft == pelletCount) {
-                    win();
-                }
+                win();
                 break;
-
-//            case 'r':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
 
@@ -361,18 +354,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.UP(player.getLocation()));
                 break;
             case '.':
-                if (pelletLeft == pelletCount) {
-                    win();
-                }
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletLeft++;
-
+                win();
                 break;
-//            case 'r':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
@@ -384,18 +371,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
                 break;
             case '.':
-
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletLeft++;
-                if (pelletLeft == pelletCount) {
-                    win();
-                }
+                win();
                 break;
-//            case 'r':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
@@ -407,26 +388,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
                 break;
             case '.':
-
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletLeft++;
-                if (pelletLeft == pelletCount) {
-                    win();
-                }
+                win();
                 break;
-//            case 'r':
-            //               System.out.println("PLAYER SHOULD DIE NOW");
-
-            //               break;
             default:
                 break;
         }
     }
+    
 
     public void win() {
-        System.out.println("WIN");
-        stop();
+        if (pelletLeft == pelletCount) {
+            JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
+            stop();
+        }
     }
 }
