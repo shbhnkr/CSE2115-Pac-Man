@@ -1,26 +1,18 @@
+import database.DBconnection;
 import game.Game;
 import game.GameSettings;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class StartScreen {
     public static JFrame frame1;
@@ -33,6 +25,9 @@ public class StartScreen {
     private transient JTextArea pacmanText;
     private transient char password;
     private transient GameSettings settings;
+    private transient Connection conn;
+    private transient ResultSet rs;
+    private transient boolean pop;
 
     /**
      * Constructor.
@@ -54,18 +49,61 @@ public class StartScreen {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
-                GameSettings settings = new GameSettings(20);
-                Game game = new Game(settings);
-                JFrame frame = new JFrame();
-                frame.setTitle(Game.TITLE);
-                frame.add(game);
-                frame.setResizable(false);
-                frame.pack();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-                game.start();
-                frame1.setVisible(false);
+
+                String uname = textField1.getText();
+
+
+
+                String pwd = Register.getSha(String.valueOf(passwordField1.getPassword()));
+                pop = false;
+
+                String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
+
+                try {
+                    conn = DBconnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, uname);
+                    ps.setString(2, pwd);
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        pop = true;
+                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid password/username");
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    try {
+                        rs.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+
+                }
+                if(pop)
+                {
+                    GameSettings settings = new GameSettings(20);
+                    Game game = new Game(settings);
+                    JFrame frame = new JFrame();
+                    frame.setTitle(Game.TITLE);
+                    frame.add(game);
+                    frame.setResizable(false);
+                    frame.pack();
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setLocationRelativeTo(null);
+                    frame.setVisible(true);
+                    game.start();
+                    frame1.setVisible(false);
+                }
+
+
             }
         });
         newUserClickHereButton.addActionListener(new ActionListener() {

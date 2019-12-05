@@ -1,4 +1,6 @@
+import database.DBconnection;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +8,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
-import javax.swing.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 public class Register {
@@ -17,8 +24,11 @@ public class Register {
     private transient JTextField enterUsernameTextField;
     private transient JPasswordField enterPasswordPasswordField;
     private transient JTextArea pacmanTextArea;
+
     private transient Font font;
     private transient char passwordChar;
+    private transient Connection conn;
+
 
     /**
      * Constructor.
@@ -92,13 +102,61 @@ public class Register {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!display(enterPasswordPasswordField.getText())) {
-                    enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(
-                            0, 0, 1, 0, new Color(255, 0, 0)));
-                } else {
-                    StartScreen.frame1.setVisible(true);
-                    rFrame.setVisible(false);
+//
+//                 if (!display(enterPasswordPasswordField.getText())) {
+//                 enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(
+//                 0, 0, 1, 0, new Color(255, 0, 0)));
+//                 } else {
+//                 StartScreen.frame1.setVisible(true);
+//                 rFrame.setVisible(false);
+//                 }
+
+                System.out.println(enterUsernameTextField.getText() + " Username");
+                System.out.println(enterPasswordPasswordField.getText() + " Password");
+                String uname = enterUsernameTextField.getText();
+                String pwd = getSha(String.valueOf(enterPasswordPasswordField.getPassword()));
+                System.out.println(pwd.length() + " pwd");
+
+
+                PreparedStatement ps;
+                String query = "INSERT INTO login(username, password) VALUES (?, ?)";
+                try {
+
+//                     boolean qwerty = false;
+//                     while (qwerty == false) {
+//                     JOptionPane.showMessageDialog(null, "choose a stronger password");
+//                     if(display(enterPasswordPasswordField.getText()))
+//                     {
+//                     qwerty = true;
+//                     }
+//                     }
+
+                    conn = DBconnection.getConnection();
+                    ps = conn.prepareStatement(query);
+                    ps.setString(1, uname);
+                    ps.setString(2, pwd);
+                    if (ps.executeUpdate() > 0) {
+                        JOptionPane.showMessageDialog(null, "new user added");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "nope");
+
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+
                 }
+
+                StartScreen.frame1.setVisible(true);
+                rFrame.setVisible(false);
             }
         });
     }
@@ -115,5 +173,22 @@ public class Register {
         }
     }
 
-
+    public static String getSha(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 }
+
+
+
