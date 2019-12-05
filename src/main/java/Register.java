@@ -33,6 +33,7 @@ public class Register {
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
                 String uName = enterUsernameTextField.getText();
                 String pwd = getSHA(String.valueOf(enterPasswordPasswordField.getPassword()));
+                System.out.println(pwd.length()+" pwd");
 
 
                 PreparedStatement ps;

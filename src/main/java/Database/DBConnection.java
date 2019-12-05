@@ -5,42 +5,30 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *a class to connect to a database.
+ * Create connection to Database using jdbc.
  */
 public class DBConnection {
 
-    transient String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
-    transient String username = "pu_pManProject";
-    transient String password = "HEUGEA4u7zN1";
+    static String url = "jdbc:mysql://projects-db.ewi.tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
+    static String username = "pu_pManProject";
+    static String password = "HEUGEA4u7zN1";
 
-
-    transient private Connection connection;
-    private static DBConnection single_instance = null;
 
     /**
      * Creates connection to database in tu delft servers.
      */
-    private DBConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        this.connection = connection;
-    }
-
-    /**
-     * Returns a connection made to the database
-     * if there isn't one already.
-     *
-     * @return - Connection status
-     */
     public static Connection getConnection() {
-        if (single_instance == null) {
-            single_instance = new DBConnection();
-        }
+        Connection connect;
 
-        return single_instance.connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connect = DriverManager.getConnection(url, username, password);
+            return connect;
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

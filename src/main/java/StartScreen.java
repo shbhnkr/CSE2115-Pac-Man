@@ -30,7 +30,7 @@ public class StartScreen {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
-                String Uname = textField1.getText();
+                String uname = textField1.getText();
                 String pwd = Register.getSHA(String.valueOf(passwordField1.getPassword()));
                 pop = false;
 
@@ -39,14 +39,14 @@ public class StartScreen {
                 try {
                     conn = DBConnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, Uname);
+                    ps.setString(1, uname);
                     ps.setString(2, pwd);
                     rs = ps.executeQuery();
                     if (rs.next()) {
                         pop = true;
-                        JOptionPane.showMessageDialog(null, "YES");
+                        JOptionPane.showMessageDialog(null, "Welcome "+uname);
                     } else {
-                        JOptionPane.showMessageDialog(null, "NO");
+                        JOptionPane.showMessageDialog(null, "Invalid password/username");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();

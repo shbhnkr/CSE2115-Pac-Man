@@ -40,6 +40,7 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+    compile 'mysql:mysql-connector-java:6.0.+'
 }
 
 jacocoTestCoverageVerification {
@@ -60,7 +61,7 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
