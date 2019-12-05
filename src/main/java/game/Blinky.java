@@ -29,32 +29,32 @@ public class Blinky extends Unit {
         //g.fillRect(x, y, width, height);
     }
 
-    public void moveBlinky(Player player) {
-        Unit target = findPlayer(player);
-        if (target != null) {
-            Point destination = target.getLocation();
-
-            List<Point> path = shortestPath(getLocation(), destination, this);
-            if (path != null && !path.isEmpty()) {
-                for (int i = 0; i < path.size(); ) {
-                    this.setLocation((int) path.get(0).getX(), (int) path.get(0).getX());
-                    path.remove(0);
-                }
-            }
-        }
-    }
+//    public void moveBlinky(Player player) {
+//        Unit target = findPlayer(player);
+//        if (target != null) {
+//            Point destination = target.getLocation();
+//
+//            List<Point> path = shortestPath(getLocation(), destination, this);
+//            if (path != null && !path.isEmpty()) {
+//                for (int i = 0; i < path.size(); ) {
+//                    this.setLocation((int) path.get(0).getX(), (int) path.get(0).getX());
+//                    path.remove(0);
+//                }
+//            }
+//        }
+//    }
     @Override
     String getType() {
         return "b";
     }
 
-    public Unit findPlayer(Player player) {
-        //TODO
-        return null;
-    }
-
-    public List<Point> shortestPath(Point location, Point target, Unit traveller) {
-        //TODO
-        return null;
-    }
+//    public Unit findPlayer(Player player) {
+//        //TODO
+//        return null;
+//    }
+//
+//    public List<Point> shortestPath(Point location, Point target, Unit traveller) {
+//        //TODO
+//        return null;
+//    }
 }

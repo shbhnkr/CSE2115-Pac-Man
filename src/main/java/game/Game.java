@@ -41,7 +41,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public transient Level level;
     public transient Player player;
-    private transient Randy randy;
+    public transient Randy randy;
     private transient Thread thread;
     private transient GameSettings settings;
 
