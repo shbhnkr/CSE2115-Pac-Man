@@ -20,15 +20,15 @@ public class DBConnection {
     /**
      * Creates connection to database in tu delft servers.
      */
-    private Connection myConnection() {
-
+    private DBConnection() {
+        Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, username, password);
-            return connection;
+            this.connection = connection;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
     }
 
     /**
@@ -42,7 +42,6 @@ public class DBConnection {
             single_instance = new DBConnection();
         }
 
-
-        return single_instance.myConnection();
+        return single_instance.connection;
     }
 }
