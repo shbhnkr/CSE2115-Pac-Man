@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Initializes a Jframe class, specifies settings and binds it to the current Game / Component.
      */
-    private void initFrame() {
+    public void initFrame() {
         JFrame frame = new JFrame();
         frame.setTitle(Game.TITLE);
         frame.add(this);

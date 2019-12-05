@@ -12,19 +12,11 @@ public class PelletCollisionTest {
     void setUp() {
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard1.txt");
-        JFrame frame = new JFrame();
-        frame.setTitle(Game.TITLE);
-        frame.add(game);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(false);
-        game.start();
+        game.initFrame();
     }
 //
     @Test
-    void PelletTestUp()
+    void PelletTest()
     {
 
         game.pelletLeft = 0;
