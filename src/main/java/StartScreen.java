@@ -31,7 +31,7 @@ public class StartScreen {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 String Uname = textField1.getText();
-                String pwd = String.valueOf(passwordField1.getPassword());
+                String pwd = Register.getSHA(String.valueOf(passwordField1.getPassword()));
                 pop = false;
 
                 String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
