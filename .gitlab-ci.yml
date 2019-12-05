@@ -14,10 +14,10 @@ before_script:
   - "Xvfb :99 &"
   - "export DISPLAY=:99"
 
-  gradle_build:
+  maven_build:
   stage: build
   script:
-    - "gradle clean package -Djava.awt.headless=true"
+    - "mvn clean package -Djava.awt.headless=true"
 build:
   stage: build
   script:
