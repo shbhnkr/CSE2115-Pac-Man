@@ -24,10 +24,6 @@ build:
     paths:
       - build/
       - .gradle/
-maven_build:
-  stage: build
-  script:
-    - "mvn clean package -Djava.awt.headless=true"
 checkStyle:
   stage: validate
   script: gradle checkstyleMain checkstyleTest
