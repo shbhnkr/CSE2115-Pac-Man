@@ -1,26 +1,12 @@
 import game.Game;
 import game.GameSettings;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class StartScreen {
     public static JFrame frame1;
@@ -55,7 +41,7 @@ public class StartScreen {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 GameSettings settings = new GameSettings(20);
-                Game game = new Game(settings);
+                Game game = new Game(settings,"board2.txt");
                 JFrame frame = new JFrame();
                 frame.setTitle(Game.TITLE);
                 frame.add(game);

@@ -39,8 +39,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         isRunning = false;
     }
 
-    private transient Level level;
-    private transient Player player;
+    public transient Level level;
+    public transient Player player;
     private transient Randy randy;
     private transient Thread thread;
     private transient GameSettings settings;
@@ -50,9 +50,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
      *
      * @param settings the settings to use.
      */
-    public Game(GameSettings settings) {
+    public Game(GameSettings settings,String fileName) {
         this.settings = settings;
-        URL path = ClassLoader.getSystemResource("board2.txt");
+        URL path = ClassLoader.getSystemResource(fileName);
         File file = new File(path.getFile());
 
         Dimension dimension = this.calculateDimensions(file);
@@ -229,108 +229,32 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        player = level.player;
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 0;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 0;
-            if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().y == 0) {
-                Point point = new Point(player.getLocation().x, getHeight() - 20);
-                player.movePlayer(point);
-
-                moveUp();
-            } else {
-                player.movePlayer(MoveBuilder.UP(player.getLocation()));
-                moveUp();
-
-            }
+            moveUpNow();
+            System.out.println(player.getLocation());
         }
 
         if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 48;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 48;
-            if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().x == 0) {
-                Point point = new Point(getWidth() - 20, player.getLocation().y);
-                player.movePlayer(point);
-                moveLeft();
-            } else {
-                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-                moveLeft();
+            moveLeftNow();
+            System.out.println(player.getLocation());
 
-            }
         }
 
         if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 32;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 32;
-            if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().y == getHeight() - 20) {
-                Point point = new Point(player.getLocation().x, 0);
-                player.movePlayer(point);
-                moveDown();
-            } else {
-                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-                moveDown();
-            }
 
-
+            moveDownNow();
+            System.out.println(player.getLocation());
         }
 
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 16;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 16;
-            if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().x == getWidth() - 20) {
-                Point point = new Point(0, player.getLocation().y);
-                player.movePlayer(point);
-                moveRight();
-            } else {
-                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-                moveRight();
-            }
 
+            moveRightNow();
+            System.out.println(player.getLocation());
 
         }
     }
 
-    private void moveUp() {
+    public void moveUp() {
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
                 player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
@@ -418,6 +342,109 @@ public class Game extends Canvas implements Runnable, KeyListener {
  //               break;
             default:
                 break;
+        }
+    }
+
+    public void moveUpNow()
+    {
+        player = level.player;
+        int n1 = 0;
+        while (n1 < 200) {
+            xPixelPlayer = 32;
+            yPixelPlayer = 0;
+            player.render(getGraphics());
+            n1++;
+        }
+        xPixelPlayer = 16;
+        yPixelPlayer = 0;
+        if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().y == 0) {
+            Point point = new Point(player.getLocation().x, getHeight() - 20);
+            player.movePlayer(point);
+
+            moveUp();
+        } else {
+            player.movePlayer(MoveBuilder.UP(player.getLocation()));
+            moveUp();
+
+        }
+    }
+
+    public void moveLeftNow()
+    {
+        player = level.player;
+        int n1 = 0;
+        while (n1 < 200) {
+            xPixelPlayer = 32;
+            yPixelPlayer = 48;
+            player.render(getGraphics());
+            n1++;
+        }
+        xPixelPlayer = 16;
+        yPixelPlayer = 48;
+        if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().x == 0) {
+            Point point = new Point(getWidth() - 20, player.getLocation().y);
+            player.movePlayer(point);
+            moveLeft();
+        } else {
+            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+            moveLeft();
+
+        }
+    }
+
+    public void moveDownNow()
+    {
+        player = level.player;
+        int n1 = 0;
+        while (n1 < 200) {
+            xPixelPlayer = 32;
+            yPixelPlayer = 32;
+            player.render(getGraphics());
+            n1++;
+        }
+        xPixelPlayer = 16;
+        yPixelPlayer = 32;
+        if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().y == getHeight() - 20) {
+            Point point = new Point(player.getLocation().x, 0);
+            player.movePlayer(point);
+            moveDown();
+        } else {
+            player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+            moveDown();
+        }
+    }
+
+    public void moveRightNow()
+    {
+        player = level.player;
+        int n1 = 0;
+        while (n1 < 200) {
+            xPixelPlayer = 32;
+            yPixelPlayer = 16;
+            player.render(getGraphics());
+            n1++;
+        }
+        xPixelPlayer = 16;
+        yPixelPlayer = 16;
+        if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().x == getWidth() - 20) {
+            Point point = new Point(0, player.getLocation().y);
+            player.movePlayer(point);
+            moveRight();
+        } else {
+            player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+            moveRight();
         }
     }
 
