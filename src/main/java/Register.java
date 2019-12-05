@@ -1,4 +1,4 @@
-import Database.DBConnection;
+import database.DBconnection;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.*;
-
 
 
 public class Register {
@@ -19,6 +19,7 @@ public class Register {
     private transient JTextField enterUsernameTextField;
     private transient JPasswordField enterPasswordPasswordField;
     private transient JTextArea pacmanTextArea;
+    private transient Connection conn;
 
     /**
      * Constructor.
@@ -31,26 +32,35 @@ public class Register {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(enterUsernameTextField.getText() + " Username");
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
-                String uName = enterUsernameTextField.getText();
-                String pwd = getSHA(String.valueOf(enterPasswordPasswordField.getPassword()));
-                System.out.println(pwd.length()+" pwd");
+                String uname = enterUsernameTextField.getText();
+                String pwd = getSha(String.valueOf(enterPasswordPasswordField.getPassword()));
+                System.out.println(pwd.length() + " pwd");
 
 
                 PreparedStatement ps;
                 String query = "INSERT INTO login(username, password) VALUES (?, ?)";
                 try {
-                    ps = DBConnection.getConnection().prepareStatement(query);
-                    ps.setString(1, uName);
+                    conn = DBconnection.getConnection();
+                    ps = conn.prepareStatement(query);
+                    ps.setString(1, uname);
                     ps.setString(2, pwd);
-                    if(ps.executeUpdate() > 0){
+                    if (ps.executeUpdate() > 0) {
                         JOptionPane.showMessageDialog(null, "new user added");
-                    }
-                    else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "nope");
 
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                } finally {
+
+                    try {
+                        conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+
                 }
 
                 StartScreen.frame1.setVisible(true);
@@ -58,12 +68,13 @@ public class Register {
             }
         });
     }
+
     /**
      * Hashes password.
      *
      * @param input password entered by user
      */
-    public static String getSHA(String input) {
+    public static String getSha(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(input.getBytes());
@@ -78,7 +89,6 @@ public class Register {
             return null;
         }
     }
-
 
 
 }

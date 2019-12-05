@@ -1,7 +1,6 @@
-import Database.DBConnection;
+import database.DBconnection;
 import game.Game;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.*;
 
 
 public class StartScreen {
@@ -21,6 +21,7 @@ public class StartScreen {
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
+
     /**
      * Constructor.
      */
@@ -31,37 +32,37 @@ public class StartScreen {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 String uname = textField1.getText();
-                String pwd = Register.getSHA(String.valueOf(passwordField1.getPassword()));
+                String pwd = Register.getSha(String.valueOf(passwordField1.getPassword()));
                 pop = false;
 
                 String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
 
                 try {
-                    conn = DBConnection.getConnection();
+                    conn = DBconnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(query);
                     ps.setString(1, uname);
                     ps.setString(2, pwd);
                     rs = ps.executeQuery();
                     if (rs.next()) {
                         pop = true;
-                        JOptionPane.showMessageDialog(null, "Welcome "+uname);
+                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
                     } else {
                         JOptionPane.showMessageDialog(null, "Invalid password/username");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
-                        try {
-                            rs.close();
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
+                    try {
+                        rs.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
-
                     try {
                         conn.close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
+
 
                 }
 
