@@ -14,10 +14,6 @@ before_script:
   - "Xvfb :99 &"
   - "export DISPLAY=:99"
 
-  maven_build:
-  stage: build
-  script:
-    - "mvn clean package -Djava.awt.headless=true"
 build:
   stage: build
   script:
@@ -28,7 +24,10 @@ build:
     paths:
       - build/
       - .gradle/
-
+maven_build:
+  stage: build
+  script:
+    - "mvn clean package -Djava.awt.headless=true"
 checkStyle:
   stage: validate
   script: gradle checkstyleMain checkstyleTest
