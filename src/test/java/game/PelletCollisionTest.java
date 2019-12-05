@@ -11,7 +11,7 @@ public class PelletCollisionTest {
     @BeforeEach
     void setUp() {
         GameSettings settings = new GameSettings(20);
-        game = new Game(settings,"testBoard.txt");
+        game = new Game(settings,"testBoard1.txt");
         JFrame frame = new JFrame();
         frame.setTitle(Game.TITLE);
         frame.add(game);
@@ -27,6 +27,7 @@ public class PelletCollisionTest {
     void PelletTestUp()
     {
 
+        game.pelletLeft = 0;
         Assertions.assertEquals(game.pelletLeft,0);
         game.moveUpNow();
         game.moveDownNow();
