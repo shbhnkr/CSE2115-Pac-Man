@@ -3,6 +3,9 @@ import Database.DBConnection;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.*;
@@ -29,7 +32,8 @@ public class Register {
                 System.out.println(enterUsernameTextField.getText() + " Username");
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
                 String uName = enterUsernameTextField.getText();
-                String pwd = enterPasswordPasswordField.getText();
+                String pwd = getSHA(enterPasswordPasswordField.getText());
+
 
                 PreparedStatement ps;
                 String query = "INSERT INTO login(username, password) VALUES (?, ?)";
@@ -53,5 +57,27 @@ public class Register {
             }
         });
     }
+    /**
+     * Hashes password.
+     *
+     * @param input password entered by user
+     */
+    public static String getSHA(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
 
 }
