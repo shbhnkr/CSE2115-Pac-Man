@@ -11,6 +11,8 @@ variables:
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
+  - "Xvfb :99 &"
+  - "export DISPLAY=:99"
 
 build:
   stage: build
