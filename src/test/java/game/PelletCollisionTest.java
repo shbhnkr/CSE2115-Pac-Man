@@ -11,6 +11,7 @@ public class PelletCollisionTest {
 
     @BeforeEach
     void setUp() {
+        System.setProperty("java.awt.headless", "true");
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard1.txt");
         game.initFrame();

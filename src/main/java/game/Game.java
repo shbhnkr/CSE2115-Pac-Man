@@ -36,7 +36,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 
     static {
-        System.setProperty("java.awt.headless", "true");
         isRunning = false;
     }
 
