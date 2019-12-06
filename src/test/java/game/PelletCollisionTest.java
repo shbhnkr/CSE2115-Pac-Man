@@ -21,6 +21,7 @@ public class PelletCollisionTest {
         frame.setLocationRelativeTo(null);
         frame.setVisible(false);
         game.start();
+        System.setProperty("java.awt.headless", "true");
     }
 //
     @Test
