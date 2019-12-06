@@ -6,5 +6,6 @@ class GameCollisionTest {
 
     @BeforeEach
     void setUp() {
+        //TODO, was stuck with some pipelines error.
     }
 }

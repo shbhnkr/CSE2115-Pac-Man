@@ -1,5 +1,6 @@
 package game;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import java.awt.*;
@@ -7,38 +8,35 @@ import java.awt.*;
 
 class MoveBuilderTest {
 
-    @Test
-    void UP() {
+    transient Player player;
+
+    @BeforeEach
+    void setUp(){
         int x = 0;
         int y = 0;
-        Player player = new Player(x,y);
+        player = new Player(x,y);
+    }
+
+    @Test
+    void UP() {
         Point north = MoveBuilder.UP(player.getLocation());
         Assertions.assertEquals(north.getY(), -20);
     }
 
     @Test
     void DOWN() {
-        int x = 0;
-        int y = 0;
-        Player player = new Player(x,y);
         Point south = MoveBuilder.DOWN(player.getLocation());
         Assertions.assertEquals(south.getY(), 20);
     }
 
     @Test
     void LEFT() {
-        int x = 0;
-        int y = 0;
-        Player player = new Player(x,y);
         Point west = MoveBuilder.LEFT(player.getLocation());
         Assertions.assertEquals(west.getX(), -20);
     }
 
     @Test
     void RIGHT() {
-        int x = 0;
-        int y = 0;
-        Player player = new Player(x,y);
         Point east = MoveBuilder.RIGHT(player.getLocation());
         Assertions.assertEquals(east.getX(), 20);
     }
