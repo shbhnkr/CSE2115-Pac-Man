@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class PelletCollisionTest {
     transient Game game;
+
     @BeforeEach
     void setUp() {
         GameSettings settings = new GameSettings(20);
