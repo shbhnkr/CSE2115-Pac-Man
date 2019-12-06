@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 public class Pellet extends Unit {
 
@@ -13,7 +12,7 @@ public class Pellet extends Unit {
     }
 
     public void render(Graphics g) {
-        g.setColor(new Color(0xe6e600));
+        g.setColor(new Color(0xFFFB00));
         g.fillRect(x + 7, y + 7, width, height);
     }
 

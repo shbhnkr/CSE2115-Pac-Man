@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
 
+import static game.Game.pelletCount;
+
 public class Level {
 
 
@@ -17,6 +19,7 @@ public class Level {
     public transient Blinky blinky;
     public transient Pinky pinky;
     public transient Clyde clyde;
+    public transient Randy randy;
     public static Pellet[][] pellets;
     public static char[][] pixels;
 
@@ -53,6 +56,7 @@ public class Level {
                             walls[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
                         case '.':
+                            pelletCount++;
                             getPellets()[x][y] = new Pellet(x * squareSize, y * squareSize);
                             break;
                         case 'p':
@@ -69,6 +73,9 @@ public class Level {
                             break;
                         case 'c':
                             clyde = new Clyde(x * 20, y * 20);
+                            break;
+                        case 'r':
+                            randy = new Randy(x * 20, y * 20);
                             break;
                         case ' ':
                             break;
@@ -131,6 +138,9 @@ public class Level {
                 }
                 if (clyde != null) {
                     clyde.render(g);
+                }
+                if (randy != null) {
+                    randy.render(g);
                 }
             }
         }

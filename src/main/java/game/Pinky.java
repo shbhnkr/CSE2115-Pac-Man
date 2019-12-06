@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Pinky extends Rectangle {
+public class Pinky extends Unit {
     public static final long serialVersionUID = 4328743;
 
     public Pinky(int x, int y) {
@@ -18,4 +18,8 @@ public class Pinky extends Rectangle {
         //g.fillRect(x, y, width, height);
     }
 
+    @Override
+    String getType() {
+        return "g";
+    }
 }
