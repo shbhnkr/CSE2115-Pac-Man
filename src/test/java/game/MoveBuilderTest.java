@@ -8,7 +8,7 @@ import java.awt.*;
 class MoveBuilderTest {
 
     @Test
-    void UP() {
+    void UPTest() {
         int x = 0;
         int y = 0;
         Player player = new Player(x,y);
@@ -17,7 +17,7 @@ class MoveBuilderTest {
     }
 
     @Test
-    void DOWN() {
+    void DOWNTest() {
         int x = 0;
         int y = 0;
         Player player = new Player(x,y);
@@ -26,7 +26,7 @@ class MoveBuilderTest {
     }
 
     @Test
-    void LEFT() {
+    void LEFTTest() {
         int x = 0;
         int y = 0;
         Player player = new Player(x,y);
@@ -35,7 +35,7 @@ class MoveBuilderTest {
     }
 
     @Test
-    void RIGHT() {
+    void RIGHTTest() {
         int x = 0;
         int y = 0;
         Player player = new Player(x,y);

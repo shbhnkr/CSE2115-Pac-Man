@@ -14,21 +14,15 @@ public class WallCollisionTest {
 
     @BeforeEach
     void setUp() {
+        System.setProperty("java.awt.headless", "true");
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard.txt");
-        JFrame frame = new JFrame();
-        frame.setTitle(Game.TITLE);
-        frame.add(game);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(false);
+        game.initFrame();
         game.start();
     }
 
     @Test
-    void playerMoveUpWall() {
+    void playerMoveUpWallTest() {
         game.moveRightNow();
         Point pacmanLocation = game.player.getLocation();
         game.moveUpNow();
@@ -36,7 +30,7 @@ public class WallCollisionTest {
         Assertions.assertEquals(pacmanLocation, game.player.getLocation());
     }
     @Test
-    void playerMoveDownWall() {
+    void playerMoveDownWallTest() {
         game.moveRightNow();
         Point pacmanLocation = game.player.getLocation();
         game.moveDownNow();
@@ -44,7 +38,7 @@ public class WallCollisionTest {
         Assertions.assertEquals(pacmanLocation, game.player.getLocation());
     }
     @Test
-    void playerMoveLeftWall() {
+    void playerMoveLeftWallTest() {
         game.moveDownNow();
         Point pacmanLocation = game.player.getLocation();
         game.moveLeftNow();
@@ -52,7 +46,7 @@ public class WallCollisionTest {
         Assertions.assertEquals(pacmanLocation, game.player.getLocation());
     }
     @Test
-    void playerMoveRightWall() {
+    void playerMoveRightWallTest() {
         game.moveUpNow();
         Point pacmanLocation = game.player.getLocation();
         game.moveRightNow();
@@ -60,7 +54,7 @@ public class WallCollisionTest {
         Assertions.assertEquals(pacmanLocation, game.player.getLocation());
     }
 //    @Test
-//    void randyMoveUpWall() {
+//    void randyMoveUpWallTest() {
 //        game.level.randy.moveRightGhost();
 //        Point randyLocation = game.level.randy.getLocation();
 //        game.level.randy.moveUpGhost();
@@ -68,7 +62,7 @@ public class WallCollisionTest {
 //        Assertions.assertEquals(randyLocation, game.level.randy.getLocation());
 //    }
 //    @Test
-//    void randyMoveDownWall() {
+//    void randyMoveDownWallTest() {
 //        game.randy.moveRightGhost();
 //        Point randyLocation = game.randy.getLocation();
 //        game.randy.moveDownGhost();
@@ -76,7 +70,7 @@ public class WallCollisionTest {
 //        Assertions.assertEquals(randyLocation, game.randy.getLocation());
 //    }
 //    @Test
-//    void randyMoveLeftWall() {
+//    void randyMoveLeftWallTest() {
 //        game.randy.moveDownGhost();
 //        Point randyLocation = game.randy.getLocation();
 //        game.randy.moveLeftGhost();
@@ -84,7 +78,7 @@ public class WallCollisionTest {
 //        Assertions.assertEquals(randyLocation, game.randy.getLocation());
 //    }
 //    @Test
-//    void randyMoveRightWall() {
+//    void randyMoveRightWallTest() {
 //        game.randy.moveUpGhost();
 //        Point randyLocation = game.randy.getLocation();
 //        game.randy.moveRightGhost();

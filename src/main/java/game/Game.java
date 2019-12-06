@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
      *
      * @param settings the settings to use.
      */
-    public Game(GameSettings settings,String fileName) {
+    public Game(GameSettings settings, String fileName) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(fileName);
         File file = new File(path.getFile());
@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Initializes a Jframe class, specifies settings and binds it to the current Game / Component.
      */
-    private void initFrame() {
+    public void initFrame() {
         JFrame frame = new JFrame();
         frame.setTitle(Game.TITLE);
         frame.add(this);
@@ -329,8 +329,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
             stop();
         }
     }
-    public void moveUpNow()
-    {
+
+    public void moveUpNow() {
         player = level.player;
         int n1 = 0;
         while (n1 < 200) {
@@ -356,8 +356,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void moveLeftNow()
-    {
+    public void moveLeftNow() {
         player = level.player;
         int n1 = 0;
         while (n1 < 200) {
@@ -382,8 +381,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void moveDownNow()
-    {
+    public void moveDownNow() {
         player = level.player;
         int n1 = 0;
         while (n1 < 200) {
@@ -407,8 +405,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void moveRightNow()
-    {
+    public void moveRightNow() {
         player = level.player;
         int n1 = 0;
         while (n1 < 200) {

@@ -8,24 +8,19 @@ import javax.swing.*;
 
 public class PelletCollisionTest {
     transient Game game;
+
     @BeforeEach
     void setUp() {
+        System.setProperty("java.awt.headless", "true");
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard1.txt");
-        JFrame frame = new JFrame();
-        frame.setTitle(Game.TITLE);
-        frame.add(game);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(false);
+        game.initFrame();
         game.start();
         System.setProperty("java.awt.headless", "true");
     }
 //
     @Test
-    void PelletTestUp()
+    void PelletTest()
     {
 
         game.pelletLeft = 0;
