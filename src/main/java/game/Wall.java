@@ -2,7 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 public class Wall extends Unit {
 
@@ -13,7 +12,7 @@ public class Wall extends Unit {
     }
 
     public void render(Graphics g) {
-        g.setColor(new Color(33, 0, 127));
+        g.setColor(new Color(0, 12, 182));
         g.fillRect(x, y, width, height);
     }
 

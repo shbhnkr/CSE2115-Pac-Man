@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 /**
  * ghost 2.
  */
-public class Clyde extends Rectangle {
+public class Clyde extends Unit {
     public static final long serialVersionUID = 4328743;
 
     /**
@@ -27,4 +27,8 @@ public class Clyde extends Rectangle {
         //g.fillRect(x, y, width, height);
     }
 
+    @Override
+    String getType() {
+        return "c";
+    }
 }
