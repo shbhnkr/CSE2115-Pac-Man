@@ -17,6 +17,7 @@ public class WallCollisionTest {
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard.txt");
         game.initFrame();
+        game.start();
     }
 
     @Test

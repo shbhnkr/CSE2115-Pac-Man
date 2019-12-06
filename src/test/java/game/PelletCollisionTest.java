@@ -13,6 +13,7 @@ public class PelletCollisionTest {
         GameSettings settings = new GameSettings(20);
         game = new Game(settings,"testBoard1.txt");
         game.initFrame();
+        game.start();
     }
 //
     @Test
