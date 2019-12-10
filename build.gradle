@@ -82,6 +82,13 @@ tasks.withType(SpotBugsTask) {
     reports.html.enabled = true
 }
 
+test {
+    useJUnitPlatform()
+
+    systemProperty 'java.awt.headless', 'true'
+//    systemProperty 'testfx.headless', 'true'
+}
+
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
