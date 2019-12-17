@@ -28,15 +28,14 @@ repositories {
 }
 
 test {
+    System.setProperty("java.awt.headless", "true")
     useJUnitPlatform()
-    System.setProperty("java.awt.headless", "false");
 
     jacoco {
         enabled = true
         includes = ['nl.tudelft.cse.sem.*']
         excludes = []
     }
-    System.setProperty("java.awt.headless", "true");
 }
 
 dependencies {
