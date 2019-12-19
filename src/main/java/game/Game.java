@@ -182,6 +182,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void moveRandy(int random) {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
+            if (randy != null && player != null && player.hasCollided(randy)) {
+                System.out.println("KILL PLAYER");
+                lose();
+            }
             switch (random) {
                 case 0:
                     if (randy.getLocation().y == 0) {
@@ -228,29 +232,49 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-            moveUpNow();
-            System.out.println(player.getLocation());
-        }
+        if(isRunning) {
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
+                moveUpNow();
+                if (player.hasCollided(randy)) {
+                    coolDown = 500000;
+                    System.out.println("KILL PLAYER");
+                    lose();
+                }
+                System.out.println(player.getLocation());
+            }
 
-        if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-            moveLeftNow();
-            System.out.println(player.getLocation());
+            if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
+                moveLeftNow();
+                if (player.hasCollided(randy)) {
+                    coolDown = 500000;
+                    System.out.println("KILL PLAYER");
+                    lose();
+                }
+                System.out.println(player.getLocation());
 
-        }
+            }
 
-        if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
+            if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
+                moveDownNow();
+                if (player.hasCollided(randy)) {
+                    coolDown = 500000;
+                    System.out.println("KILL PLAYER");
+                    lose();
+                }
+                System.out.println(player.getLocation());
+            }
 
-            moveDownNow();
-            System.out.println(player.getLocation());
-        }
+            if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
+                moveRightNow();
+                if (player.hasCollided(randy)) {
+                    coolDown = 500000;
+                    System.out.println("KILL PLAYER");
+                    lose();
+                }
+                System.out.println(player.getLocation());
 
-        if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-
-            moveRightNow();
-            System.out.println(player.getLocation());
-
+            }
         }
     }
 
@@ -328,6 +352,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
             stop();
         }
+    }
+    public void lose() {
+        JOptionPane.showMessageDialog(getParent(), "You Lost", "Better luck next time!", JOptionPane.DEFAULT_OPTION);
+        stop();
     }
 
     public void moveUpNow() {

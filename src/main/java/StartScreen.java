@@ -41,7 +41,7 @@ public class StartScreen {
                 System.out.println(textField1.getText() + " Username");
                 System.out.println(passwordField1.getText() + " Password");
                 GameSettings settings = new GameSettings(20);
-                Game game = new Game(settings,"board2.txt");
+                Game game = new Game(settings,"board3.txt");
                 JFrame frame = new JFrame();
                 frame.setTitle(Game.TITLE);
                 frame.add(game);
