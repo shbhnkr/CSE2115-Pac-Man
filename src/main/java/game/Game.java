@@ -325,6 +325,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 break;
         }
     }
+    
 
     public void win() {
         if (pelletLeft == pelletCount) {
