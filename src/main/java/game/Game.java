@@ -32,18 +32,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
+    private static boolean gameLost;
     private static double timeSinceLastMove = System.currentTimeMillis();
 
 
     static {
         isRunning = false;
+        gameLost = false;
     }
 
-    public transient Level level;
-    public transient Player player;
-    public transient Randy randy;
+    private transient Level level;
+    private transient Player player;
+    private transient Randy randy;
     private transient Thread thread;
     private transient GameSettings settings;
+
 
     /**
      * Game class.
@@ -181,8 +184,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public void moveRandy(int random) {
         double currentTime = System.currentTimeMillis();
-        if ((currentTime - timeSinceLastMove) >= coolDown) {
-            if (randy != null && player != null && player.hasCollided(randy)) {
+        if (isRunning && (currentTime - timeSinceLastMove) >= coolDown) {
+            if (!gameLost && randy != null && player != null && player.hasCollided(randy)) {
+                gameLost = true;
                 lose();
             }
             switch (random) {
@@ -253,6 +257,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 moveRightNow();
                 System.out.println(player.getLocation());
 
+            }
+            if (!gameLost && randy != null && player != null && player.hasCollided(randy)) {
+                gameLost = true;
+                lose();
             }
         }
     }
