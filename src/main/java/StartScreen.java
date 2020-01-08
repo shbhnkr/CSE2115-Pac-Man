@@ -89,8 +89,13 @@ public class StartScreen {
                 }
                 if(pop)
                 {
+<<<<<<< HEAD
                     settings = new GameSettings(20);
                     Game game = new Game(settings, "board3.txt");
+=======
+                    GameSettings settings = new GameSettings(20);
+                    Game game = new Game(settings);
+>>>>>>> development
                     JFrame frame = new JFrame();
                     frame.setTitle(Game.TITLE);
                     frame.add(game);
