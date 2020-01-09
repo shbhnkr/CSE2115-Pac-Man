@@ -1,8 +1,12 @@
 package game;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
+
+import static game.Player.xPixelPlayer;
+import static game.Player.yPixelPlayer;
 
 /**
  * Image for sprites on board.
@@ -26,4 +30,16 @@ public class SpriteSheet {
     public BufferedImage getSprite(int xx, int yy) {
         return sheet.getSubimage(xx, yy, 16, 16);
     }
+
+    public static void animation(int xx, int yy, Player player, Graphics graphics)
+    {
+        int n1 = 0;
+        while (n1 < 200) {
+            xPixelPlayer = xx;
+            yPixelPlayer = yy;
+            player.render(graphics);
+            n1++;
+        }
+    }
 }
+

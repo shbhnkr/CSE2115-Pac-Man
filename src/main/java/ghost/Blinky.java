@@ -1,4 +1,9 @@
-package game;
+package ghost;
+
+import game.Game;
+import game.Player;
+import game.SpriteSheet;
+import game.Unit;
 
 import java.awt.Graphics;
 
@@ -44,7 +49,7 @@ public class Blinky extends Unit {
         }
     }
     @Override
-    String getType() {
+    public String getType() {
         return "b";
     }
 

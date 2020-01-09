@@ -1,5 +1,7 @@
 package game;
 
+import ghost.Randy;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +17,8 @@ import static game.Level.pellets;
 import static game.Level.pixels;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
-import static game.Randy.coolDown;
+import static game.SpriteSheet.animation;
+import static ghost.Randy.coolDown;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
@@ -28,7 +31,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     public static final SpriteSheet randySprite = new SpriteSheet("/sprite/ghost_green.png");
     public static int pelletCount = 0;
-    public static int pelletLeft = 0;
+    public static int pelletEaten = 0;
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
@@ -39,8 +42,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         isRunning = false;
     }
 
-    private transient Level level;
-    private transient Player player;
+    public transient Level level;
+    public transient Player player;
     private transient Randy randy;
     private transient Thread thread;
     private transient GameSettings settings;
@@ -50,15 +53,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
      *
      * @param settings the settings to use.
      */
-    public Game(GameSettings settings) {
+    public Game(GameSettings settings, String filePath) {
         this.settings = settings;
-        URL path = ClassLoader.getSystemResource("board2.txt");
+        URL path = ClassLoader.getSystemResource(filePath);
         File file = new File(path.getFile());
 
         Dimension dimension = this.calculateDimensions(file);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         randy = level.randy;
+        player = level.player;
         addKeyListener(this);
     }
 
@@ -136,7 +140,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Stop.
      */
-    private synchronized void stop() {
+    public synchronized void stop() {
+        pelletCount = 0;
+        pelletEaten = 0;
         if (!isRunning) {
             return;
         }
@@ -229,117 +235,59 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        player = level.player;
+
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 0;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 0;
-            if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().y == 0) {
-                Point point = new Point(player.getLocation().x, getHeight() - 20);
-                player.movePlayer(point);
-
-                moveUp();
-            } else {
-                player.movePlayer(MoveBuilder.UP(player.getLocation()));
-                moveUp();
-
-            }
+            animation(32, 0, player, getGraphics());
+            moveUp();
         }
 
         if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 48;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 48;
-            if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().x == 0) {
-                Point point = new Point(getWidth() - 20, player.getLocation().y);
-                player.movePlayer(point);
-                moveLeft();
-            } else {
-                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-                moveLeft();
-
-            }
+            animation(32, 48, player, getGraphics());
+            moveLeft();
         }
 
         if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 32;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 32;
-            if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().y == getHeight() - 20) {
-                Point point = new Point(player.getLocation().x, 0);
-                player.movePlayer(point);
-                moveDown();
-            } else {
-                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-                moveDown();
-            }
-
+            animation(32, 32, player, getGraphics());
+            moveDown();
 
         }
 
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-            int n1 = 0;
-            while (n1 < 200) {
-                xPixelPlayer = 32;
-                yPixelPlayer = 16;
-                player.render(getGraphics());
-                n1++;
-            }
-            xPixelPlayer = 16;
-            yPixelPlayer = 16;
-            if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
-                return;
-            }
-            if (player.getLocation().x == getWidth() - 20) {
-                Point point = new Point(0, player.getLocation().y);
-                player.movePlayer(point);
-                moveRight();
-            } else {
-                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-                moveRight();
-            }
-
+            animation(32, 16, player, getGraphics());
+            moveRight();
 
         }
     }
 
-    private void moveUp() {
+    public void moveUp() {
+        xPixelPlayer = 16;
+        yPixelPlayer = 0;
+        if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().y == 0) {
+            Point point = new Point(player.getLocation().x, getHeight() - 20);
+            player.movePlayer(point);
+
+            objectCheckerUp();
+        } else {
+            player.movePlayer(MoveBuilder.UP(player.getLocation()));
+            objectCheckerUp();
+
+        }
+
+    }
+
+    private void objectCheckerUp() {
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
-                player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+                player.movePlayer(new Point(player.getLocation().x, 0));
                 break;
             case '.':
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletLeft++;
+                pelletEaten++;
                 win();
                 break;
             default:
@@ -348,16 +296,33 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    private void moveDown() {
+    public void moveDown() {
+        xPixelPlayer = 16;
+        yPixelPlayer = 32;
+        if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().y == getHeight() - 20) {
+            Point point = new Point(player.getLocation().x, 0);
+            player.movePlayer(point);
+            objectCheckerDown();
+        } else {
+            player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+            objectCheckerDown();
+        }
+
+    }
+
+    private void objectCheckerDown() {
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
-                player.movePlayer(MoveBuilder.UP(player.getLocation()));
+                player.movePlayer(new Point(player.getLocation().x, getHeight() - 20));
                 break;
             case '.':
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletLeft++;
+                pelletEaten++;
                 win();
                 break;
             default:
@@ -365,16 +330,33 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    private void moveLeft() {
+    public void moveLeft() {
+        xPixelPlayer = 16;
+        yPixelPlayer = 48;
+        if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().x == 0) {
+            Point point = new Point(getWidth() - 20, player.getLocation().y);
+            player.movePlayer(point);
+            objectCheckerLeft();
+        } else {
+            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+            objectCheckerLeft();
+
+        }
+    }
+
+    private void objectCheckerLeft() {
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
-                player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+                player.movePlayer(new Point(0, player.getLocation().y));
                 break;
             case '.':
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletLeft++;
+                pelletEaten++;
                 win();
                 break;
             default:
@@ -382,27 +364,47 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    private void moveRight() {
+    public void moveRight() {
+        xPixelPlayer = 16;
+        yPixelPlayer = 16;
+        if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
+            return;
+        }
+        if (player.getLocation().x == getWidth() - 20) {
+            Point point = new Point(0, player.getLocation().y);
+            player.movePlayer(point);
+            objectCheckerRight();
+        } else {
+            player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
+            objectCheckerRight();
+        }
+
+    }
+
+    private void objectCheckerRight() {
         switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
             case '#':
-                player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
+                player.movePlayer(new Point(getWidth() - 20, player.getLocation().y));
                 break;
             case '.':
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletLeft++;
+                pelletEaten++;
                 win();
                 break;
             default:
                 break;
         }
     }
-    
+
 
     public void win() {
-        if (pelletLeft == pelletCount) {
-            JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
+        if (pelletEaten == pelletCount) {
+            if (isRunning) {
+                JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
+
+            }
             stop();
         }
     }
