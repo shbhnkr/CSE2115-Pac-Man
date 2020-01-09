@@ -90,7 +90,7 @@ public class StartScreen {
                 if(pop)
                 {
                     GameSettings settings = new GameSettings(20);
-                    Game game = new Game(settings,"board2.txt");
+                    Game game = new Game(settings,"board1.txt");
                     JFrame frame = new JFrame();
                     frame.setTitle(Game.TITLE);
                     frame.add(game);
