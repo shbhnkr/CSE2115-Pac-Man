@@ -1,4 +1,8 @@
-package game;
+package ghost;
+
+import game.Game;
+import game.SpriteSheet;
+import game.Unit;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -28,7 +32,7 @@ public class Clyde extends Unit {
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "c";
     }
 }

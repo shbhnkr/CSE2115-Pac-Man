@@ -1,5 +1,7 @@
 package game;
 
+import ghost.*;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +23,7 @@ public class Level {
     public transient Clyde clyde;
     public transient Randy randy;
     public static Pellet[][] pellets;
+    public static FruitPellet[][] fruitPellet;
     public static char[][] pixels;
 
     /**
@@ -49,9 +52,15 @@ public class Level {
             }
             walls = new Wall[width][height];
             setPellets(new Pellet[width][height]);
+            setFruitPellets(new FruitPellet[width][height]);
+
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
+                        case ',':
+                            //pelletCount++;
+                            getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);
+                            break;
                         case '#':
                             walls[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
@@ -97,6 +106,14 @@ public class Level {
         Level.pellets = pellets;
     }
 
+    public static FruitPellet[][] getFruitPellets() {
+        return fruitPellet;
+    }
+
+    public static void setFruitPellets(FruitPellet[][] fruitPellet) {
+        Level.fruitPellet = fruitPellet;
+    }
+
     public static char[][] getPixels() {
         return pixels;
     }
@@ -117,6 +134,9 @@ public class Level {
             for (int y = 0; y < height; y++) {
                 //System.out.println(n+" dtffgyas");
                 // n++;
+                if (fruitPellet[x][y] != null) {
+                    fruitPellet[x][y].render(g);
+                }
                 if (walls[x][y] != null) {
                     walls[x][y].render(g);
                 }
@@ -125,7 +145,6 @@ public class Level {
                 }
                 if (player != null) {
                     player.render(g);
-
                 }
                 if (inky != null) {
                     inky.render(g);
