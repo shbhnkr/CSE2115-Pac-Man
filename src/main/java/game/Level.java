@@ -1,6 +1,8 @@
 package game;
 
-import ghost.*;
+
+import ghost.Ghost;
+import ghost.GhostFactory;
 
 import java.awt.*;
 import java.io.File;
@@ -17,11 +19,11 @@ public class Level {
     public transient int height;
     public transient Wall[][] walls;
     public transient Player player;
-    public transient Inky inky;
-    public transient Blinky blinky;
-    public transient Pinky pinky;
-    public transient Clyde clyde;
-    public transient Randy randy;
+    public transient Ghost inky;
+    public transient Ghost blinky;
+    public transient Ghost pinky;
+    public transient Ghost clyde;
+    public transient Ghost randy;
     public static Pellet[][] pellets;
     public static FruitPellet[][] fruitPellet;
     public static char[][] pixels;
@@ -72,19 +74,19 @@ public class Level {
                             this.player = new Player(x * squareSize, y * squareSize);
                             break;
                         case 'i':
-                            inky = new Inky(x * 20, y * 20);
+                            inky = GhostFactory.create(GhostFactory.INKY, x * 20, y * 20);
                             break;
                         case 'b':
-                            blinky = new Blinky(x * 20, y * 20);
+                            blinky = GhostFactory.create(GhostFactory.BlINKY, x * 20, y * 20);
                             break;
                         case 'g':
-                            pinky = new Pinky(x * 20, y * 20);
+                            pinky = GhostFactory.create(GhostFactory.PINKY, x * 20, y * 20);
                             break;
                         case 'c':
-                            clyde = new Clyde(x * 20, y * 20);
+                            clyde = GhostFactory.create(GhostFactory.CLYDE, x * 20, y * 20);
                             break;
                         case 'r':
-                            randy = new Randy(x * 20, y * 20);
+                            randy = GhostFactory.create(GhostFactory.RANDY, x * 20, y * 20);
                             break;
                         case ' ':
                             break;
@@ -94,6 +96,9 @@ public class Level {
                 }
             }
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO make a ghostFactory expection.
             e.printStackTrace();
         }
     }

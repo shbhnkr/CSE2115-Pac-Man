@@ -6,35 +6,62 @@ import game.SpriteSheet;
 import game.Unit;
 
 import java.awt.*;
+import java.util.Random;
 
 import static game.Level.pixels;
 
 /**
  * ghost 5.
  */
-public class Randy extends Unit {
+public class Randy extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    public static int xPixelGhost, yPixelGhost = 0;
+    public Randy(int x, int y, SpriteSheet spriteSheet) {
+        super(x, y, spriteSheet);
+    }
 
+    @Override
+    public void move() {
+        Random rand = new Random();
+        int random = rand.nextInt(4);
+
+        switch (random) {
+            case 0:
+                if (this.getLocation().y == 0) {
+                    // TODO getHeight may not work as intended now since the code was moved from Game to Randy
+                    Point point = new Point(this.getLocation().x, (int) getHeight() - 20);
+                    this.moveGhost(point);
+                }
+                this.moveUpGhost();
+                break;
+            case 1:
+                if (this.getLocation().y == getHeight() - 20) {
+                    Point point = new Point(this.getLocation().x, 0);
+                    this.moveGhost(point);
+                }
+                this.moveDownGhost();
+                break;
+            case 2:
+                if (this.getLocation().x == 0) {
+                    Point point = new Point((int) getWidth() - 20, this.getLocation().y);
+                    this.moveGhost(point);
+                }
+                this.moveLeftGhost();
+                break;
+            default:
+                if (this.getLocation().x == getWidth() - 20) {
+                    Point point = new Point(0, this.getLocation().y);
+                    this.moveGhost(point);
+                }
+                this.moveRightGhost();
+                break;
+        }
+    }
+
+    public static int xPixelGhost = 0;
+    public static int yPixelGhost = 0;
     public static int coolDown = 300;
 
-    /**
-     * ghost constructor 5.
-     */
-    public Randy(int x, int y) {
-        setBounds(x, y, 20, 20);
-    }
-
-    /**
-     * ghost render 5.
-     */
-    public void render(Graphics g) {
-        SpriteSheet sheet = Game.randySprite;
-        g.drawImage(sheet.getSprite(xPixelGhost, yPixelGhost),x,y,18,18, null);
-        //g.setColor(Color.GREEN);
-        //g.fillRect(x, y, width, height);
-    }
 
     public void moveGhost(Point movePosition) {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
