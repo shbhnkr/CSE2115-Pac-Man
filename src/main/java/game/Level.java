@@ -17,11 +17,11 @@ public class Level {
     public transient int height;
     public transient Wall[][] walls;
     public transient Player player;
-    public transient Inky inky;
-    public transient Blinky blinky;
-    public transient Pinky pinky;
-    public transient Clyde clyde;
-    public transient Randy randy;
+    public transient ghost.Inky inky;
+    public transient ghost.Blinky blinky;
+    public transient ghost.Pinky pinky;
+    public transient ghost.Clyde clyde;
+    public transient ghost.Randy randy;
     public static Pellet[][] pellets;
     public static FruitPellet[][] fruitPellet;
     public static char[][] pixels;
@@ -72,19 +72,19 @@ public class Level {
                             this.player = new Player(x * squareSize, y * squareSize);
                             break;
                         case 'i':
-                            inky = new Inky(x * 20, y * 20);
+                            inky = new ghost.Inky(x * 20, y * 20);
                             break;
                         case 'b':
-                            blinky = new Blinky(x * 20, y * 20);
+                            blinky = new ghost.Blinky(x * 20, y * 20);
                             break;
                         case 'g':
-                            pinky = new Pinky(x * 20, y * 20);
+                            pinky = new ghost.Pinky(x * 20, y * 20);
                             break;
                         case 'c':
-                            clyde = new Clyde(x * 20, y * 20);
+                            clyde = new ghost.Clyde(x * 20, y * 20);
                             break;
                         case 'r':
-                            randy = new Randy(x * 20, y * 20);
+                            randy = new ghost.Randy(x * 20, y * 20);
                             break;
                         case ' ':
                             break;
