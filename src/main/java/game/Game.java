@@ -440,7 +440,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void win() {
         if (pelletEaten == pelletCount) {
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point , "Congrats", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
             }
             stop();
         }
