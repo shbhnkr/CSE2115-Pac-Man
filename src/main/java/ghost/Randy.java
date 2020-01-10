@@ -1,4 +1,9 @@
-package game;
+package ghost;
+
+import game.Game;
+import game.MoveBuilder;
+import game.SpriteSheet;
+import game.Unit;
 
 import java.awt.*;
 
@@ -106,7 +111,7 @@ public class Randy extends Unit {
         }
     }
     @Override
-    String getType() {
+    public String getType() {
         return "r";
     }
 }

@@ -1,32 +1,38 @@
-package game;
+package ghost;
+
+import game.Game;
+import game.SpriteSheet;
+import game.Unit;
 
 // import java.awt.Color;
 import java.awt.Graphics;
 // import java.awt.Rectangle;
 
-public class Inky extends Unit {
+/**
+ * ghost 2.
+ */
+public class Clyde extends Unit {
     public static final long serialVersionUID = 4328743;
 
-    public Inky(int x, int y) {
+    /**
+     * ghost constructor 2.
+     */
+    public Clyde(int x, int y) {
         setBounds(x, y, 20, 20);
     }
 
     /**
-     * render inky.
-     * @param g - graphics
+     * ghost render 2.
      */
     public void render(Graphics g) {
-        SpriteSheet sheet = Game.inkySprite;
+        SpriteSheet sheet = Game.clydeSprite;
         g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
-        //g.setColor(Color.CYAN);
+        //g.setColor(Color.ORANGE);
         //g.fillRect(x, y, width, height);
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> development
     @Override
-    String getType() {
-        return "i";
+    public String getType() {
+        return "c";
     }
 }

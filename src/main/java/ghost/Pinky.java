@@ -1,4 +1,8 @@
-package game;
+package ghost;
+
+import game.Game;
+import game.SpriteSheet;
+import game.Unit;
 
 // import java.awt.Color;
 import java.awt.Graphics;
@@ -19,7 +23,7 @@ public class Pinky extends Unit {
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "g";
     }
 }

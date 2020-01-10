@@ -39,7 +39,7 @@ public class Player extends Unit {
     //}
 
     @Override
-    String getType() {
+    protected String getType() {
         return "p";
     }
 }

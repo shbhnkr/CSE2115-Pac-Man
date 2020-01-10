@@ -17,7 +17,7 @@ public class Pellet extends Unit {
     }
 
     @Override
-    String getType() {
+    protected String getType() {
         return ".";
     }
 }
