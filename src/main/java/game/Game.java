@@ -1,7 +1,5 @@
 package game;
 
-import ghost.Randy;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,12 +11,10 @@ import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
 
-import static game.Level.pellets;
-import static game.Level.pixels;
+import static game.Level.*;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
-import ghost.*;
 import static ghost.Randy.coolDown;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -37,6 +33,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int height = 0;
     private static boolean isRunning;
     private static double timeSinceLastMove = System.currentTimeMillis();
+    private transient int point = 0;
 
 
     static {
@@ -292,8 +289,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
+                point += 10;
                 win();
                 break;
+            case ',':
+                FruitPellet fpel = null;
+                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
+                pelletEaten++;
+                win();
+                break;
+
+
             default:
                 break;
 
@@ -326,6 +334,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                pelletEaten++;
+                point += 10;
+                win();
+                break;
+            case ',':
+                FruitPellet fpel = null;
+                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
                 pelletEaten++;
                 win();
                 break;
@@ -361,6 +378,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
+                point += 10;
+                win();
+                break;
+            case ',':
+                FruitPellet fpel = null;
+                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
+                pelletEaten++;
                 win();
                 break;
             default:
@@ -395,6 +421,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
+                point += 10;
+                win();
+                break;
+            case ',':
+                FruitPellet fpel = null;
+                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
+                pelletEaten++;
                 win();
                 break;
             default:
@@ -406,8 +441,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void win() {
         if (pelletEaten == pelletCount) {
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
-
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
             }
             stop();
         }
