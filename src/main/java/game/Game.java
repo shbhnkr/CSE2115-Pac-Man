@@ -18,6 +18,7 @@ import static game.Level.pixels;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
+import ghost.*;
 import static ghost.Randy.coolDown;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -44,7 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public transient Level level;
     public transient Player player;
-    private transient Randy randy;
+    public transient ghost.Randy randy;
     private transient Thread thread;
     private transient GameSettings settings;
 
@@ -188,6 +189,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void moveRandy(int random) {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
+            if (player.hasCollided(randy)) {
+                lose();
+            }
             switch (random) {
                 case 0:
                     if (randy.getLocation().y == 0) {
@@ -407,5 +411,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
             stop();
         }
+    }
+    private void lose() {
+        if (isRunning) {
+            JOptionPane.showMessageDialog(getParent(), "You Lost", "Oops", JOptionPane.DEFAULT_OPTION);
+        }
+        stop();
     }
 }

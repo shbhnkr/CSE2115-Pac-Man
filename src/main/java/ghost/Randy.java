@@ -40,6 +40,13 @@ public class Randy extends Unit {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
+//    public boolean hasCollided(Player player) {
+//        if (player == null) {
+//            return false;
+//        }
+//        return (this.getLocation().x == player.getLocation().x && this.getLocation().y == player.getLocation().y);
+//    }
+
     public void moveUpGhost() {
         moveGhost(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
