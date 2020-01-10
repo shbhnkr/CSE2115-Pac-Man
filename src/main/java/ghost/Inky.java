@@ -25,10 +25,7 @@ public class Inky extends Unit {
         //g.setColor(Color.CYAN);
         //g.fillRect(x, y, width, height);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> development
+    
     @Override
     public String getType() {
         return "i";

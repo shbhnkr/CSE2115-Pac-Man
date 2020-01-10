@@ -1,5 +1,7 @@
 package game;
 
+import ghost.Randy;
+
 import java.awt.*;
 
 public class Player extends Unit {
