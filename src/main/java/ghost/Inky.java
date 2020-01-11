@@ -8,11 +8,16 @@ import game.Unit;
 import java.awt.Graphics;
 // import java.awt.Rectangle;
 
-public class Inky extends Unit {
+public class Inky extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    public Inky(int x, int y) {
-        setBounds(x, y, 20, 20);
+    public Inky(int x, int y, SpriteSheet spriteSheet) {
+        super(x, y, spriteSheet);
+    }
+
+    @Override
+    public void moveGhost(int height, int width) {
+
     }
 
     /**
