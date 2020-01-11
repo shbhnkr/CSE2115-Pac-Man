@@ -34,7 +34,7 @@ public class FruitPellet extends Unit {
     }
 
     @Override
-    protected String getType() {
+    public String getType() {
         return ",";
     }
 

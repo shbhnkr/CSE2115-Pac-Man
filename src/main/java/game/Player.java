@@ -1,14 +1,37 @@
 package game;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Player extends Unit {
+public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
     public static int xPixelPlayer, yPixelPlayer = 0;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
+        this.observerCollection = new ArrayList<Observer>();
+    }
+
+    public List<Observer> observerCollection;
+
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observerCollection.add(observer);
+    }
+
+    @Override
+    public void deregisterObserver(Observer observer) {
+        this.observerCollection.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        this.observerCollection.forEach(observer -> {
+            observer.observe(this.getType(), this.getLocation());
+        });
     }
 
     /**
@@ -32,7 +55,7 @@ public class Player extends Unit {
     //}
 
     @Override
-    protected String getType() {
+    public String getType() {
         return "p";
     }
 }
