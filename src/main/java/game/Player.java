@@ -16,8 +16,7 @@ public class Player extends Unit implements Observable {
         this.observerCollection = new ArrayList<Observer>();
     }
 
-    public List<Observer> observerCollection;
-
+    public transient List<Observer> observerCollection;
 
     @Override
     public void registerObserver(Observer observer) {
@@ -30,6 +29,7 @@ public class Player extends Unit implements Observable {
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {
             observer.observe(this.getType(), this.getLocation());

@@ -60,7 +60,7 @@ public class Level {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
                         case ',':
-                            //pelletCount++;
+                            pelletCount++;
                             getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);
                             break;
                         case '#':
