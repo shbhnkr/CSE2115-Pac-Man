@@ -72,4 +72,13 @@ public abstract class Ghost extends Unit implements Observer {
     public void observe(String type, Point location) {
         unitLocations.put(type, location);
     }
+
+
+    public LinkedHashMap<String, Point> getUnitLocations() {
+        return unitLocations;
+    }
+
+    public void setUnitLocations(LinkedHashMap<String, Point> unitLocations) {
+        this.unitLocations = unitLocations;
+    }
 }
