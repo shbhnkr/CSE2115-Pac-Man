@@ -11,24 +11,16 @@ import java.awt.Graphics;
 /**
  * ghost 2.
  */
-public class Clyde extends Unit {
+public class Clyde extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    /**
-     * ghost constructor 2.
-     */
-    public Clyde(int x, int y) {
-        setBounds(x, y, 20, 20);
+    public Clyde(int x, int y, SpriteSheet spriteSheet) {
+        super(x, y, spriteSheet);
     }
 
-    /**
-     * ghost render 2.
-     */
-    public void render(Graphics g) {
-        SpriteSheet sheet = Game.clydeSprite;
-        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
-        //g.setColor(Color.ORANGE);
-        //g.fillRect(x, y, width, height);
+    @Override
+    public void move() {
+
     }
 
     @Override
