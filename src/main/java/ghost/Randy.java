@@ -6,37 +6,63 @@ import game.SpriteSheet;
 import game.Unit;
 
 import java.awt.*;
+import java.util.Random;
 
 import static game.Level.pixels;
 
 /**
  * ghost 5.
  */
-public class Randy extends Unit {
+public class Randy extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    public static int xPixelGhost, yPixelGhost = 0;
+    public Randy(int x, int y, SpriteSheet spriteSheet) {
+        super(x, y, spriteSheet);
+    }
 
+    @Override
+    public void moveGhost(int height, int width) {
+        Random rand = new Random();
+        int random = rand.nextInt(4);
+
+        switch (random) {
+            case 0:
+                if (this.getLocation().y == 0) {
+                    Point point = new Point(this.getLocation().x, height - 20);
+                    this.move(point);
+                }
+                this.moveUpGhost();
+                break;
+            case 1:
+                if (this.getLocation().y == height - 20) {
+                    Point point = new Point(this.getLocation().x, 0);
+                    this.move(point);
+                }
+                this.moveDownGhost();
+                break;
+            case 2:
+                if (this.getLocation().x == 0) {
+                    Point point = new Point( width - 20, this.getLocation().y);
+                    this.move(point);
+                }
+                this.moveLeftGhost();
+                break;
+            default:
+                if (this.getLocation().x == width - 20) {
+                    Point point = new Point(0, this.getLocation().y);
+                    this.move(point);
+                }
+                this.moveRightGhost();
+                break;
+        }
+    }
+
+    public static int xPixelGhost = 0;
+    public static int yPixelGhost = 0;
     public static int coolDown = 300;
 
-    /**
-     * ghost constructor 5.
-     */
-    public Randy(int x, int y) {
-        setBounds(x, y, 20, 20);
-    }
 
-    /**
-     * ghost render 5.
-     */
-    public void render(Graphics g) {
-        SpriteSheet sheet = Game.randySprite;
-        g.drawImage(sheet.getSprite(xPixelGhost, yPixelGhost),x,y,18,18, null);
-        //g.setColor(Color.GREEN);
-        //g.fillRect(x, y, width, height);
-    }
-
-    public void moveGhost(Point movePosition) {
+    public void move(Point movePosition) {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
@@ -48,12 +74,12 @@ public class Randy extends Unit {
 //    }
 
     public void moveUpGhost() {
-        moveGhost(MoveBuilder.UP(getLocation()));
+        move(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 0;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.DOWN(getLocation()));
+                move(MoveBuilder.DOWN(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -64,12 +90,12 @@ public class Randy extends Unit {
     }
 
     public void moveDownGhost() {
-        moveGhost(MoveBuilder.DOWN(getLocation()));
+        move(MoveBuilder.DOWN(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 32;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.UP(getLocation()));
+                move(MoveBuilder.UP(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -80,12 +106,12 @@ public class Randy extends Unit {
     }
 
     public void moveLeftGhost() {
-        moveGhost(MoveBuilder.LEFT(getLocation()));
+        move(MoveBuilder.LEFT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 48;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.RIGHT(getLocation()));
+                move(MoveBuilder.RIGHT(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -96,12 +122,12 @@ public class Randy extends Unit {
     }
 
     public void moveRightGhost() {
-        moveGhost(MoveBuilder.RIGHT(getLocation()));
+        move(MoveBuilder.RIGHT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 16;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.LEFT(getLocation()));
+                move(MoveBuilder.LEFT(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");

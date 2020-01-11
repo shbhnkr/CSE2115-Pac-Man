@@ -1,6 +1,6 @@
 package game;
 
-import ghost.Randy;
+import ghost.Ghost;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public transient Level level;
     public transient Player player;
-    public transient ghost.Randy randy;
+    private transient Ghost randy;
     private transient Thread thread;
     private transient GameSettings settings;
 
@@ -171,11 +171,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        if (randy != null) {
-            Random rand = new Random();
-            int random = rand.nextInt(4);
-            moveRandy(random);
-        }
+        moveGhosts();
     }
 
     @Override
@@ -186,41 +182,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-    public void moveRandy(int random) {
+    public void moveGhosts() {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
             if (player.hasCollided(randy)) {
                 lose();
             }
-            switch (random) {
-                case 0:
-                    if (randy.getLocation().y == 0) {
-                        Point point = new Point(randy.getLocation().x, getHeight() - 20);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveUpGhost();
-                    break;
-                case 1:
-                    if (randy.getLocation().y == getHeight() - 20) {
-                        Point point = new Point(randy.getLocation().x, 0);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveDownGhost();
-                    break;
-                case 2:
-                    if (randy.getLocation().x == 0) {
-                        Point point = new Point(getWidth() - 20, randy.getLocation().y);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveLeftGhost();
-                    break;
-                default:
-                    if (randy.getLocation().x == getWidth() - 20) {
-                        Point point = new Point(0, randy.getLocation().y);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveRightGhost();
-                    break;
+            if (randy != null) {
+                randy.moveGhost(getHeight(), getWidth());
+            }
+            if (player.hasCollided(randy)) {
+                lose();
             }
             timeSinceLastMove = currentTime;
         }

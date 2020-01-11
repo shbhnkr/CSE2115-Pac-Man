@@ -109,5 +109,15 @@ class GameCollisionTest {
         game8.stop();
     }
 
+    @Test
+    public void fruitPelletCollision() {
+        Game game = new Game(new GameSettings(20), "TestWall.txt");
+        Assertions.assertEquals(2, game.pelletCount);
+        Assertions.assertEquals(0, game.pelletEaten);
+        game.moveRight();
+        game.moveLeft();
+        Assertions.assertEquals(1, game.pelletEaten);
+        game.stop();
+    }
 
 }

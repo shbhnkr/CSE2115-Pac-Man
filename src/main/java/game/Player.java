@@ -1,6 +1,6 @@
 package game;
 
-import ghost.Randy;
+import ghost.Ghost;
 
 import java.awt.*;
 
@@ -29,7 +29,7 @@ public class Player extends Unit {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public boolean hasCollided(Randy randy) {
+    public boolean hasCollided(Ghost randy) {
         if (randy == null) {
             return false;
         }
