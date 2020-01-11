@@ -10,7 +10,6 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Random;
 import java.util.Scanner;
 
 import static game.Level.pellets;
@@ -18,7 +17,6 @@ import static game.Level.pixels;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
-import ghost.*;
 import static ghost.Randy.coolDown;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -185,14 +183,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void moveGhosts() {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
-            if (player.hasCollided(randy)) {
-                lose();
-            }
             if (randy != null) {
+
+                if (player.hasCollided(randy)) {
+                    lose();
+                }
                 randy.moveGhost(getHeight(), getWidth());
-            }
-            if (player.hasCollided(randy)) {
-                lose();
+
+                if (player.hasCollided(randy)) {
+                    lose();
+                }
             }
             timeSinceLastMove = currentTime;
         }
