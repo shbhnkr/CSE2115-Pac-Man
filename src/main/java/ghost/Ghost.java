@@ -24,9 +24,12 @@ public abstract class Ghost extends Unit {
     }
 
     /**
-     * Each type of ghost defines it's own movement method.
+     * Each type of ghost defines its own movement method.
+     * @param height height of the board, needed for the wraparound to work.
+     * @param width width of the board, needed for the wraparound to work.
+
      */
-    public abstract void move();
+    public abstract void moveGhost(int height, int width);
 
     /**
      * Renders each ghost with a specific sprite.

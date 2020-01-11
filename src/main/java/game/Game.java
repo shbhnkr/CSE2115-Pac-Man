@@ -170,9 +170,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        if (randy != null) {
-            moveRandy();
-        }
+        moveGhosts();
     }
 
     @Override
@@ -183,10 +181,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-    public void moveRandy() {
+    public void moveGhosts() {
         double currentTime = System.currentTimeMillis();
         if ((currentTime - timeSinceLastMove) >= coolDown) {
-            randy.move();
+            if (randy != null) {
+                randy.moveGhost(getHeight(), getWidth());
+            }
             timeSinceLastMove = currentTime;
         }
     }

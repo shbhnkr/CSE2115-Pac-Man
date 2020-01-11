@@ -19,7 +19,7 @@ public class Clyde extends Ghost {
     }
 
     @Override
-    public void move() {
+    public void moveGhost(int height, int width) {
 
     }
 

@@ -21,37 +21,36 @@ public class Randy extends Ghost {
     }
 
     @Override
-    public void move() {
+    public void moveGhost(int height, int width) {
         Random rand = new Random();
         int random = rand.nextInt(4);
 
         switch (random) {
             case 0:
                 if (this.getLocation().y == 0) {
-                    // TODO getHeight may not work as intended now since the code was moved from Game to Randy
-                    Point point = new Point(this.getLocation().x, (int) getHeight() - 20);
-                    this.moveGhost(point);
+                    Point point = new Point(this.getLocation().x, height - 20);
+                    this.move(point);
                 }
                 this.moveUpGhost();
                 break;
             case 1:
-                if (this.getLocation().y == getHeight() - 20) {
+                if (this.getLocation().y == height - 20) {
                     Point point = new Point(this.getLocation().x, 0);
-                    this.moveGhost(point);
+                    this.move(point);
                 }
                 this.moveDownGhost();
                 break;
             case 2:
                 if (this.getLocation().x == 0) {
-                    Point point = new Point((int) getWidth() - 20, this.getLocation().y);
-                    this.moveGhost(point);
+                    Point point = new Point( width - 20, this.getLocation().y);
+                    this.move(point);
                 }
                 this.moveLeftGhost();
                 break;
             default:
-                if (this.getLocation().x == getWidth() - 20) {
+                if (this.getLocation().x == width - 20) {
                     Point point = new Point(0, this.getLocation().y);
-                    this.moveGhost(point);
+                    this.move(point);
                 }
                 this.moveRightGhost();
                 break;
@@ -63,7 +62,7 @@ public class Randy extends Ghost {
     public static int coolDown = 300;
 
 
-    public void moveGhost(Point movePosition) {
+    public void move(Point movePosition) {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
@@ -75,12 +74,12 @@ public class Randy extends Ghost {
 //    }
 
     public void moveUpGhost() {
-        moveGhost(MoveBuilder.UP(getLocation()));
+        move(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 0;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.DOWN(getLocation()));
+                move(MoveBuilder.DOWN(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -91,12 +90,12 @@ public class Randy extends Ghost {
     }
 
     public void moveDownGhost() {
-        moveGhost(MoveBuilder.DOWN(getLocation()));
+        move(MoveBuilder.DOWN(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 32;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.UP(getLocation()));
+                move(MoveBuilder.UP(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -107,12 +106,12 @@ public class Randy extends Ghost {
     }
 
     public void moveLeftGhost() {
-        moveGhost(MoveBuilder.LEFT(getLocation()));
+        move(MoveBuilder.LEFT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 48;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.RIGHT(getLocation()));
+                move(MoveBuilder.RIGHT(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
@@ -123,12 +122,12 @@ public class Randy extends Ghost {
     }
 
     public void moveRightGhost() {
-        moveGhost(MoveBuilder.RIGHT(getLocation()));
+        move(MoveBuilder.RIGHT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 16;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                moveGhost(MoveBuilder.LEFT(getLocation()));
+                move(MoveBuilder.LEFT(getLocation()));
                 break;
 //            case 'p':
 //                System.out.println("PLAYER SHOULD DIE NOW");
