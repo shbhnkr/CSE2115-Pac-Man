@@ -23,7 +23,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
-    public static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
+    public static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
     public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
@@ -45,14 +45,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public transient Player player;
     private transient Ghost randy;
     private transient Thread thread;
-    private transient GameSettings settings;
+    private transient Gamesettings settings;
 
     /**
      * Game class.
      *
      * @param settings the settings to use.
      */
-    public Game(GameSettings settings, String filePath) {
+    public Game(Gamesettings settings, String filePath) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(filePath);
         File file = new File(path.getFile());

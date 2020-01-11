@@ -1,21 +1,12 @@
 package ghost;
 
-import game.Game;
-import game.Player;
 import game.SpriteSheet;
-import game.Unit;
-
-import java.awt.Graphics;
-
-// import java.awt.Point;
-// import java.util.List;
 
 public class Blinky extends Ghost {
 /**
  * ghost 1.
  */
     public static final long serialVersionUID = 4328743;
-
 
     /**
      * ghost constructor 1.
@@ -39,16 +30,6 @@ public class Blinky extends Ghost {
 //                }
 //            }
 //        }
-    }
-
-    /**
-     * ghost render 1.
-     */
-    public void render(Graphics g) {
-        SpriteSheet sheet = Game.blinkySprite;
-        g.drawImage(sheet.getSprite(0,0),x,y,18,18, null);
-        //g.setColor(Color.RED);
-        //g.fillRect(x, y, width, height);
     }
 
     @Override

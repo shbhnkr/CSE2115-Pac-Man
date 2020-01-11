@@ -17,7 +17,7 @@ public abstract class Ghost extends Unit implements Observer {
     private SpriteSheet sheet;
 
     // Holds a list of all the locations for objects that are observed.
-    public LinkedHashMap<String, Point> unitLocations;
+    public transient LinkedHashMap<String, Point> unitLocations;
 
     /**
      * Constructor for the different ghosts.

@@ -1,9 +1,9 @@
 package game;
 
-public class GameSettings {
+public class Gamesettings {
     transient int squareSize;
 
-    public GameSettings(int squareSize) {
+    public Gamesettings(int squareSize) {
         this.squareSize = squareSize;
     }
 
