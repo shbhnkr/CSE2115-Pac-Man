@@ -53,7 +53,6 @@ public class StartScreen {
                 String uname = textField1.getText();
 
 
-
                 String pwd = Register.getSha(String.valueOf(passwordField1.getPassword()));
                 pop = false;
 
@@ -87,10 +86,9 @@ public class StartScreen {
 
 
                 }
-                if(pop)
-                {
+                if (pop) {
                     GameSettings settings = new GameSettings(20);
-                    Game game = new Game(settings);
+                    Game game = new Game(settings, "board1.txt");
                     JFrame frame = new JFrame();
                     frame.setTitle(Game.TITLE);
                     frame.add(game);

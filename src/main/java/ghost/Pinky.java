@@ -1,8 +1,12 @@
-package game;
+package ghost;
 
-import java.awt.Color;
+import game.Game;
+import game.SpriteSheet;
+import game.Unit;
+
+// import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+// import java.awt.Rectangle;
 
 public class Pinky extends Unit {
     public static final long serialVersionUID = 4328743;
@@ -19,7 +23,7 @@ public class Pinky extends Unit {
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "g";
     }
 }

@@ -1,8 +1,12 @@
-package game;
+package ghost;
 
-import java.awt.Color;
+import game.Game;
+import game.SpriteSheet;
+import game.Unit;
+
+// import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+// import java.awt.Rectangle;
 
 public class Inky extends Unit {
     public static final long serialVersionUID = 4328743;
@@ -21,9 +25,9 @@ public class Inky extends Unit {
         //g.setColor(Color.CYAN);
         //g.fillRect(x, y, width, height);
     }
-
+    
     @Override
-    String getType() {
+    public String getType() {
         return "i";
     }
 }
