@@ -23,6 +23,9 @@ public abstract class Ghost extends Unit {
         this.sheet = spriteSheet;
     }
 
+    /**
+     * Each type of ghost defines it's own movement method.
+     */
     public abstract void move();
 
     /**

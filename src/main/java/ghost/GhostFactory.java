@@ -2,13 +2,27 @@ package ghost;
 
 import game.Game;
 
+/**
+ *
+ */
 public class GhostFactory {
+    /**
+     * Identifiers used for creating a specific type of Ghost.
+     */
     public static final String RANDY = "randy";
     public static final String CLYDE = "clyde";
     public static final String BlINKY = "blinky";
     public static final String INKY = "inky";
     public static final String PINKY = "pinky";
 
+    /**
+     * Creates a specific type of ghost based on the type identifier being passed.
+     * @param ghostType Holding the type of Ghost.
+     * @param x X coordinate where the ghost should be placed
+     * @param y Y coordinate where the ghost should be placed.
+     * @return Specific implementation of a ghost.
+     * @throws Exception Whenever the type doesn't meet any of the ghosts the method throws an exception.
+     */
     public static Ghost create(String ghostType, int x, int y) throws Exception {
 
         if (ghostType.equals(GhostFactory.RANDY)) {
