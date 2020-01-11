@@ -9,10 +9,9 @@ public class FruitPellet extends Unit {
     public static final SpriteSheet apple = new SpriteSheet("/sprite/apple.png");
     public static final SpriteSheet cherry = new SpriteSheet("/sprite/cherry.png");
     public static final SpriteSheet strawberry = new SpriteSheet("/sprite/strawberry.png");
-    public static final SpriteSheet melon = new SpriteSheet("/sprite/melon.png");
-    public static final SpriteSheet orange = new SpriteSheet("/sprite/orange.png");
+    public transient int num;
     public transient SpriteSheet fin;
-    public transient SpriteSheet[] fruitArray = new SpriteSheet[5];
+    public transient SpriteSheet[] fruitArray = new SpriteSheet[3];
 
 
     public FruitPellet(int x, int y) {
@@ -21,12 +20,27 @@ public class FruitPellet extends Unit {
         fruitArray[0] = apple;
         fruitArray[1] = cherry;
         fruitArray[2] = strawberry;
-        fruitArray[3] = melon;
-        fruitArray[4] = orange;
+
         Random rand = new Random();
-        int i = rand.nextInt(5);
+        int i = rand.nextInt(3);
+        num = i;
         fin = fruitArray[i];
 
+    }
+
+    public int points() {
+        if (num == 0) {
+            return 500;
+        }
+        int n = 1;
+        if (num == n) {
+            return 100;
+        }
+        int m = 2;
+        if (num == m) {
+            return 300;
+        }
+        return 0;
     }
 
     public void render(Graphics g) {

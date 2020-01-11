@@ -52,4 +52,10 @@ public class GetTypesTest {
         Pellet pellet = new Pellet(5, 5);
         Assertions.assertEquals(pellet.getType(), ".");
     }
+
+    @Test
+    void getFruitPelletTypeTest() {
+        FruitPellet fruitPellet = new FruitPellet(5, 5);
+        Assertions.assertEquals(fruitPellet.getType(), ",");
+    }
 }

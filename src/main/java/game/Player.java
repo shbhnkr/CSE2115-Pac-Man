@@ -1,5 +1,7 @@
 package game;
 
+import ghost.Randy;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,13 @@ public class Player extends Unit implements Observable {
 
     public void movePlayer(Point movePosition) {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
+    }
+
+    public boolean hasCollided(Randy randy) {
+        if (randy == null) {
+            return false;
+        }
+        return (this.getLocation().x == randy.getLocation().x && this.getLocation().y == randy.getLocation().y);
     }
 
     //public void movePlayer(int dx, int dy) {

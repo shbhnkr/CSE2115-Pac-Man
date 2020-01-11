@@ -9,8 +9,6 @@ variables:
   # Disable the Gradle daemon to ensure isolated runs of the CI pipeline.
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
   stage: build
@@ -22,7 +20,6 @@ build:
     paths:
       - build/
       - .gradle/
-
 checkStyle:
   stage: validate
   script: gradle checkstyleMain checkstyleTest
