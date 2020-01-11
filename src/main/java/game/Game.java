@@ -266,6 +266,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pelletEaten++;
                 win();
                 break;
+            case ',':
+//                FruitPellet fruitPel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                pelletEaten++;
+                win();
+                break;
             default:
                 break;
 
@@ -298,6 +304,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                pelletEaten++;
+                win();
+                break;
+            case ',':
+//                FruitPellet fruitPel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pelletEaten++;
                 win();
                 break;
@@ -335,6 +347,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pelletEaten++;
                 win();
                 break;
+            case ',':
+//                FruitPellet fruitPel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
+                pelletEaten++;
+                win();
+                break;
             default:
                 break;
         }
@@ -366,6 +384,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
+                pelletEaten++;
+                win();
+                break;
+            case ',':
+//                FruitPellet fruitPel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pelletEaten++;
                 win();
                 break;

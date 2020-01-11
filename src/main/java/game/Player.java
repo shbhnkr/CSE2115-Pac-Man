@@ -1,6 +1,6 @@
 package game;
 
-import ghost.Ghost;
+import ghost.Randy;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ public class Player extends Unit implements Observable {
     }
 
     public transient List<Observer> observerCollection;
-
 
     @Override
     public void registerObserver(Observer observer) {
@@ -53,7 +52,7 @@ public class Player extends Unit implements Observable {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public boolean hasCollided(Ghost randy) {
+    public boolean hasCollided(Randy randy) {
         if (randy == null) {
             return false;
         }
