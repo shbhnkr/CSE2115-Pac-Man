@@ -1,9 +1,7 @@
 package ghost;
 
-import game.Game;
 import game.MoveBuilder;
 import game.SpriteSheet;
-import game.Unit;
 
 import java.awt.*;
 import java.util.Random;
@@ -30,6 +28,7 @@ public class Randy extends Ghost {
                 if (this.getLocation().y == 0) {
                     Point point = new Point(this.getLocation().x, height - 20);
                     this.move(point);
+                    return;
                 }
                 this.moveUpGhost();
                 break;
@@ -37,6 +36,7 @@ public class Randy extends Ghost {
                 if (this.getLocation().y == height - 20) {
                     Point point = new Point(this.getLocation().x, 0);
                     this.move(point);
+                    return;
                 }
                 this.moveDownGhost();
                 break;
@@ -44,6 +44,7 @@ public class Randy extends Ghost {
                 if (this.getLocation().x == 0) {
                     Point point = new Point( width - 20, this.getLocation().y);
                     this.move(point);
+                    return;
                 }
                 this.moveLeftGhost();
                 break;
@@ -51,6 +52,7 @@ public class Randy extends Ghost {
                 if (this.getLocation().x == width - 20) {
                     Point point = new Point(0, this.getLocation().y);
                     this.move(point);
+                    return;
                 }
                 this.moveRightGhost();
                 break;
@@ -66,13 +68,6 @@ public class Randy extends Ghost {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-//    public boolean hasCollided(Player player) {
-//        if (player == null) {
-//            return false;
-//        }
-//        return (this.getLocation().x == player.getLocation().x && this.getLocation().y == player.getLocation().y);
-//    }
-
     public void moveUpGhost() {
         move(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
@@ -81,9 +76,6 @@ public class Randy extends Ghost {
             case '#':
                 move(MoveBuilder.DOWN(getLocation()));
                 break;
-//            case 'p':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
@@ -97,9 +89,6 @@ public class Randy extends Ghost {
             case '#':
                 move(MoveBuilder.UP(getLocation()));
                 break;
-//            case 'p':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
@@ -113,9 +102,6 @@ public class Randy extends Ghost {
             case '#':
                 move(MoveBuilder.RIGHT(getLocation()));
                 break;
-//            case 'p':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
@@ -129,9 +115,6 @@ public class Randy extends Ghost {
             case '#':
                 move(MoveBuilder.LEFT(getLocation()));
                 break;
-//            case 'p':
-//                System.out.println("PLAYER SHOULD DIE NOW");
-//                break;
             default:
                 break;
         }
