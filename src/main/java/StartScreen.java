@@ -1,6 +1,6 @@
 import database.DBconnection;
 import game.Game;
-import game.GameSettings;
+import game.Gamesettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class StartScreen {
     private transient Font font;
     private transient JTextArea pacmanText;
     private transient char password;
-    private transient GameSettings settings;
+    private transient Gamesettings settings;
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
@@ -87,7 +87,7 @@ public class StartScreen {
 
                 }
                 if (pop) {
-                    GameSettings settings = new GameSettings(20);
+                    Gamesettings settings = new Gamesettings(20);
                     Game game = new Game(settings, "board1.txt");
                     JFrame frame = new JFrame();
                     frame.setTitle(Game.TITLE);

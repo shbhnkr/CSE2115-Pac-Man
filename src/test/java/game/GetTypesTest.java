@@ -18,32 +18,32 @@ public class GetTypesTest {
     }
 
     @Test
-    void getBlinkyTypeTest() {
-        Blinky blinky = new Blinky(5, 5);
+    void getBlinkyTypeTest() throws Exception {
+        Ghost blinky = GhostFactory.create(GhostFactory.BlINKY, 20, 20);
         Assertions.assertEquals(blinky.getType(), "b");
     }
 
     @Test
-    void getPinkyTypeTest() {
-        Pinky pinky = new Pinky(5, 5);
+    void getPinkyTypeTest() throws Exception {
+        Ghost pinky = GhostFactory.create(GhostFactory.PINKY, 20, 20);
         Assertions.assertEquals(pinky.getType(), "g");
     }
 
     @Test
-    void getInkyTypeTest() {
-        Inky inky = new Inky(5, 5);
+    void getInkyTypeTest() throws Exception {
+        Ghost inky = GhostFactory.create(GhostFactory.INKY, 20, 20);
         Assertions.assertEquals(inky.getType(), "i");
     }
 
     @Test
-    void getClydeTypeTest() {
-        Clyde clyde = new Clyde(5, 5);
+    void getClydeTypeTest() throws Exception {
+        Ghost clyde = GhostFactory.create(GhostFactory.CLYDE, 20, 20);
         Assertions.assertEquals(clyde.getType(), "c");
     }
 
     @Test
-    void getRandyTypeTest() {
-        Randy randy = new Randy(5, 5);
+    void getRandyTypeTest() throws Exception {
+        Ghost randy = GhostFactory.create(GhostFactory.RANDY, 20, 20);
         Assertions.assertEquals(randy.getType(), "r");
     }
 
