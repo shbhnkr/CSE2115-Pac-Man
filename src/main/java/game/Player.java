@@ -1,16 +1,39 @@
 package game;
 
-import ghost.Randy;
+import ghost.Ghost;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Player extends Unit {
+public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
     public static int xPixelPlayer, yPixelPlayer = 0;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
+        this.observerCollection = new ArrayList<Observer>();
+    }
+
+    public transient List<Observer> observerCollection;
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observerCollection.add(observer);
+    }
+
+    @Override
+    public void deregisterObserver(Observer observer) {
+        this.observerCollection.remove(observer);
+    }
+
+    @Override
+    @SuppressWarnings("PMD")
+    public void notifyObservers() {
+        this.observerCollection.forEach(observer -> {
+            observer.observe(this.getType(), this.getLocation());
+        });
     }
 
     /**
@@ -29,11 +52,11 @@ public class Player extends Unit {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public boolean hasCollided(Randy randy) {
-        if (randy == null) {
+    public boolean hasCollided(Ghost ghost) {
+        if (ghost == null) {
             return false;
         }
-        return (this.getLocation().x == randy.getLocation().x && this.getLocation().y == randy.getLocation().y);
+        return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
     }
 
     //public void movePlayer(int dx, int dy) {
@@ -41,7 +64,7 @@ public class Player extends Unit {
     //}
 
     @Override
-    protected String getType() {
+    public String getType() {
         return "p";
     }
 }

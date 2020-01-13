@@ -1,5 +1,7 @@
 package game;
 
+import ghost.Ghost;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,10 +10,11 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Random;
 import java.util.Scanner;
 
-import static game.Level.*;
+import static game.Level.pellets;
+import static game.Level.fruitPellet;
+import static game.Level.pixels;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
@@ -21,7 +24,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
-    public static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
+    public static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
     public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
@@ -33,7 +36,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int height = 0;
     private static boolean isRunning;
     private static double timeSinceLastMove = System.currentTimeMillis();
-    private transient int point = 0;
 
 
     static {
@@ -42,16 +44,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public transient Level level;
     public transient Player player;
-    public transient ghost.Randy randy;
+    private transient Ghost randy;
     private transient Thread thread;
-    private transient GameSettings settings;
+    private transient Gamesettings settings;
 
     /**
      * Game class.
      *
      * @param settings the settings to use.
      */
-    public Game(GameSettings settings, String filePath) {
+    public Game(Gamesettings settings, String filePath) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(filePath);
         File file = new File(path.getFile());
@@ -168,11 +170,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         level.render(graphics);
         graphics.dispose();
         bufferStrategy.show();
-        if (randy != null) {
-            Random rand = new Random();
-            int random = rand.nextInt(4);
-            moveRandy(random);
-        }
+        moveGhosts();
     }
 
     @Override
@@ -183,43 +181,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-    public void moveRandy(int random) {
-        double currentTime = System.currentTimeMillis();
-        if ((currentTime - timeSinceLastMove) >= coolDown) {
-            if (player.hasCollided(randy)) {
+    public void moveGhosts() {
+        if(isRunning) {
+            double currentTime = System.currentTimeMillis();
+            if ((currentTime - timeSinceLastMove) >= coolDown) {
                 lose();
+                if (randy != null) {
+                    randy.moveGhost(getHeight(), getWidth());
+                }
+                timeSinceLastMove = currentTime;
             }
-            switch (random) {
-                case 0:
-                    if (randy.getLocation().y == 0) {
-                        Point point = new Point(randy.getLocation().x, getHeight() - 20);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveUpGhost();
-                    break;
-                case 1:
-                    if (randy.getLocation().y == getHeight() - 20) {
-                        Point point = new Point(randy.getLocation().x, 0);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveDownGhost();
-                    break;
-                case 2:
-                    if (randy.getLocation().x == 0) {
-                        Point point = new Point(getWidth() - 20, randy.getLocation().y);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveLeftGhost();
-                    break;
-                default:
-                    if (randy.getLocation().x == getWidth() - 20) {
-                        Point point = new Point(0, randy.getLocation().y);
-                        randy.moveGhost(point);
-                    }
-                    randy.moveRightGhost();
-                    break;
-            }
-            timeSinceLastMove = currentTime;
         }
     }
 
@@ -235,31 +206,34 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
+        if (isRunning) {
+            int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-            animation(32, 0, player, getGraphics());
-            moveUp();
-        }
+            if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
+                animation(32, 0, player, getGraphics());
+                moveUp();
+                lose();
+            }
 
-        if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-            animation(32, 48, player, getGraphics());
-            moveLeft();
-        }
+            if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
+                animation(32, 48, player, getGraphics());
+                moveLeft();
+                lose();
+            }
 
-        if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-            animation(32, 32, player, getGraphics());
-            moveDown();
+            if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
+                animation(32, 32, player, getGraphics());
+                moveDown();
+                lose();
+            }
 
-        }
-
-        if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-            animation(32, 16, player, getGraphics());
-            moveRight();
-
+            if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
+                animation(32, 16, player, getGraphics());
+                moveRight();
+                lose();
+            }
         }
     }
-
     public void moveUp() {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
@@ -289,22 +263,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
-                point += 10;
                 win();
                 break;
             case ',':
-                FruitPellet fpel = null;
-                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
-
-
             default:
                 break;
-
         }
     }
 
@@ -335,16 +302,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
-                point += 10;
                 win();
                 break;
             case ',':
-                FruitPellet fpel = null;
-                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -364,7 +327,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         } else {
             player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
             objectCheckerLeft();
-
         }
     }
 
@@ -374,20 +336,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(new Point(0, player.getLocation().y));
                 break;
             case '.':
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
-                point += 10;
                 win();
                 break;
             case ',':
-                FruitPellet fpel = null;
-                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -408,7 +366,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
             objectCheckerRight();
         }
-
     }
 
     private void objectCheckerRight() {
@@ -421,16 +378,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Pellet pel = null;
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
-                point += 10;
                 win();
                 break;
             case ',':
-                FruitPellet fpel = null;
-                point += fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20].points();
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fpel;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -441,15 +394,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void win() {
         if (pelletEaten == pelletCount) {
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
             }
             stop();
         }
     }
     private void lose() {
-        if (isRunning) {
-            JOptionPane.showMessageDialog(getParent(), "You Lost", "Oops", JOptionPane.DEFAULT_OPTION);
+        if (player.hasCollided(randy)) {
+            coolDown = 999999;
+            if (isRunning) {
+                JOptionPane.showMessageDialog(getParent(), "You Lost", "Oops", JOptionPane.DEFAULT_OPTION);
+            }
+            stop();
         }
-        stop();
     }
 }
