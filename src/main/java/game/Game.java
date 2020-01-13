@@ -182,13 +182,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     public void moveGhosts() {
-        double currentTime = System.currentTimeMillis();
-        if ((currentTime - timeSinceLastMove) >= coolDown) {
-            lose();
-            if (randy != null) {
-                randy.moveGhost(getHeight(), getWidth());
+        if(isRunning) {
+            double currentTime = System.currentTimeMillis();
+            if ((currentTime - timeSinceLastMove) >= coolDown) {
+                lose();
+                if (randy != null) {
+                    randy.moveGhost(getHeight(), getWidth());
+                }
+                timeSinceLastMove = currentTime;
             }
-            timeSinceLastMove = currentTime;
         }
     }
 
@@ -257,16 +259,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(new Point(player.getLocation().x, 0));
                 break;
             case '.':
+                Pellet pel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = null;
+                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
                 win();
                 break;
             case ',':
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = null;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -303,10 +305,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 win();
                 break;
             case ',':
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = null;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -335,17 +336,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 player.movePlayer(new Point(0, player.getLocation().y));
                 break;
             case '.':
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 Pellet pel = null;
+                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
                 pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
                 pelletEaten++;
                 win();
                 break;
             case ',':
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = null;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
@@ -381,10 +381,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 win();
                 break;
             case ',':
+                FruitPellet fruitPel = null;
                 pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = null;
-                pelletEaten++;
-                win();
+                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
                 break;
             default:
                 break;
