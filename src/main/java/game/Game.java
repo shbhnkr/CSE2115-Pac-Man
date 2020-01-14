@@ -45,6 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public transient Level level;
     public transient Player player;
     private transient Ghost randy;
+    private transient Ghost blinky;
     private transient Thread thread;
     private transient Gamesettings settings;
 
@@ -62,6 +63,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         randy = level.randy;
+        blinky = level.blinky;
         player = level.player;
         addKeyListener(this);
     }
@@ -188,6 +190,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 lose();
                 if (randy != null) {
                     randy.moveGhost(getHeight(), getWidth());
+                }
+                if (blinky != null) {
+                    blinky.moveGhost(getHeight(), getWidth());
                 }
                 timeSinceLastMove = currentTime;
             }
