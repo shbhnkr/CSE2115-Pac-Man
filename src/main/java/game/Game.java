@@ -18,7 +18,6 @@ import static game.Level.pixels;
 import static game.Player.xPixelPlayer;
 import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
-import static ghost.Randy.coolDown;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
@@ -35,6 +34,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
+    private static int coolDown = 300;
     private static double timeSinceLastMove = System.currentTimeMillis();
 
 
@@ -66,6 +66,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         blinky = level.blinky;
         player = level.player;
         addKeyListener(this);
+        registerObservers();
     }
 
 
@@ -181,6 +182,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             make();
         }
         stop();
+    }
+
+    public void registerObservers() {
+        player.registerObserver(blinky);
     }
 
     public void moveGhosts() {
@@ -398,6 +403,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public void win() {
         if (pelletEaten == pelletCount) {
+            coolDown = 999999;
             if (isRunning) {
                 JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
             }

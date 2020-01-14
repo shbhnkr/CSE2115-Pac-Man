@@ -44,8 +44,6 @@ public class Player extends Unit implements Observable {
     public void render(Graphics g) {
         SpriteSheet sheet = Game.playerSprite;
         g.drawImage(sheet.getSprite(xPixelPlayer, yPixelPlayer), x, y, 18, 18, null);
-        //g.setColor(Color.YELLOW);
-        //g.fillRect(x, y, width, height);
     }
 
     public void movePlayer(Point movePosition) {
@@ -58,10 +56,6 @@ public class Player extends Unit implements Observable {
         }
         return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
     }
-
-    //public void movePlayer(int dx, int dy) {
-        //this.setLocation(this.x + dx, this.y + dy);
-    //}
 
     @Override
     public String getType() {
