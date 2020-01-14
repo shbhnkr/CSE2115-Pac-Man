@@ -4,6 +4,7 @@ public class GameSettings {
     transient int squareSize;
     transient String username;
     public GameSettings(int squareSize,String username) {
+        this.username = username;
         this.squareSize = squareSize;
     }
 

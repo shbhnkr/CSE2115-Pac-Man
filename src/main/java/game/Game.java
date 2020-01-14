@@ -452,19 +452,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 int score = point;
 
 
-                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+                String query = "INSERT INTO `ScoreBoard`(`Username`, `score`) VALUES (?, ?)";
 
                 try {
                     conn = DBconnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, uname);
+                    ps.setString(1, uname+"");
                     ps.setInt(2, score);
-                    rs = ps.executeQuery();
-                    if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Invalid password/username");
-                    }
+                    ps.executeUpdate();
+                  //  if (rs.next()) {
+//                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "Invalid password/username");
+//                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
