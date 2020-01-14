@@ -1,6 +1,13 @@
 package ghost;
 
 import game.SpriteSheet;
+import game.Types;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Blinky extends Ghost {
 /**
@@ -17,19 +24,17 @@ public class Blinky extends Ghost {
 
     @Override
     public void moveGhost(int height, int width) {
-        //TODO
-//        Unit target = findPlayer(player);
-//        if (target != null) {
-//            Point destination = target.getLocation();
-//
-//            List<Point> path = shortestPath(getLocation(), destination, this);
-//            if (path != null && !path.isEmpty()) {
-//                for (int i = 0; i < path.size(); ) {
-//                    this.setLocation((int) path.get(0).getX(), (int) path.get(0).getX());
-//                    path.remove(0);
-//                }
-//            }
-//        }
+        Point destination = this.unitLocations.get(Types.playerType());
+        if (unitLocations.isEmpty() || destination == null) {
+            System.out.println("no destination!");
+            return;
+        }
+        List<Point> path = shortestPath(getLocation(), destination);
+        if (path != null && !path.isEmpty()) {
+            for (int i = 0; i < path.size(); ) {
+                path.remove(0);
+            }
+        }
     }
 
     @Override
@@ -37,13 +42,10 @@ public class Blinky extends Ghost {
         return "b";
     }
 
-//    public Unit findPlayer(Player player) {
-//        //TODO
-//        return null;
-//    }
-//
-//    public List<Point> shortestPath(Point location, Point target, Unit traveller) {
-//        //TODO
-//        return null;
-//    }
+    private List<Point> shortestPath(Point location, Point target) {
+        if (location.equals(target)) {
+            return new ArrayList<>();
+        }
+        return null;
+    }
 }
