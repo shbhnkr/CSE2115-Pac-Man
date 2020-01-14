@@ -46,6 +46,7 @@ public class MainMenu {
 
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
 
+
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         playGameButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
