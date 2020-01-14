@@ -459,7 +459,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     PreparedStatement ps = conn.prepareStatement(query);
                     ps.setString(1, uname);
                     ps.setInt(2, score);
-                    rs = ps.executeQuery();
+                    ps.executeUpdate();
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(null, "Welcome " + uname);
                     } else {
