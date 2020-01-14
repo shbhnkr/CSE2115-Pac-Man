@@ -1,5 +1,4 @@
 import database.DBconnection;
-import game.Game;
 import game.Gamesettings;
 
 import javax.swing.*;
@@ -43,7 +42,6 @@ public class StartScreen {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,17 +85,15 @@ public class StartScreen {
 
                 }
                 if (pop) {
-                    Gamesettings settings = new Gamesettings(20);
-                    Game game = new Game(settings, "board1.txt");
-                    JFrame frame = new JFrame();
-                    frame.setTitle(Game.TITLE);
-                    frame.add(game);
-                    frame.setResizable(false);
-                    frame.pack();
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                    game.start();
+
+                    MainMenu.frame = new JFrame("Main Menu");
+                    MainMenu.frame.setContentPane(new MainMenu().panel1);
+                    MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    MainMenu.frame.setSize(600, 300);
+                    MainMenu.frame.setLocation(500, 300);
+                    MainMenu.frame.setResizable(false);
+                    MainMenu.frame.setVisible(true);
+
                     frame1.setVisible(false);
                 }
 
