@@ -1,28 +1,23 @@
 package ghost;
 
-import game.Game;
-import game.Player;
 import game.SpriteSheet;
-import game.Unit;
-
-import java.awt.Graphics;
-
-// import java.awt.Point;
-// import java.util.List;
 
 public class Blinky extends Ghost {
+/**
+ * ghost 1.
+ */
     public static final long serialVersionUID = 4328743;
 
+    /**
+     * ghost constructor 1.
+     */
     public Blinky(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
 
     @Override
     public void moveGhost(int height, int width) {
-
-    }
-
-//    public void moveBlinky(Player player) {
+        //TODO
 //        Unit target = findPlayer(player);
 //        if (target != null) {
 //            Point destination = target.getLocation();
@@ -35,7 +30,8 @@ public class Blinky extends Ghost {
 //                }
 //            }
 //        }
-//    }
+    }
+
     @Override
     public String getType() {
         return "b";

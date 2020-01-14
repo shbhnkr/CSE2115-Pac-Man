@@ -1,6 +1,6 @@
 package game;
 
-import ghost.Randy;
+import ghost.Ghost;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,9 +17,6 @@ public class Player extends Unit implements Observable {
         this.observerCollection = new ArrayList<Observer>();
     }
 
-
-
-
     @Override
     public void registerObserver(Observer observer) {
         this.observerCollection.add(observer);
@@ -31,8 +28,7 @@ public class Player extends Unit implements Observable {
     }
 
     @Override
-    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings("PMD")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {
             observer.observe(this.getType(), this.getLocation());
@@ -55,11 +51,11 @@ public class Player extends Unit implements Observable {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public boolean hasCollided(Randy randy) {
-        if (randy == null) {
+    public boolean hasCollided(Ghost ghost) {
+        if (ghost == null) {
             return false;
         }
-        return (this.getLocation().x == randy.getLocation().x && this.getLocation().y == randy.getLocation().y);
+        return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
     }
 
     //public void movePlayer(int dx, int dy) {
