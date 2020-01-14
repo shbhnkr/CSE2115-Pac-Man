@@ -10,13 +10,12 @@ public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
     public static int xPixelPlayer, yPixelPlayer = 0;
+    public List<Observer> observerCollection;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
         this.observerCollection = new ArrayList<Observer>();
     }
-
-    public transient List<Observer> observerCollection;
 
     @Override
     public void registerObserver(Observer observer) {
@@ -66,5 +65,13 @@ public class Player extends Unit implements Observable {
     @Override
     public String getType() {
         return "p";
+    }
+
+    public List<Observer> getObserverCollection() {
+        return observerCollection;
+    }
+
+    public void setObserverCollection(List<Observer> observerCollection) {
+        this.observerCollection = observerCollection;
     }
 }
