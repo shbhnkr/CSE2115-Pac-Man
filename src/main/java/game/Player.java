@@ -21,17 +21,26 @@ public class Player extends Unit implements Observable {
 
     @Override
     public void registerObserver(Observer observer) {
+        if (observer == null) {
+            return;
+        }
         this.observerCollection.add(observer);
     }
 
     @Override
     public void deregisterObserver(Observer observer) {
+        if (observer == null || observerCollection == null) {
+            return;
+        }
         this.observerCollection.remove(observer);
     }
 
     @Override
     @SuppressWarnings("PMD")
     public void notifyObservers() {
+        if (observerCollection.isEmpty()) {
+            return;
+        }
         this.observerCollection.forEach(observer -> {
             observer.observe(this.getType(), this.getLocation());
         });
@@ -78,10 +87,12 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
                 Game.pelletEaten++;
+                game.point += 10;
                 game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
+                game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;
@@ -118,10 +129,12 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
                 Game.pelletEaten++;
+                game.point += 10;
                 game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
+                game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;
@@ -157,10 +170,12 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
                 Game.pelletEaten++;
+                game.point += 10;
                 game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
+                game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;
@@ -192,14 +207,16 @@ public class Player extends Unit implements Observable {
                 movePlayer(new Point(width - 20, getLocation().y));
                 break;
             case '.':
-                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 Pellet pel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
                 Game.pelletEaten++;
+                game.point += 10;
                 game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
+                game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;

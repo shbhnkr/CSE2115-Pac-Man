@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static boolean isRunning;
     private static int coolDown = 300;
     private static double timeSinceLastMove = System.currentTimeMillis();
-
+    public transient int point = 0;
 
     static {
         isRunning = false;
@@ -188,9 +188,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if(isRunning) {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
+                lose();
                 if (randy != null) {
                     randy.moveGhost(getHeight(), getWidth());
-                    lose();
                 }
                 timeSinceLastMove = currentTime;
             }
@@ -238,11 +238,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    void win() {
+    public void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won", "Congrats", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + "Your Score is: " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
             }
             stop();
         }
@@ -251,7 +251,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (player.hasCollided(randy)) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Lost", "Oops", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
             }
             stop();
         }
