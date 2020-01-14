@@ -460,11 +460,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     ps.setString(1, uname+"");
                     ps.setInt(2, score);
                     ps.executeUpdate();
-                  //  if (rs.next()) {
-//                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
-//                    } else {
-//                        JOptionPane.showMessageDialog(null, "Invalid password/username");
-//                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
