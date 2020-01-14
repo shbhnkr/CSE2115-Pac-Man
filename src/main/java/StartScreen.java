@@ -1,5 +1,4 @@
 import database.DBconnection;
-import game.Game;
 import game.GameSettings;
 
 import javax.swing.*;
@@ -86,17 +85,13 @@ public class StartScreen {
 
                 }
                 if (pop) {
-                    GameSettings settings = new GameSettings(20);
-                    Game game = new Game(settings, "board1.txt");
-                    JFrame frame = new JFrame();
-                    frame.setTitle(Game.TITLE);
-                    frame.add(game);
-                    frame.setResizable(false);
-                    frame.pack();
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                    game.start();
+                    MainMenu.frame = new JFrame("Main Menu");
+                    MainMenu.frame.setContentPane(new MainMenu().panel1);
+                    MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    MainMenu.frame.setSize(600, 300);
+                    MainMenu.frame.setLocation(500, 300);
+                    MainMenu.frame.setResizable(false);
+                    MainMenu.frame.setVisible(true);
                     frame1.setVisible(false);
                 }
 
