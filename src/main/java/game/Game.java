@@ -12,11 +12,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
 
-import static game.Level.pellets;
-import static game.Level.fruitPellet;
-import static game.Level.pixels;
-import static game.Player.xPixelPlayer;
-import static game.Player.yPixelPlayer;
 import static game.SpriteSheet.animation;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -137,6 +132,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         thread = new Thread(this);
         thread.start();
         registerObservers();
+        player.notifyObservers();
     }
 
     /**
@@ -192,12 +188,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if(isRunning) {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
-                lose();
                 if (randy != null) {
                     randy.moveGhost(getHeight(), getWidth());
-                }
-                if (blinky != null) {
-                    blinky.moveGhost(getHeight(), getWidth());
+                    lose();
                 }
                 timeSinceLastMove = currentTime;
             }
@@ -221,187 +214,31 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 animation(32, 0, player, getGraphics());
-                moveUp();
+                player.moveUp(this, getHeight());
                 lose();
             }
 
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
                 animation(32, 48, player, getGraphics());
-                moveLeft();
+                player.moveLeft(this, getWidth());
                 lose();
             }
 
             if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
                 animation(32, 32, player, getGraphics());
-                moveDown();
+                player.moveDown(this, getHeight());
                 lose();
             }
 
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
                 animation(32, 16, player, getGraphics());
-                moveRight();
+                player.moveRight(this, getWidth());
                 lose();
             }
         }
     }
-    public void moveUp() {
-        xPixelPlayer = 16;
-        yPixelPlayer = 0;
-        if (player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#') {
-            return;
-        }
-        if (player.getLocation().y == 0) {
-            Point point = new Point(player.getLocation().x, getHeight() - 20);
-            player.movePlayer(point);
 
-            objectCheckerUp();
-        } else {
-            player.movePlayer(MoveBuilder.UP(player.getLocation()));
-            objectCheckerUp();
-
-        }
-
-    }
-
-    private void objectCheckerUp() {
-        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-            case '#':
-                player.movePlayer(new Point(player.getLocation().x, 0));
-                break;
-            case '.':
-                Pellet pel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletEaten++;
-                win();
-                break;
-            case ',':
-                FruitPellet fruitPel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveDown() {
-        xPixelPlayer = 16;
-        yPixelPlayer = 32;
-        if (player.getLocation().y != getHeight() - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#') {
-            return;
-        }
-        if (player.getLocation().y == getHeight() - 20) {
-            Point point = new Point(player.getLocation().x, 0);
-            player.movePlayer(point);
-            objectCheckerDown();
-        } else {
-            player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
-            objectCheckerDown();
-        }
-
-    }
-
-    private void objectCheckerDown() {
-        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-            case '#':
-                player.movePlayer(new Point(player.getLocation().x, getHeight() - 20));
-                break;
-            case '.':
-                Pellet pel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletEaten++;
-                win();
-                break;
-            case ',':
-                FruitPellet fruitPel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveLeft() {
-        xPixelPlayer = 16;
-        yPixelPlayer = 48;
-        if (player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#') {
-            return;
-        }
-        if (player.getLocation().x == 0) {
-            Point point = new Point(getWidth() - 20, player.getLocation().y);
-            player.movePlayer(point);
-            objectCheckerLeft();
-        } else {
-            player.movePlayer(MoveBuilder.LEFT(player.getLocation()));
-            objectCheckerLeft();
-        }
-    }
-
-    private void objectCheckerLeft() {
-        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-            case '#':
-                player.movePlayer(new Point(0, player.getLocation().y));
-                break;
-            case '.':
-                Pellet pel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletEaten++;
-                win();
-                break;
-            case ',':
-                FruitPellet fruitPel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveRight() {
-        xPixelPlayer = 16;
-        yPixelPlayer = 16;
-        if (player.getLocation().x != getWidth() - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#') {
-            return;
-        }
-        if (player.getLocation().x == getWidth() - 20) {
-            Point point = new Point(0, player.getLocation().y);
-            player.movePlayer(point);
-            objectCheckerRight();
-        } else {
-            player.movePlayer(MoveBuilder.RIGHT(player.getLocation()));
-            objectCheckerRight();
-        }
-    }
-
-    private void objectCheckerRight() {
-        switch (pixels[player.getLocation().x / 20][player.getLocation().y / 20]) {
-            case '#':
-                player.movePlayer(new Point(getWidth() - 20, player.getLocation().y));
-                break;
-            case '.':
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                Pellet pel = null;
-                pellets[player.getLocation().x / 20][player.getLocation().y / 20] = pel;
-                pelletEaten++;
-                win();
-                break;
-            case ',':
-                FruitPellet fruitPel = null;
-                pixels[player.getLocation().x / 20][player.getLocation().y / 20] = ' ';
-                fruitPellet[player.getLocation().x / 20][player.getLocation().y / 20] = fruitPel;
-                break;
-            default:
-                break;
-        }
-    }
-
-
-    public void win() {
+    void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {

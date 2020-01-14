@@ -26,7 +26,8 @@ public class Blinky extends Ghost {
     public void moveGhost(int height, int width) {
         Point destination = this.unitLocations.get(Types.playerType());
         if (unitLocations.isEmpty() || destination == null) {
-            throw new IllegalArgumentException();
+            System.out.println("no destination!");
+            return;
         }
         List<Point> path = shortestPath(getLocation(), destination);
         if (path != null && !path.isEmpty()) {

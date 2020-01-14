@@ -6,6 +6,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static game.Level.*;
+
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
@@ -49,7 +51,164 @@ public class Player extends Unit implements Observable {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public boolean hasCollided(Ghost ghost) {
+    void moveUp(Game game, int height) {
+        xPixelPlayer = 16;
+        yPixelPlayer = 0;
+        if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+            return;
+        }
+        if (getLocation().y == 0) {
+            Point point = new Point(getLocation().x, height - 20);
+            movePlayer(point);
+            objectCheckerUp(game);
+        } else {
+            movePlayer(MoveBuilder.UP(getLocation()));
+            objectCheckerUp(game);
+        }
+        notifyObservers();
+    }
+
+    private void objectCheckerUp(Game game) {
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                movePlayer(new Point(getLocation().x, 0));
+                break;
+            case '.':
+                Pellet pel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                pellets[getLocation().x / 20][getLocation().y / 20] = pel;
+                Game.pelletEaten++;
+                game.win();
+                break;
+            case ',':
+                FruitPellet fruitPel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void moveLeft(Game game, int width) {
+        xPixelPlayer = 16;
+        yPixelPlayer = 48;
+        if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
+            return;
+        }
+        if (getLocation().x == 0) {
+            Point point = new Point(width - 20, getLocation().y);
+            movePlayer(point);
+            objectCheckerLeft(game);
+        } else {
+            movePlayer(MoveBuilder.LEFT(getLocation()));
+            objectCheckerLeft(game);
+        }
+        notifyObservers();
+    }
+
+
+    private void objectCheckerLeft(Game game) {
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                movePlayer(new Point(0, getLocation().y));
+                break;
+            case '.':
+                Pellet pel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                pellets[getLocation().x / 20][getLocation().y / 20] = pel;
+                Game.pelletEaten++;
+                game.win();
+                break;
+            case ',':
+                FruitPellet fruitPel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    void moveDown(Game game, int height) {
+        xPixelPlayer = 16;
+        yPixelPlayer = 32;
+        if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
+            return;
+        }
+        if (getLocation().y == height - 20) {
+            Point point = new Point(getLocation().x, 0);
+            movePlayer(point);
+            objectCheckerDown(game, height);
+        } else {
+            movePlayer(MoveBuilder.DOWN(getLocation()));
+            objectCheckerDown(game, height);
+        }
+        notifyObservers();
+    }
+
+    private void objectCheckerDown(Game game, int height) {
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                movePlayer(new Point(getLocation().x, height - 20));
+                break;
+            case '.':
+                Pellet pel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                pellets[getLocation().x / 20][getLocation().y / 20] = pel;
+                Game.pelletEaten++;
+                game.win();
+                break;
+            case ',':
+                FruitPellet fruitPel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void moveRight(Game game, int width) {
+        xPixelPlayer = 16;
+        yPixelPlayer = 16;
+        if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
+            return;
+        }
+        if (getLocation().x == width - 20) {
+            Point point = new Point(0, getLocation().y);
+            movePlayer(point);
+            objectCheckerRight(game, width);
+        } else {
+            movePlayer(MoveBuilder.RIGHT(getLocation()));
+            objectCheckerRight(game, width);
+        }
+        notifyObservers();
+    }
+
+    private void objectCheckerRight(Game game, int width) {
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                movePlayer(new Point(width - 20, getLocation().y));
+                break;
+            case '.':
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                Pellet pel = null;
+                pellets[getLocation().x / 20][getLocation().y / 20] = pel;
+                Game.pelletEaten++;
+                game.win();
+                break;
+            case ',':
+                FruitPellet fruitPel = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            default:
+                break;
+        }
+    }
+
+    boolean hasCollided(Ghost ghost) {
         if (ghost == null) {
             return false;
         }

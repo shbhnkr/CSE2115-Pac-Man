@@ -55,8 +55,6 @@ public abstract class Ghost extends Unit implements Observer, Observable {
      */
     public void render(Graphics g) {
         g.drawImage(this.sheet.getSprite(0,0),x,y,18,18, null);
-        //g.setColor(Color.ORANGE);
-        //g.fillRect(x, y, width, height);
     }
 
     /**
