@@ -17,9 +17,6 @@ public class Player extends Unit implements Observable {
         this.observerCollection = new ArrayList<Observer>();
     }
 
-
-
-
     @Override
     public void registerObserver(Observer observer) {
         this.observerCollection.add(observer);
@@ -31,8 +28,7 @@ public class Player extends Unit implements Observable {
     }
 
     @Override
-    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings("PMD")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {
             observer.observe(this.getType(), this.getLocation());

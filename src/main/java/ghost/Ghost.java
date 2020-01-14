@@ -5,20 +5,20 @@ import game.Observer;
 import game.SpriteSheet;
 import game.Unit;
 
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-//import java.util.List;
+import java.util.List;
 
 import java.awt.*;
 
 public abstract class Ghost extends Unit implements Observer, Observable {
     public static final long serialVersionUID = 4328743;
 
-    // Holding the SpriteSheet to show the different type of ghosts
+    // Holding the spritesheet to show the different type of ghosts
     private SpriteSheet sheet;
 
     // Holds a list of all the locations for objects that are observed.
-    public transient LinkedHashMap<String, Point> unitLocations;
+    public LinkedHashMap<String, Point> unitLocations;
 
 
     public List<Observer> observerCollection;
@@ -27,7 +27,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
      * Constructor for the different ghosts.
      * @param x position on the map.
      * @param y position on the map.
-     * @param spriteSheet the image/SpriteSheet to display.
+     * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
         setBounds(x, y, 20, 20);
