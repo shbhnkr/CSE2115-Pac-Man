@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
 
 import static game.Level.pixels;
 
@@ -24,7 +25,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     public LinkedHashMap<String, Point> unitLocations;
 
 
-    public List<Observer> observerCollection;
+    private List<Observer> observerCollection;
 
     /**
      * Constructor for the different ghosts.
@@ -51,7 +52,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Renders each ghost with a specific sprite.
-     * @param g
+     * @param g the graphics to render
      */
     public void render(Graphics g) {
         g.drawImage(this.sheet.getSprite(0,0),x,y,18,18, null);
@@ -67,7 +68,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Change the sprite sheet.
-     * @param sheet
+     * @param sheet the sprite sheet to set to
      */
     public void setSheet(SpriteSheet sheet) {
         this.sheet = sheet;
@@ -75,62 +76,62 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      *
-     * @param type
-     * @param location
+     * @param type the type of the unit
+     * @param location the location of the unit
      */
     @Override
     public void observe(String type, Point location) {
         unitLocations.put(type, location);
     }
 
-    public static int xPixelGhost = 0;
-    public static int yPixelGhost = 0;
+    private static int xPixelGhost = 0;
+    private static int yPixelGhost = 0;
 
 
-    public void move(Point movePosition) {
+    void move(Point movePosition) {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    public void moveUpGhost() {
+    void moveUpGhost() {
         move(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 0;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                move(MoveBuilder.DOWN(getLocation()));
+                move(MoveBuilder.LEFT(getLocation()));
                 break;
             default:
                 break;
         }
     }
 
-    public void moveDownGhost() {
+    void moveDownGhost() {
         move(MoveBuilder.DOWN(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 32;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                move(MoveBuilder.UP(getLocation()));
+                move(MoveBuilder.LEFT(getLocation()));
                 break;
             default:
                 break;
         }
     }
 
-    public void moveLeftGhost() {
+    void moveLeftGhost() {
         move(MoveBuilder.LEFT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 48;
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                move(MoveBuilder.RIGHT(getLocation()));
+                move(MoveBuilder.LEFT(getLocation()));
                 break;
             default:
                 break;
         }
     }
 
-    public void moveRightGhost() {
+    void moveRightGhost() {
         move(MoveBuilder.RIGHT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 16;
@@ -180,7 +181,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Set the observer collection.
-     * @param observerCollection
+     * @param observerCollection the observerCollection to set to
      */
     public void setObserverCollection(List<Observer> observerCollection) {
         this.observerCollection = observerCollection;

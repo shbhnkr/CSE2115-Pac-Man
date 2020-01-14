@@ -168,6 +168,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
+    @SuppressWarnings("PMD")
     private void registerObservers() {
         if (player != null) {
             for (Ghost ghost : level.ghosts) {
