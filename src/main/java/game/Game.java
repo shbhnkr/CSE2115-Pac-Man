@@ -1,7 +1,7 @@
 package game;
 
+import database.DBconnection;
 import ghost.Randy;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -10,6 +10,10 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,6 +37,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletEaten = 0;
     private static int width = 0;
     private static int height = 0;
+    private transient Connection conn = null;
+    private transient ResultSet rs = null;
     private static boolean isRunning;
     private static double timeSinceLastMove = System.currentTimeMillis();
     private transient int point = 0;
@@ -441,8 +447,29 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             if (isRunning) {
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                String uname = settings.username;
+                ;
+                int score = point;
+
+
+                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+                try {
+                    conn = DBconnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, uname);
+                    ps.setInt(2, score);
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid password/username");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                stop();
             }
-            stop();
         }
     }
 }
