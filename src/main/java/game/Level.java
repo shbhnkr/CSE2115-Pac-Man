@@ -14,7 +14,6 @@ import static game.Game.pelletCount;
 
 public class Level {
 
-
     public transient int width;
     public transient int height;
     public transient Wall[][] walls;
@@ -76,7 +75,7 @@ public class Level {
                             inky = GhostFactory.create(GhostFactory.INKY, x * 20, y * 20);
                             break;
                         case 'b':
-                            blinky = GhostFactory.create(GhostFactory.BlINKY, x * 20, y * 20);
+                            blinky = GhostFactory.create(GhostFactory.BLINKY, x * 20, y * 20);
                             break;
                         case 'g':
                             pinky = GhostFactory.create(GhostFactory.PINKY, x * 20, y * 20);
@@ -86,8 +85,6 @@ public class Level {
                             break;
                         case 'r':
                             randy = GhostFactory.create(GhostFactory.RANDY, x * 20, y * 20);
-                            break;
-                        case ' ':
                             break;
                         default:
                             break;
@@ -132,12 +129,8 @@ public class Level {
      * @param g Graphics
      */
     public void render(Graphics g) {
-        //System.out.println(width+" " +height+"dtyas");
-        //int n = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                //System.out.println(n+" dtffgyas");
-                // n++;
                 if (fruitPellet[x][y] != null) {
                     fruitPellet[x][y].render(g);
                 }

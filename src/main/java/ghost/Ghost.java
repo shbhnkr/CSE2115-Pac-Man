@@ -1,5 +1,6 @@
 package ghost;
 
+import game.MoveBuilder;
 import game.Observable;
 import game.Observer;
 import game.SpriteSheet;
@@ -10,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.awt.*;
+
+import static game.Level.pixels;
 
 public abstract class Ghost extends Unit implements Observer, Observable {
     public static final long serialVersionUID = 4328743;
@@ -52,8 +55,6 @@ public abstract class Ghost extends Unit implements Observer, Observable {
      */
     public void render(Graphics g) {
         g.drawImage(this.sheet.getSprite(0,0),x,y,18,18, null);
-        //g.setColor(Color.ORANGE);
-        //g.fillRect(x, y, width, height);
     }
 
     /**
@@ -72,12 +73,75 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         this.sheet = sheet;
     }
 
-
+    /**
+     *
+     * @param type
+     * @param location
+     */
     @Override
     public void observe(String type, Point location) {
         unitLocations.put(type, location);
     }
 
+    public static int xPixelGhost = 0;
+    public static int yPixelGhost = 0;
+
+
+    public void move(Point movePosition) {
+        this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
+    }
+
+    public void moveUpGhost() {
+        move(MoveBuilder.UP(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 0;
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                move(MoveBuilder.DOWN(getLocation()));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void moveDownGhost() {
+        move(MoveBuilder.DOWN(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 32;
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                move(MoveBuilder.UP(getLocation()));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void moveLeftGhost() {
+        move(MoveBuilder.LEFT(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 48;
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                move(MoveBuilder.RIGHT(getLocation()));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void moveRightGhost() {
+        move(MoveBuilder.RIGHT(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 16;
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                move(MoveBuilder.LEFT(getLocation()));
+                break;
+            default:
+                break;
+        }
+    }
 
     public LinkedHashMap<String, Point> getUnitLocations() {
         return unitLocations;
