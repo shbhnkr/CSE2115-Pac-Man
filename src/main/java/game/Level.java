@@ -4,10 +4,12 @@ package game;
 import ghost.Ghost;
 import ghost.GhostFactory;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static game.Game.pelletCount;
@@ -16,16 +18,17 @@ public class Level {
 
     public transient int width;
     public transient int height;
-    public transient Wall[][] walls;
-    public transient Player player;
-    public transient Ghost inky;
-    public transient Ghost blinky;
-    public transient Ghost pinky;
-    public transient Ghost clyde;
-    public transient Ghost randy;
-    public static Pellet[][] pellets;
-    public static FruitPellet[][] fruitPellet;
+    transient Wall[][] walls;
+    transient Player player;
+    transient Ghost inky;
+    transient Ghost blinky;
+    transient Ghost pinky;
+    transient Ghost clyde;
+    transient Ghost randy;
+    static Pellet[][] pellets;
+    static FruitPellet[][] fruitPellet;
     public static char[][] pixels;
+    transient List<Ghost> ghosts = new ArrayList<>();
 
     /**
      * Generates a level from given file.
@@ -73,18 +76,23 @@ public class Level {
                             break;
                         case 'i':
                             inky = GhostFactory.create(GhostFactory.INKY, x * 20, y * 20);
+                            ghosts.add(inky);
                             break;
                         case 'b':
                             blinky = GhostFactory.create(GhostFactory.BLINKY, x * 20, y * 20);
+                            ghosts.add(blinky);
                             break;
                         case 'g':
                             pinky = GhostFactory.create(GhostFactory.PINKY, x * 20, y * 20);
+                            ghosts.add(pinky);
                             break;
                         case 'c':
                             clyde = GhostFactory.create(GhostFactory.CLYDE, x * 20, y * 20);
+                            ghosts.add(clyde);
                             break;
                         case 'r':
                             randy = GhostFactory.create(GhostFactory.RANDY, x * 20, y * 20);
+                            ghosts.add(randy);
                             break;
                         default:
                             break;
