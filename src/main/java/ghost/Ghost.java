@@ -1,5 +1,6 @@
 package ghost;
 
+import game.Observable;
 import game.Observer;
 import game.SpriteSheet;
 import game.Unit;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import java.awt.*;
 
-public abstract class Ghost extends Unit implements Observer {
+public abstract class Ghost extends Unit implements Observer, Observable {
     public static final long serialVersionUID = 4328743;
 
     // Holding the spritesheet to show the different type of ghosts
@@ -18,6 +19,9 @@ public abstract class Ghost extends Unit implements Observer {
 
     // Holds a list of all the locations for objects that are observed.
     public LinkedHashMap<String, Point> unitLocations;
+
+
+    public List<Observer> observerCollection;
 
     /**
      * Constructor for the different ghosts.
@@ -29,6 +33,7 @@ public abstract class Ghost extends Unit implements Observer {
         setBounds(x, y, 20, 20);
 
         this.unitLocations = new LinkedHashMap<>();
+        this.observerCollection = new ArrayList<Observer>();
 
         this.sheet = spriteSheet;
     }
@@ -80,5 +85,40 @@ public abstract class Ghost extends Unit implements Observer {
 
     public void setUnitLocations(LinkedHashMap<String, Point> unitLocations) {
         this.unitLocations = unitLocations;
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observerCollection.add(observer);
+    }
+
+    @Override
+    public void deregisterObserver(Observer observer) {
+        this.observerCollection.remove(observer);
+    }
+
+    @Override
+    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    public void notifyObservers() {
+        this.observerCollection.forEach(observer -> {
+            observer.observe(this.getType(), this.getLocation());
+        });
+    }
+
+    /**
+     * Get the observer collection.
+     * @return collection of observers.
+     */
+    public List<Observer> getObserverCollection() {
+        return observerCollection;
+    }
+
+    /**
+     * Set the observer collection.
+     * @param observerCollection
+     */
+    public void setObserverCollection(List<Observer> observerCollection) {
+        this.observerCollection = observerCollection;
     }
 }
