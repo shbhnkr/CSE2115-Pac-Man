@@ -1,5 +1,4 @@
 import database.DBconnection;
-import game.Gamesettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +22,6 @@ public class StartScreen {
     private transient Font font;
     private transient JTextArea pacmanText;
     private transient char password;
-    private transient Gamesettings settings;
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;

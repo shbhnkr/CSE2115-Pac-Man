@@ -19,7 +19,7 @@ public class GetTypesTest {
 
     @Test
     void getBlinkyTypeTest() throws Exception {
-        Ghost blinky = GhostFactory.create(GhostFactory.BlINKY, 20, 20);
+        Ghost blinky = GhostFactory.create(GhostFactory.BLINKY, 20, 20);
         Assertions.assertEquals(blinky.getType(), "b");
     }
 

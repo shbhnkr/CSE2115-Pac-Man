@@ -59,66 +59,6 @@ public class Randy extends Ghost {
         }
     }
 
-    public static int xPixelGhost = 0;
-    public static int yPixelGhost = 0;
-    public static int coolDown = 300;
-
-
-    public void move(Point movePosition) {
-        this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
-    }
-
-    public void moveUpGhost() {
-        move(MoveBuilder.UP(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 0;
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.DOWN(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveDownGhost() {
-        move(MoveBuilder.DOWN(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 32;
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.UP(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveLeftGhost() {
-        move(MoveBuilder.LEFT(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 48;
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.RIGHT(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void moveRightGhost() {
-        move(MoveBuilder.RIGHT(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 16;
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.LEFT(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
     @Override
     public String getType() {
         return "r";

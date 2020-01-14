@@ -11,7 +11,7 @@ public class GhostFactory {
      */
     public static final String RANDY = "randy";
     public static final String CLYDE = "clyde";
-    public static final String BlINKY = "blinky";
+    public static final String BLINKY = "blinky";
     public static final String INKY = "inky";
     public static final String PINKY = "pinky";
 
@@ -29,7 +29,7 @@ public class GhostFactory {
             return new Randy(x, y, Game.randySprite);
         }
 
-        if (ghostType.equals(GhostFactory.BlINKY)) {
+        if (ghostType.equals(GhostFactory.BLINKY)) {
             return new Blinky(x, y, Game.blinkySprite);
         }
 
