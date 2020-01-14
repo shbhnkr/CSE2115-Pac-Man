@@ -45,7 +45,6 @@ public class Blinky extends Ghost {
         if (location.equals(target)) {
             return new ArrayList<>();
         }
-        List<Point> queue = new ArrayList<>();
         return null;
     }
 }

@@ -66,9 +66,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         blinky = level.blinky;
         player = level.player;
         addKeyListener(this);
-        registerObservers();
     }
-
 
     @Override
     public int getWidth() {
@@ -138,6 +136,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
+        registerObservers();
     }
 
     /**
@@ -183,6 +182,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         stop();
     }
+
 
     public void registerObservers() {
         player.registerObserver(blinky);
