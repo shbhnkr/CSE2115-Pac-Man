@@ -10,13 +10,15 @@ public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
     public static int xPixelPlayer, yPixelPlayer = 0;
+    public List<Observer> observerCollection;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
         this.observerCollection = new ArrayList<Observer>();
     }
 
-    public transient List<Observer> observerCollection;
+
+
 
     @Override
     public void registerObserver(Observer observer) {
@@ -29,7 +31,8 @@ public class Player extends Unit implements Observable {
     }
 
     @Override
-    @SuppressWarnings("PMD")
+    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {
             observer.observe(this.getType(), this.getLocation());
@@ -66,5 +69,13 @@ public class Player extends Unit implements Observable {
     @Override
     public String getType() {
         return "p";
+    }
+
+    public List<Observer> getObserverCollection() {
+        return observerCollection;
+    }
+
+    public void setObserverCollection(List<Observer> observerCollection) {
+        this.observerCollection = observerCollection;
     }
 }
