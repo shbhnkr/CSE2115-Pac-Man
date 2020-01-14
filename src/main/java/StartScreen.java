@@ -28,6 +28,7 @@ public class StartScreen {
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
+    public String username;
 
     /**
      * Constructor.
@@ -65,6 +66,7 @@ public class StartScreen {
                     rs = ps.executeQuery();
                     if (rs.next()) {
                         pop = true;
+                        username = uname;
                         JOptionPane.showMessageDialog(null, "Welcome " + uname);
                     } else {
                         JOptionPane.showMessageDialog(null, "Invalid password/username");
@@ -86,7 +88,7 @@ public class StartScreen {
 
                 }
                 if (pop) {
-                    GameSettings settings = new GameSettings(20);
+                    GameSettings settings = new GameSettings(20,username);
                     Game game = new Game(settings, "board1.txt");
                     JFrame frame = new JFrame();
                     frame.setTitle(Game.TITLE);
@@ -143,6 +145,9 @@ public class StartScreen {
                 if (textField1.getText().equals("")) {
                     textField1.setText("Enter Username");
                 }
+            }
+            public String getUserName(){
+                return username;
             }
         });
 
