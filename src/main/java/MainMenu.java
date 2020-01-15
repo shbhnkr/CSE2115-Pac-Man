@@ -48,8 +48,11 @@ public class MainMenu {
 
 
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        comboBox1.setBackground(Color.orange);
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        logoutButton.setBackground(Color.orange);
         playGameButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        playGameButton.setBackground(Color.orange);
         playGameButton.addActionListener(new ActionListener() {
 
 

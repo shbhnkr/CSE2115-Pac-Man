@@ -122,9 +122,10 @@ public class StartScreen {
         Color color = new Color(0, 0, 0);
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         passwordField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
-        loginButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
-        newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
-
+        loginButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+        loginButton.setBackground(Color.orange);
+        newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+        newUserClickHereButton.setBackground(Color.orange);
         textField1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
