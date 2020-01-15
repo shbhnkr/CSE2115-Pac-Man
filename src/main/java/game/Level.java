@@ -37,7 +37,7 @@ public class Level {
      * @param width1  Width
      * @param height1 Height
      */
-    public Level(URL path, int width1, int height1, int squareSize) {
+    Level(URL path, int width1, int height1, int squareSize) {
         this.width = width1 / squareSize;
         this.height = height1 / squareSize;
         setPixels(new char[width][height]);
@@ -99,35 +99,33 @@ public class Level {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO make a ghostFactory expection.
             e.printStackTrace();
-        }
+        }// TODO make a ghostFactory expection.
+
     }
 
-    public static Pellet[][] getPellets() {
+    private static Pellet[][] getPellets() {
         return pellets;
     }
 
-    public static void setPellets(Pellet[][] pellets) {
+    private static void setPellets(Pellet[][] pellets) {
         Level.pellets = pellets;
     }
 
-    public static FruitPellet[][] getFruitPellets() {
+    private static FruitPellet[][] getFruitPellets() {
         return fruitPellet;
     }
 
-    public static void setFruitPellets(FruitPellet[][] fruitPellet) {
+    private static void setFruitPellets(FruitPellet[][] fruitPellet) {
         Level.fruitPellet = fruitPellet;
     }
 
-    public static char[][] getPixels() {
+    private static char[][] getPixels() {
         return pixels;
     }
 
-    public static void setPixels(char[][] pixels) {
+    private static void setPixels(char[][] pixels) {
         Level.pixels = pixels;
     }
 
@@ -136,7 +134,7 @@ public class Level {
      *
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    void render(Graphics g) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (fruitPellet[x][y] != null) {

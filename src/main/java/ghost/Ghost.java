@@ -105,19 +105,6 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         }
     }
 
-    void moveDownGhost() {
-        move(MoveBuilder.DOWN(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 32;
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.UP(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
-
     void moveLeftGhost() {
         move(MoveBuilder.LEFT(getLocation()));
         xPixelGhost = 0;
@@ -125,6 +112,19 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 move(MoveBuilder.RIGHT(getLocation()));
+                break;
+            default:
+                break;
+        }
+    }
+
+    void moveDownGhost() {
+        move(MoveBuilder.DOWN(getLocation()));
+        xPixelGhost = 0;
+        yPixelGhost = 32;
+        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
+            case '#':
+                move(MoveBuilder.UP(getLocation()));
                 break;
             default:
                 break;

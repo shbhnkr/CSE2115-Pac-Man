@@ -36,7 +36,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
-    private static int coolDown = 300;
+    private static int coolDown = 500;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int point = 0;
 
