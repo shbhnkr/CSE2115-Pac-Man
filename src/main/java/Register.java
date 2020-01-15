@@ -24,7 +24,7 @@ public class Register {
     private transient JTextField enterUsernameTextField;
     private transient JPasswordField enterPasswordPasswordField;
     private transient JTextArea pacmanTextArea;
-    private JButton button2;
+    private transient JButton button2;
 
     private transient Font font;
     private transient char passwordChar;
