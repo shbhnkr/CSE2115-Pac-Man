@@ -2,14 +2,21 @@ package game;
 
 import ghost.Ghost;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+
 import java.net.URL;
+
 import java.util.Scanner;
 
 import static game.SpriteSheet.animation;
@@ -18,7 +25,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
     public static final String TITLE = "Pac-Man";
-    public static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
+    static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
     public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
@@ -29,7 +36,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int width = 0;
     private static int height = 0;
     private static boolean isRunning;
-    private static int coolDown = 300;
+    private static int coolDown = 500;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int point = 0;
 
@@ -37,10 +44,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         isRunning = false;
     }
 
-    public transient Level level;
+    private transient Level level;
     public transient Player player;
-    private transient Ghost randy;
-    private transient Ghost blinky;
     private transient Thread thread;
     private transient Gamesettings settings;
 
@@ -57,8 +62,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Dimension dimension = this.calculateDimensions(file);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
-        randy = level.randy;
-        blinky = level.blinky;
         player = level.player;
         addKeyListener(this);
     }
@@ -105,20 +108,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             ex.printStackTrace();
         }
         return new Dimension(width, height);
-    }
-
-    /**
-     * Initializes a Jframe class, specifies settings and binds it to the current Game / Component.
-     */
-    private void initFrame() {
-        JFrame frame = new JFrame();
-        frame.setTitle(Game.TITLE);
-        frame.add(this);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 
     /**
@@ -179,18 +168,36 @@ public class Game extends Canvas implements Runnable, KeyListener {
         stop();
     }
 
-
-    public void registerObservers() {
-        player.registerObserver(blinky);
+    @SuppressWarnings("PMD")
+    private void registerObservers() {
+        if (player != null) {
+            for (Ghost ghost : level.ghosts) {
+                if (ghost.getType().equals(Types.blinkyType())) {
+                    player.registerObserver(ghost);
+                } else if (ghost.getType().equals(Types.pinkyType())) {
+                    player.registerObserver(ghost);
+                } else if (ghost.getType().equals(Types.inkyType())) {
+                    player.registerObserver(ghost);
+                    if (level.blinky != null) {
+                        level.blinky.registerObserver(ghost);
+                    }
+                } else if (ghost.getType().equals(Types.clydeType())) {
+                    player.registerObserver(ghost);
+                } else {
+                    return;
+                }
+            }
+        }
     }
 
-    public void moveGhosts() {
+    @SuppressWarnings("PMD")
+    private void moveGhosts() {
         if(isRunning) {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
                 lose();
-                if (randy != null) {
-                    randy.moveGhost(getHeight(), getWidth());
+                for(Ghost ghost : level.ghosts) {
+                    ghost.moveGhost(getHeight(), getWidth());
                 }
                 timeSinceLastMove = currentTime;
             }
@@ -238,7 +245,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public void win() {
+    void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
@@ -247,13 +254,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
             stop();
         }
     }
+
+    @SuppressWarnings("PMD")
     private void lose() {
-        if (player.hasCollided(randy)) {
-            coolDown = 999999;
-            if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+        for (Ghost ghost : level.ghosts) {
+            if (player.hasCollided(ghost)) {
+                coolDown = 999999;
+                if (isRunning) {
+                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+                }
+                stop();
+                break;
             }
-            stop();
         }
     }
 }
