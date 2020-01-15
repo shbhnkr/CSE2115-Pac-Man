@@ -4,21 +4,19 @@ import game.SpriteSheet;
 import game.Types;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import static game.Level.pixels;
 
 public class Blinky extends Ghost {
-/**
- * ghost 1.
- */
+    /**
+     * ghost 1.
+     */
     public static final long serialVersionUID = 4328743;
 
     /**
      * ghost constructor 1.
      */
-    public Blinky(int x, int y, SpriteSheet spriteSheet) {
+    Blinky(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
 
@@ -29,11 +27,17 @@ public class Blinky extends Ghost {
             System.out.println("no destination!");
             return;
         }
-        List<Point> path = shortestPath(getLocation(), destination);
-        if (path != null && !path.isEmpty()) {
-            for (int i = 0; i < path.size(); ) {
-                path.remove(0);
-            }
+        if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+
+        }
+        if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
+
+        }
+        if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
+
+        }
+        if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
+            
         }
     }
 
@@ -41,11 +45,5 @@ public class Blinky extends Ghost {
     public String getType() {
         return "b";
     }
-
-    private List<Point> shortestPath(Point location, Point target) {
-        if (location.equals(target)) {
-            return new ArrayList<>();
-        }
-        return null;
-    }
 }
+
