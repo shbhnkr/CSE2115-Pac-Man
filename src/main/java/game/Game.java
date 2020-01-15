@@ -17,6 +17,7 @@ import static game.SpriteSheet.animation;
 public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
+
     public static final String TITLE = "Pac-Man";
     public static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
