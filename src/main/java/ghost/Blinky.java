@@ -13,7 +13,7 @@ public class Blinky extends Ghost {
      */
     public static final long serialVersionUID = 4328743;
 
-    private String lastMove;
+    private transient String lastMove;
     /**
      * ghost constructor 1.
      */
@@ -22,6 +22,7 @@ public class Blinky extends Ghost {
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public void moveGhost(int height, int width) {
         Point destination = this.unitLocations.get(Types.playerType());
         if (unitLocations.isEmpty() || destination == null) {
