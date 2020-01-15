@@ -2,11 +2,16 @@ package game;
 
 import ghost.Ghost;
 
-import java.awt.*;
+
+import java.awt.Graphics;
+import java.awt.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static game.Level.*;
+import static game.Level.pellets;
+import static game.Level.pixels;
+import static game.Level.fruitPellet;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;

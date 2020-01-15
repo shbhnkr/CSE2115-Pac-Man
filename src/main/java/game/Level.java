@@ -4,10 +4,12 @@ package game;
 import ghost.Ghost;
 import ghost.GhostFactory;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static game.Game.pelletCount;
@@ -16,16 +18,17 @@ public class Level {
 
     public transient int width;
     public transient int height;
-    public transient Wall[][] walls;
-    public transient Player player;
-    public transient Ghost inky;
-    public transient Ghost blinky;
-    public transient Ghost pinky;
-    public transient Ghost clyde;
-    public transient Ghost randy;
-    public static Pellet[][] pellets;
-    public static FruitPellet[][] fruitPellet;
+    transient Wall[][] walls;
+    transient Player player;
+    transient Ghost inky;
+    transient Ghost blinky;
+    transient Ghost pinky;
+    transient Ghost clyde;
+    transient Ghost randy;
+    static Pellet[][] pellets;
+    static FruitPellet[][] fruitPellet;
     public static char[][] pixels;
+    transient List<Ghost> ghosts = new ArrayList<>();
 
     /**
      * Generates a level from given file.
@@ -34,7 +37,7 @@ public class Level {
      * @param width1  Width
      * @param height1 Height
      */
-    public Level(URL path, int width1, int height1, int squareSize) {
+    Level(URL path, int width1, int height1, int squareSize) {
         this.width = width1 / squareSize;
         this.height = height1 / squareSize;
         setPixels(new char[width][height]);
@@ -73,53 +76,56 @@ public class Level {
                             break;
                         case 'i':
                             inky = GhostFactory.create(GhostFactory.INKY, x * 20, y * 20);
+                            ghosts.add(inky);
                             break;
                         case 'b':
                             blinky = GhostFactory.create(GhostFactory.BLINKY, x * 20, y * 20);
+                            ghosts.add(blinky);
                             break;
                         case 'g':
                             pinky = GhostFactory.create(GhostFactory.PINKY, x * 20, y * 20);
+                            ghosts.add(pinky);
                             break;
                         case 'c':
                             clyde = GhostFactory.create(GhostFactory.CLYDE, x * 20, y * 20);
+                            ghosts.add(clyde);
                             break;
                         case 'r':
                             randy = GhostFactory.create(GhostFactory.RANDY, x * 20, y * 20);
+                            ghosts.add(randy);
                             break;
                         default:
                             break;
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            // TODO make a ghostFactory expection.
             e.printStackTrace();
-        }
+        }// TODO make a ghostFactory expection.
+
     }
 
-    public static Pellet[][] getPellets() {
+    private static Pellet[][] getPellets() {
         return pellets;
     }
 
-    public static void setPellets(Pellet[][] pellets) {
+    private static void setPellets(Pellet[][] pellets) {
         Level.pellets = pellets;
     }
 
-    public static FruitPellet[][] getFruitPellets() {
+    private static FruitPellet[][] getFruitPellets() {
         return fruitPellet;
     }
 
-    public static void setFruitPellets(FruitPellet[][] fruitPellet) {
+    private static void setFruitPellets(FruitPellet[][] fruitPellet) {
         Level.fruitPellet = fruitPellet;
     }
 
-    public static char[][] getPixels() {
+    private static char[][] getPixels() {
         return pixels;
     }
 
-    public static void setPixels(char[][] pixels) {
+    private static void setPixels(char[][] pixels) {
         Level.pixels = pixels;
     }
 
@@ -128,7 +134,7 @@ public class Level {
      *
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    void render(Graphics g) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (fruitPellet[x][y] != null) {
