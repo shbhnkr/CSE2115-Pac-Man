@@ -274,6 +274,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+
 //        if (e.getKeyCode() == KeyEvent.VK_P) {
 //            if (isRunning) {
 //                isRunning = false;
@@ -282,6 +283,29 @@ public class Game extends Canvas implements Runnable, KeyListener {
 //                isRunning = true;
 //            }
 //        }
+
+        if(player.drunk) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            player.drunk = false;
+                        }
+                    },
+                    15000
+            );
+        }
+        if(player.power) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            player.power = false;
+                        }
+                    },
+                    5000
+            );
+        }
         if (isRunning) {
             key = e.getKeyCode();
 

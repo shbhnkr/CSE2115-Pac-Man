@@ -2,10 +2,7 @@ package game;
 
 import ghost.Ghost;
 
-
-import java.awt.Graphics;
-import java.awt.Point;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +11,12 @@ import static game.Level.*;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    static int xPixelPlayer, yPixelPlayer = 0;
-    private List<Observer> observerCollection;
-    transient boolean drunk;
+    
+    public static int xPixelPlayer, yPixelPlayer = 0;
+    public List<Observer> observerCollection;
+    public transient boolean drunk;
+    public transient boolean power;
+
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
         this.observerCollection = new ArrayList<Observer>();
@@ -67,7 +67,7 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
         if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
-            return;
+            if (poweredUp(game)) return;
         }
         if (getLocation().y == 0) {
             Point point = new Point(getLocation().x, height - 20);
@@ -83,8 +83,16 @@ public class Player extends Unit implements Observable {
     private void objectCheckerUp(Game game) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                movePlayer(new Point(getLocation().x, 0));
-                break;
+                if (power == true) {
+                    Wall wal = null;
+                    pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                    walls[getLocation().x / 20][getLocation().y / 20] = wal;
+                    game.point += 10;
+                    break;
+                } else {
+                    movePlayer(new Point(getLocation().x, 0));
+                    break;
+                }
             case '.':
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
@@ -102,6 +110,13 @@ public class Player extends Unit implements Observable {
                 Beer beer = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 beers[getLocation().x / 20][getLocation().y / 20] = beer;
+                drunk = true;
+                break;
+            case '*':
+                PowerPellet powerPellet = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                dragonBall[getLocation().x / 20][getLocation().y / 20] = powerPellet;
+                power = true;
                 break;
             default:
                 break;
@@ -112,7 +127,7 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 48;
         if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
-            return;
+            if (poweredUp(game)) return;
         }
         if (getLocation().x == 0) {
             Point point = new Point(width - 20, getLocation().y);
@@ -129,8 +144,16 @@ public class Player extends Unit implements Observable {
     private void objectCheckerLeft(Game game) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                movePlayer(new Point(0, getLocation().y));
-                break;
+                if (power == true) {
+                    Wall wal = null;
+                    pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                    walls[getLocation().x / 20][getLocation().y / 20] = wal;
+                    game.point += 10;
+                    break;
+                } else {
+                    movePlayer(new Point(0, getLocation().y));
+                    break;
+                }
             case '.':
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
@@ -150,6 +173,12 @@ public class Player extends Unit implements Observable {
                 beers[getLocation().x / 20][getLocation().y / 20] = beer;
                 drunk = true;
                 break;
+            case '*':
+                PowerPellet powerPellet = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                dragonBall[getLocation().x / 20][getLocation().y / 20] = powerPellet;
+                power = true;
+                break;
             default:
                 break;
         }
@@ -159,7 +188,7 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
         if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
-            return;
+            if (poweredUp(game)) return;
         }
         if (getLocation().y == height - 20) {
             Point point = new Point(getLocation().x, 0);
@@ -175,8 +204,16 @@ public class Player extends Unit implements Observable {
     private void objectCheckerDown(Game game, int height) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                movePlayer(new Point(getLocation().x, height - 20));
-                break;
+                if (power == true) {
+                    Wall wal = null;
+                    pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                    walls[getLocation().x / 20][getLocation().y / 20] = wal;
+                    game.point += 10;
+                    break;
+                } else {
+                    movePlayer(new Point(getLocation().x, height - 20));
+                    break;
+                }
             case '.':
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
@@ -196,6 +233,12 @@ public class Player extends Unit implements Observable {
                 beers[getLocation().x / 20][getLocation().y / 20] = beer;
                 drunk = true;
                 break;
+            case '*':
+                PowerPellet powerPellet = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                dragonBall[getLocation().x / 20][getLocation().y / 20] = powerPellet;
+                power = true;
+                break;
             default:
                 break;
         }
@@ -205,7 +248,7 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 16;
         if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
-            return;
+            if (poweredUp(game)) return;
         }
         if (getLocation().x == width - 20) {
             Point point = new Point(0, getLocation().y);
@@ -218,11 +261,31 @@ public class Player extends Unit implements Observable {
         notifyObservers();
     }
 
+    private boolean poweredUp(Game game) {
+        if (power == true) {
+            Wall wal = null;
+            pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+            walls[getLocation().x / 20][getLocation().y / 20] = wal;
+            game.point += 10;
+        } else {
+            return true;
+        }
+        return false;
+    }
+
     private void objectCheckerRight(Game game, int width) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                movePlayer(new Point(width - 20, getLocation().y));
-                break;
+                if (power == true) {
+                    Wall wal = null;
+                    pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                    walls[getLocation().x / 20][getLocation().y / 20] = wal;
+                    game.point += 10;
+                    break;
+                } else {
+                    movePlayer(new Point(width - 20, getLocation().y));
+                    break;
+                }
             case '.':
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
@@ -241,6 +304,12 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 beers[getLocation().x / 20][getLocation().y / 20] = beer;
                 drunk = true;
+                break;
+            case '*':
+                PowerPellet powerPellet = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                dragonBall[getLocation().x / 20][getLocation().y / 20] = powerPellet;
+                power = true;
                 break;
             default:
                 break;

@@ -17,7 +17,7 @@ public class Level {
 
     public transient int width;
     public transient int height;
-    transient Wall[][] walls;
+    static Wall[][] walls;
     transient Player player;
     transient Ghost inky;
     transient Ghost blinky;
@@ -27,6 +27,7 @@ public class Level {
     static Pellet[][] pellets;
     static FruitPellet[][] fruitPellet;
     static Beer[][] beers;
+    static PowerPellet[][] dragonBall;
     public static char[][] pixels;
     transient List<Ghost> ghosts = new ArrayList<>();
 
@@ -54,10 +55,11 @@ public class Level {
                 }
                 n++;
             }
-            walls = new Wall[width][height];
+            setWalls(new Wall[width][height]);
             setPellets(new Pellet[width][height]);
             setFruitPellets(new FruitPellet[width][height]);
             setBeers(new Beer[width][height]);
+            setPowerPellets(new PowerPellet[width][height]);
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -65,8 +67,11 @@ public class Level {
                         case ',':
                             getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);
                             break;
+                        case '*':
+                            getPowerPellets()[x][y] = new PowerPellet(x * squareSize, y * squareSize);
+                            break;
                         case '#':
-                            walls[x][y] = new Wall(x * squareSize, y * squareSize);
+                            getWalls()[x][y] = new Wall(x * squareSize, y * squareSize);
                             break;
                         case 'h':
                             getBeers()[x][y] = new Beer(x * squareSize, y * squareSize);
@@ -109,12 +114,28 @@ public class Level {
 
     }
 
+    private Wall[][] getWalls() {
+        return Level.walls;
+    }
+
+    private void setWalls(Wall[][] walls) {
+        Level.walls = walls;
+    }
+
     private static Beer[][] getBeers() {
         return beers;
     }
 
     private static void setBeers(Beer[][] beers) {
         Level.beers = beers;
+    }
+
+    private static PowerPellet[][] getPowerPellets() {
+        return dragonBall;
+    }
+
+    private static void setPowerPellets(PowerPellet[][] dragonBall) {
+        Level.dragonBall = dragonBall;
     }
 
     private static Pellet[][] getPellets() {
@@ -157,6 +178,9 @@ public class Level {
                 }
                 if (beers[x][y] != null) {
                     beers[x][y].render(g);
+                }
+                if (dragonBall[x][y] != null) {
+                    dragonBall[x][y].render(g);
                 }
                 if (pellets[x][y] != null) {
                     pellets[x][y].render(g);
