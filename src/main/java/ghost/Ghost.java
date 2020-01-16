@@ -96,6 +96,11 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         move(MoveBuilder.UP(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 0;
+        if (this.getLocation().y == 0) {
+            Point point = new Point(this.getLocation().x, height - 20);
+            this.move(point);
+            return;
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 move(MoveBuilder.DOWN(getLocation()));
@@ -109,6 +114,11 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         move(MoveBuilder.LEFT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 48;
+        if (this.getLocation().y == height - 20) {
+            Point point = new Point(this.getLocation().x, 0);
+            this.move(point);
+            return;
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 move(MoveBuilder.RIGHT(getLocation()));
@@ -122,6 +132,11 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         move(MoveBuilder.DOWN(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 32;
+        if (this.getLocation().x == 0) {
+            Point point = new Point( width - 20, this.getLocation().y);
+            this.move(point);
+            return;
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 move(MoveBuilder.UP(getLocation()));
@@ -135,6 +150,11 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         move(MoveBuilder.RIGHT(getLocation()));
         xPixelGhost = 0;
         yPixelGhost = 16;
+        if (this.getLocation().x == width - 20) {
+            Point point = new Point(0, this.getLocation().y);
+            this.move(point);
+            return;
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 move(MoveBuilder.LEFT(getLocation()));

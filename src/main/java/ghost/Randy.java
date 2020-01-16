@@ -25,35 +25,15 @@ public class Randy extends Ghost {
 
         switch (random) {
             case 0:
-                if (this.getLocation().y == 0) {
-                    Point point = new Point(this.getLocation().x, height - 20);
-                    this.move(point);
-                    return;
-                }
                 this.moveUpGhost();
                 break;
             case 1:
-                if (this.getLocation().y == height - 20) {
-                    Point point = new Point(this.getLocation().x, 0);
-                    this.move(point);
-                    return;
-                }
-                this.moveDownGhost();
-                break;
-            case 2:
-                if (this.getLocation().x == 0) {
-                    Point point = new Point( width - 20, this.getLocation().y);
-                    this.move(point);
-                    return;
-                }
                 this.moveLeftGhost();
                 break;
+            case 2:
+                this.moveDownGhost();
+                break;
             default:
-                if (this.getLocation().x == width - 20) {
-                    Point point = new Point(0, this.getLocation().y);
-                    this.move(point);
-                    return;
-                }
                 this.moveRightGhost();
                 break;
         }
