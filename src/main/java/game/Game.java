@@ -202,6 +202,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
             win();
             lose();
         }
+        if(player.drunk) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            player.drunk = false;
+                        }
+                    },
+                    15000
+            );
+        }
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 if(player.drunk) {
