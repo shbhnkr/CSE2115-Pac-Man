@@ -214,37 +214,80 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
+
     @Override
     public void keyReleased(KeyEvent e) {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        player.drunk = false;
+                    }
+                },
+                15000
+        );
         if (isRunning) {
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-                animation(32, 0, player, getGraphics());
-                player.moveUp(this, getHeight());
-                lose();
+                if(player.drunk)
+                    downKey();
+                else
+                    upKey();
+
             }
 
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-                animation(32, 48, player, getGraphics());
-                player.moveLeft(this, getWidth());
-                lose();
+
+                if(player.drunk)
+                    rightKey();
+                else
+                    leftKey();
+
             }
 
             if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-                animation(32, 32, player, getGraphics());
-                player.moveDown(this, getHeight());
-                lose();
+                if(player.drunk)
+                    upKey();
+                else
+                    downKey();
+
             }
 
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-                animation(32, 16, player, getGraphics());
-                player.moveRight(this, getWidth());
-                lose();
+                if(player.drunk)
+                    leftKey();
+                else
+                    rightKey();
+
             }
         }
     }
 
+    public void upKey()
+    {
+        animation(32, 0, player, getGraphics());
+        player.moveUp(this, getHeight());
+        lose();
+    }
+    public void leftKey()
+    {
+        animation(32, 48, player, getGraphics());
+        player.moveLeft(this, getWidth());
+        lose();
+    }
+    public void downKey()
+    {
+        animation(32, 32, player, getGraphics());
+        player.moveDown(this, getHeight());
+        lose();
+    }
+    public void rightKey()
+    {
+        animation(32, 16, player, getGraphics());
+        player.moveRight(this, getWidth());
+        lose();
+    }
     void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
