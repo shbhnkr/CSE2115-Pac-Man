@@ -19,6 +19,7 @@ public class MainMenu {
     private transient JPanel playerDetails;
     private transient JTextArea textArea1;
     private transient JTextArea textArea2;
+    private transient JButton backButton;
     private transient Font font;
     private transient String board2 = "board2.txt";
     private transient Gamesettings gamesettings = new Gamesettings(20);;
@@ -48,8 +49,11 @@ public class MainMenu {
 
 
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        comboBox1.setBackground(Color.orange);
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        logoutButton.setBackground(Color.orange);
         playGameButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        playGameButton.setBackground(Color.orange);
         playGameButton.addActionListener(new ActionListener() {
 
 
@@ -66,10 +70,18 @@ public class MainMenu {
                 } else {
                     pop = "";
                 }
+                JPanel gamePanel = new JPanel();
+
                 Game game = new Game(gamesettings, pop);
+
+                //backButton = new JButton("Score: " + game.point);
+
                 JFrame frame1 = new JFrame();
+
                 frame1.setTitle(Game.TITLE);
-                frame1.add(game);
+                gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.PAGE_AXIS));
+                gamePanel.add(game);
+                frame1.add(gamePanel);
                 frame1.setResizable(false);
                 frame1.pack();
                 frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,5 +101,12 @@ public class MainMenu {
 //        frame.setResizable(false);
 //        frame.setVisible(true);
 //    }
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StartScreen.frame1.setVisible(true);
+                frame.setVisible(false);
+            }
+        });
     }
 }
