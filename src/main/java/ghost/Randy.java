@@ -25,16 +25,16 @@ public class Randy extends Ghost {
 
         switch (random) {
             case 0:
-                this.moveUpGhost();
+                this.moveUpGhost(height);
                 break;
             case 1:
-                this.moveLeftGhost();
+                this.moveLeftGhost(width);
                 break;
             case 2:
-                this.moveDownGhost();
+                this.moveDownGhost(height);
                 break;
             default:
-                this.moveRightGhost();
+                this.moveRightGhost(width);
                 break;
         }
     }

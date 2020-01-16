@@ -30,10 +30,34 @@ public class Blinky extends Ghost {
             return;
         }
         double distance = (double) Integer.MAX_VALUE;
-        boolean upWall = getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
-        boolean leftWall = getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
-        boolean downWall = getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
-        boolean rightWall = getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
+
+        boolean upWall;
+        if (this.getLocation().y == 0) {
+            upWall = false;
+        }
+        else {
+            upWall = getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
+        }
+
+            boolean leftWall;
+        if (this.getLocation().x == 0)  {
+            leftWall = false;
+        } else {
+            leftWall = getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
+        }
+
+        boolean downWall;
+        if (this.getLocation().y == height - 20) {
+            downWall = false;
+        } else {
+            downWall = getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
+        }
+        boolean rightWall;
+        if (this.getLocation().x == width - 20) {
+            rightWall = false;
+        } else {
+            rightWall = getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
+        }
 
         int res = -1;
         if (!upWall) {
@@ -78,19 +102,19 @@ public class Blinky extends Ghost {
         switch(res) {
             case 0:
                 lastMove = "up";
-                moveUpGhost();
+                moveUpGhost(height);
                 break;
             case 1:
                 lastMove = "left";
-                moveLeftGhost();
+                moveLeftGhost(width);
                 break;
             case 2:
                 lastMove = "down";
-                moveDownGhost();
+                moveDownGhost(height);
                 break;
             case 3:
                 lastMove = "right";
-                moveRightGhost();
+                moveRightGhost(width);
                 break;
             default:
                 break;

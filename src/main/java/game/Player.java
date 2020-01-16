@@ -16,8 +16,8 @@ import static game.Level.fruitPellet;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    public static int xPixelPlayer, yPixelPlayer = 0;
-    public List<Observer> observerCollection;
+    static int xPixelPlayer, yPixelPlayer = 0;
+    private List<Observer> observerCollection;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
@@ -56,7 +56,7 @@ public class Player extends Unit implements Observable {
      *
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    void render(Graphics g) {
         SpriteSheet sheet = Game.playerSprite;
         g.drawImage(sheet.getSprite(xPixelPlayer, yPixelPlayer), x, y, 18, 18, null);
     }

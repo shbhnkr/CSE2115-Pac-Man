@@ -92,62 +92,50 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
-    void moveUpGhost() {
-        move(MoveBuilder.UP(getLocation()));
+    void moveUpGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 0;
+        if (this.getLocation().y != 0 && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
+            return;
+        }
         if (this.getLocation().y == 0) {
             Point point = new Point(this.getLocation().x, height - 20);
             this.move(point);
-            return;
         }
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.DOWN(getLocation()));
-                break;
-            default:
-                break;
+        else {
+            move(MoveBuilder.UP(this.getLocation()));
         }
     }
 
-    void moveLeftGhost() {
-        move(MoveBuilder.LEFT(getLocation()));
+    void moveLeftGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 48;
-        if (this.getLocation().y == height - 20) {
-            Point point = new Point(this.getLocation().x, 0);
-            this.move(point);
+        if (this.getLocation().x != 0 && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
             return;
         }
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.RIGHT(getLocation()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    void moveDownGhost() {
-        move(MoveBuilder.DOWN(getLocation()));
-        xPixelGhost = 0;
-        yPixelGhost = 32;
         if (this.getLocation().x == 0) {
             Point point = new Point( width - 20, this.getLocation().y);
             this.move(point);
-            return;
-        }
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.UP(getLocation()));
-                break;
-            default:
-                break;
+        } else {
+            move(MoveBuilder.LEFT(this.getLocation()));
         }
     }
 
-    void moveRightGhost() {
-        move(MoveBuilder.RIGHT(getLocation()));
+    void moveDownGhost(int height) {
+        xPixelGhost = 0;
+        yPixelGhost = 32;
+        if (this.getLocation().y != height - 20 && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
+            return;
+        }
+        if (this.getLocation().y == height - 20) {
+            Point point = new Point(this.getLocation().x, 0);
+            this.move(point);
+        }else {
+            move(MoveBuilder.DOWN(this.getLocation()));
+        }
+    }
+
+    void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
         if (this.getLocation().x == width - 20) {
@@ -155,12 +143,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
             this.move(point);
             return;
         }
-        switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
-            case '#':
-                move(MoveBuilder.LEFT(getLocation()));
-                break;
-            default:
-                break;
+        if (!(this.getLocation().x != width - 20 && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#')) {
+            move(MoveBuilder.RIGHT(this.getLocation()));
         }
     }
 
