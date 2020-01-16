@@ -14,9 +14,9 @@ import static game.Level.*;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    public static int xPixelPlayer, yPixelPlayer = 0;
-    public List<Observer> observerCollection;
-    public transient boolean drunk;
+    static int xPixelPlayer, yPixelPlayer = 0;
+    private List<Observer> observerCollection;
+    transient boolean drunk;
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
         this.observerCollection = new ArrayList<Observer>();
@@ -89,9 +89,8 @@ public class Player extends Unit implements Observable {
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
-                Game.pelletEaten++;
+                game.pelletEaten++;
                 game.point += 10;
-                game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
@@ -136,9 +135,8 @@ public class Player extends Unit implements Observable {
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
-                Game.pelletEaten++;
+                game.pelletEaten++;
                 game.point += 10;
-                game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
@@ -183,9 +181,8 @@ public class Player extends Unit implements Observable {
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
-                Game.pelletEaten++;
+                game.pelletEaten++;
                 game.point += 10;
-                game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;
@@ -230,9 +227,8 @@ public class Player extends Unit implements Observable {
                 Pellet pel = null;
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 pellets[getLocation().x / 20][getLocation().y / 20] = pel;
-                Game.pelletEaten++;
+                game.pelletEaten++;
                 game.point += 10;
-                game.win();
                 break;
             case ',':
                 FruitPellet fruitPel = null;

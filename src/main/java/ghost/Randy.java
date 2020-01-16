@@ -1,12 +1,8 @@
 package ghost;
 
-import game.MoveBuilder;
 import game.SpriteSheet;
 
-import java.awt.*;
 import java.util.Random;
-
-import static game.Level.pixels;
 
 /**
  * ghost 5.
@@ -14,7 +10,7 @@ import static game.Level.pixels;
 public class Randy extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    public Randy(int x, int y, SpriteSheet spriteSheet) {
+    Randy(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
 

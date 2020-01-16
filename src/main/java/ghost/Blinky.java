@@ -26,7 +26,7 @@ public class Blinky extends Ghost {
     public void moveGhost(int height, int width) {
         Point destination = this.unitLocations.get(Types.playerType());
         if (unitLocations.isEmpty() || destination == null) {
-            System.out.println("no destination!");
+            System.out.println("no destination for Blinky!");
             return;
         }
         double distance = (double) Integer.MAX_VALUE;

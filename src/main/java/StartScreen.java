@@ -29,14 +29,12 @@ public class StartScreen {
     /**
      * Constructor.
      */
-    public StartScreen() {
+    private StartScreen() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
