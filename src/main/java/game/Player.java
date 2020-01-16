@@ -9,16 +9,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import static game.Level.pellets;
-import static game.Level.pixels;
-import static game.Level.fruitPellet;
+import static game.Level.*;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    static int xPixelPlayer, yPixelPlayer = 0;
-    private List<Observer> observerCollection;
-
+    public static int xPixelPlayer, yPixelPlayer = 0;
+    public List<Observer> observerCollection;
+    public transient boolean drunk;
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
         this.observerCollection = new ArrayList<Observer>();
@@ -56,7 +54,7 @@ public class Player extends Unit implements Observable {
      *
      * @param g Graphics
      */
-    void render(Graphics g) {
+    public void render(Graphics g) {
         SpriteSheet sheet = Game.playerSprite;
         g.drawImage(sheet.getSprite(xPixelPlayer, yPixelPlayer), x, y, 18, 18, null);
     }
@@ -101,6 +99,11 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;
+            case 'h':
+                Beer beer = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                beers[getLocation().x / 20][getLocation().y / 20] = beer;
+                break;
             default:
                 break;
         }
@@ -143,11 +146,17 @@ public class Player extends Unit implements Observable {
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
                 break;
+            case 'h':
+                Beer beer = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                beers[getLocation().x / 20][getLocation().y / 20] = beer;
+                drunk = true;
+                break;
             default:
                 break;
         }
     }
-    
+
     void moveDown(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
@@ -183,6 +192,12 @@ public class Player extends Unit implements Observable {
                 game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            case 'h':
+                Beer beer = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                beers[getLocation().x / 20][getLocation().y / 20] = beer;
+                drunk = true;
                 break;
             default:
                 break;
@@ -224,6 +239,12 @@ public class Player extends Unit implements Observable {
                 game.point += fruitPellet[getLocation().x / 20][getLocation().y / 20].points();
                 pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                 fruitPellet[getLocation().x / 20][getLocation().y / 20] = fruitPel;
+                break;
+            case 'h':
+                Beer beer = null;
+                pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+                beers[getLocation().x / 20][getLocation().y / 20] = beer;
+                drunk = true;
                 break;
             default:
                 break;

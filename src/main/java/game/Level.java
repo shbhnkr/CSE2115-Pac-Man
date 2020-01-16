@@ -4,9 +4,8 @@ package game;
 import ghost.Ghost;
 import ghost.GhostFactory;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,7 @@ public class Level {
     transient Ghost randy;
     static Pellet[][] pellets;
     static FruitPellet[][] fruitPellet;
+    static Beer[][] beers;
     public static char[][] pixels;
     transient List<Ghost> ghosts = new ArrayList<>();
 
@@ -57,6 +57,7 @@ public class Level {
             walls = new Wall[width][height];
             setPellets(new Pellet[width][height]);
             setFruitPellets(new FruitPellet[width][height]);
+            setBeers(new Beer[width][height]);
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -66,6 +67,9 @@ public class Level {
                             break;
                         case '#':
                             walls[x][y] = new Wall(x * squareSize, y * squareSize);
+                            break;
+                        case 'h':
+                            getBeers()[x][y] = new Beer(x * squareSize, y * squareSize);
                             break;
                         case '.':
                             pelletCount++;
@@ -103,6 +107,14 @@ public class Level {
             e.printStackTrace();
         }// TODO make a ghostFactory expection.
 
+    }
+
+    private static Beer[][] getBeers() {
+        return beers;
+    }
+
+    private static void setBeers(Beer[][] beers) {
+        Level.beers = beers;
     }
 
     private static Pellet[][] getPellets() {
@@ -143,6 +155,9 @@ public class Level {
                 if (walls[x][y] != null) {
                     walls[x][y].render(g);
                 }
+                if (beers[x][y] != null) {
+                    beers[x][y].render(g);
+                }
                 if (pellets[x][y] != null) {
                     pellets[x][y].render(g);
                 }
@@ -164,6 +179,7 @@ public class Level {
                 if (randy != null) {
                     randy.render(g);
                 }
+
             }
         }
     }
