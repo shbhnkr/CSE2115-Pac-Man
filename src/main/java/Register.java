@@ -24,6 +24,7 @@ public class Register {
     private transient JTextField enterUsernameTextField;
     private transient JPasswordField enterPasswordPasswordField;
     private transient JTextArea pacmanTextArea;
+    private transient JButton button2;
 
     private transient Font font;
     private transient char passwordChar;
@@ -95,10 +96,13 @@ public class Register {
         Color color = new Color(255, 255, 0);
         enterUsernameTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
-        button1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
+        button1.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLUE));
+        button2.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLUE));
         pacmanTextArea.setFont(new Font("crackman", Font.PLAIN, 35));
         button1.setFont(new Font("crackman", Font.PLAIN, 20));
         button1.setCursor(Cursor.getPredefinedCursor(12));
+        button2.setFont(new Font("crackman", Font.PLAIN, 20));
+        button2.setCursor(Cursor.getPredefinedCursor(12));
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,6 +159,13 @@ public class Register {
 
                 }
 
+                StartScreen.frame1.setVisible(true);
+                rFrame.setVisible(false);
+            }
+        });
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 StartScreen.frame1.setVisible(true);
                 rFrame.setVisible(false);
             }

@@ -1,6 +1,4 @@
 import database.DBconnection;
-import game.Game;
-import game.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +22,6 @@ public class StartScreen {
     private transient Font font;
     private transient JTextArea pacmanText;
     private transient char password;
-    private transient GameSettings settings;
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
@@ -32,18 +29,15 @@ public class StartScreen {
     /**
      * Constructor.
      */
-    public StartScreen() {
+    private StartScreen() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +45,6 @@ public class StartScreen {
                 System.out.println(passwordField1.getText() + " Password");
 
                 String uname = textField1.getText();
-
 
 
                 String pwd = Register.getSha(String.valueOf(passwordField1.getPassword()));
@@ -87,19 +80,16 @@ public class StartScreen {
 
 
                 }
-                if(pop)
-                {
-                    GameSettings settings = new GameSettings(20);
-                    Game game = new Game(settings);
-                    JFrame frame = new JFrame();
-                    frame.setTitle(Game.TITLE);
-                    frame.add(game);
-                    frame.setResizable(false);
-                    frame.pack();
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                    game.start();
+                if (pop) {
+
+                    MainMenu.frame = new JFrame("Main Menu");
+                    MainMenu.frame.setContentPane(new MainMenu().panel1);
+                    MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    MainMenu.frame.setSize(600, 300);
+                    MainMenu.frame.setLocation(500, 300);
+                    MainMenu.frame.setResizable(false);
+                    MainMenu.frame.setVisible(true);
+
                     frame1.setVisible(false);
                 }
 
@@ -130,9 +120,10 @@ public class StartScreen {
         Color color = new Color(0, 0, 0);
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         passwordField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
-        loginButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
-        newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
-
+        loginButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+        loginButton.setBackground(Color.orange);
+        newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+        newUserClickHereButton.setBackground(Color.orange);
         textField1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {

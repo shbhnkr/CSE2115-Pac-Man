@@ -17,7 +17,7 @@ public class Wall extends Unit {
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "#";
     }
 }

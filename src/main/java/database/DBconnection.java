@@ -19,12 +19,13 @@ public class DBconnection {
      * Creates connection to database in tu delft servers.
      */
     public static Connection getConnection() {
-        Connection connect;
+        Connection connect = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            connect = DriverManager.getConnection(url, username, password);
+           if(connect == null) {
+               connect = DriverManager.getConnection(url, username, password);
+           }
             return connect;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
