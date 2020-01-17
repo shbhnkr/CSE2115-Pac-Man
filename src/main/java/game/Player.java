@@ -2,7 +2,9 @@ package game;
 
 import ghost.Ghost;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,10 @@ public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
     
-    public static int xPixelPlayer, yPixelPlayer = 0;
-    public List<Observer> observerCollection;
-    public transient boolean drunk;
-    public transient boolean power;
+    static int xPixelPlayer, yPixelPlayer = 0;
+    private List<Observer> observerCollection;
+    transient boolean drunk;
+    transient boolean power;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
@@ -83,7 +85,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerUp(Game game) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -144,7 +146,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerLeft(Game game) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -204,7 +206,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerDown(Game game, int height) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -262,7 +264,7 @@ public class Player extends Unit implements Observable {
     }
 
     private boolean poweredUp(Game game) {
-        if (power == true) {
+        if (power) {
             Wall wal = null;
             pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
             walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -276,7 +278,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerRight(Game game, int width) {
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;

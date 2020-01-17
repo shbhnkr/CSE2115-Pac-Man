@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 
 public class StartScreen {
-    public static JFrame frame1;
+    static JFrame frame1;
     private transient JTextField textField1;
     private transient JPanel panel1;
     private transient JPasswordField passwordField1;
