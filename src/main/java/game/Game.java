@@ -457,7 +457,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
 
                 try {
-                    //connecting to DB
+                    //connecting to DataBase
                     conn = DBconnection.getConnection();
 
                     /*
