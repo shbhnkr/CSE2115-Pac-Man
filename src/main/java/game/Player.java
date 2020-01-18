@@ -11,7 +11,7 @@ import static game.Level.*;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    
+
     public static int xPixelPlayer, yPixelPlayer = 0;
     public List<Observer> observerCollection;
     public transient boolean drunk;

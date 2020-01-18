@@ -35,8 +35,6 @@ class GameCollisionTest {
         player.moveUp(game, game.getHeight());
         Assertions.assertEquals(4, game.pelletEaten);
         game.stop();
-
-
     }
 
     @Test
@@ -125,4 +123,5 @@ class GameCollisionTest {
         Game game8 = new Game(new Gamesettings(20), "board3.txt");
         game8.stop();
     }
+
 }

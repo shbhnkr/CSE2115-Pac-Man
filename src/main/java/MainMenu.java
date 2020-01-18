@@ -41,6 +41,7 @@ public class MainMenu {
         String crackman = "crackman";
         playGameButton.setFont(new Font(crackman, Font.PLAIN, 20));
         logoutButton.setFont(new Font(crackman, Font.PLAIN, 20));
+
         title.setFont(new Font(crackman, Font.PLAIN, 35));
 
         Color color = new Color(0, 0, 0);

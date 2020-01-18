@@ -21,6 +21,7 @@ public class StartScreen {
     private transient JButton newUserClickHereButton;
     private transient Font font;
     private transient JTextArea pacmanText;
+    private JButton leaderboardButton;
     private transient char password;
     private transient Connection conn;
     private transient ResultSet rs;
@@ -41,8 +42,6 @@ public class StartScreen {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(textField1.getText() + " Username");
-                System.out.println(passwordField1.getText() + " Password");
 
                 String uname = textField1.getText();
 
@@ -116,6 +115,7 @@ public class StartScreen {
         passwordField1.setPreferredSize(dimension);
         pacmanText.setFont(new Font("crackman", Font.PLAIN, 35));
         loginButton.setFont(new Font("crackman", Font.PLAIN, 20));
+        leaderboardButton.setFont(new Font("crackman", Font.PLAIN, 20));
         newUserClickHereButton.setFont(new Font("crackman", Font.PLAIN, 20));
         Color color = new Color(0, 0, 0);
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
@@ -124,6 +124,8 @@ public class StartScreen {
         loginButton.setBackground(Color.orange);
         newUserClickHereButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
         newUserClickHereButton.setBackground(Color.orange);
+        leaderboardButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
+        leaderboardButton.setBackground(Color.orange);
         textField1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -162,6 +164,19 @@ public class StartScreen {
 
                     passwordField1.setEchoChar(password);
                 }
+
+            }
+        });
+        leaderboardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LeaderBoard.lframe = new JFrame("Leaderboard");
+                LeaderBoard.lframe.setContentPane(new LeaderBoard().leaderPanel);
+                LeaderBoard.lframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                LeaderBoard.lframe.setSize(600, 300);
+                LeaderBoard.lframe.setLocation(500, 300);
+                LeaderBoard.lframe.setResizable(false);
+                LeaderBoard.lframe.setVisible(true);
 
             }
         });

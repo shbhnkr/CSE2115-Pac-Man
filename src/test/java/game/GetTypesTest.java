@@ -58,4 +58,16 @@ public class GetTypesTest {
         FruitPellet fruitPellet = new FruitPellet(5, 5);
         Assertions.assertEquals(fruitPellet.getType(), ",");
     }
+
+    @Test
+    void getBeerPelletTypeTest() {
+        Beer beer = new Beer(5, 5);
+        Assertions.assertEquals(beer.getType(), "h");
+    }
+
+    @Test
+    void getPowerPelletTypeTest() {
+        PowerPellet powerPellet = new PowerPellet(5, 5);
+        Assertions.assertEquals(powerPellet.getType(), "*");
+    }
 }
