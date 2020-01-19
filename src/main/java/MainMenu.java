@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MainMenu {
+
     public static JFrame frame;
     public transient JPanel panel1;
     private transient JButton playGameButton;
@@ -22,10 +23,11 @@ public class MainMenu {
     private transient JButton backButton;
     private transient Font font;
     private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20);;
+    private transient Gamesettings gamesettings = new Gamesettings(20, null);;
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";
+
 
     public MainMenu() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
@@ -38,7 +40,9 @@ public class MainMenu {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+
         String crackman = "crackman";
+
         playGameButton.setFont(new Font(crackman, Font.PLAIN, 20));
         logoutButton.setFont(new Font(crackman, Font.PLAIN, 20));
         title.setFont(new Font(crackman, Font.PLAIN, 35));
