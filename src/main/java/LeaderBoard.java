@@ -58,10 +58,12 @@ public class LeaderBoard {
 
     public static ResultSet prepAndExecuteQuery( int rank) {
         ResultSet rs = null;
-        String query = "select * from(\n" +
-                "select `username`, `score`, dense_rank() \n" +
-                "over(order by `score` desc)r from `ScoreBoard`) \n" +
-                "where r = rank;";
+        String query =  "SELECT username, score" +
+        "FROM ScoreBoard Emp1" +
+        "WHERE (1) = (" +
+        "SELECT COUNT(DISTINCT(Emp2.score)) " +
+        "FROM ScoreBoard Emp2" +
+        "WHERE Emp2.score > Emp1.score)";
 
         try {
             Connection conn = DBconnection.getConnection();
