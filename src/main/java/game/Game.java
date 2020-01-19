@@ -448,30 +448,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (isRunning) {
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
                 String uname = settings.username;
-                ;
                 int score = point;
 
-                /*
-                 query
-                 */
+                 //query
                 String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
 
                 try {
                     //connecting to DataBase
                     conn = DBconnection.getConnection();
 
-                    /*
-                    preparing and executing query
-                     */
+                    //preparing and executing query
                     PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, uname);
+                    ps.setString(1, uname+"");
                     ps.setInt(2, score);
                     ps.executeUpdate();
-                    if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Invalid password/username");
-                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
