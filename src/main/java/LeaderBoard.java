@@ -56,17 +56,17 @@ public class LeaderBoard {
 
     }
 
-    public static void prepAndExecuteQuery(String username, int rank) {
+    public static void prepAndExecuteQuery(String uname, int rank) {
 
         String query = "select * from(\n" +
-                "select ename, sal, dense_rank() \n" +
-                "over(order by sal desc)r from Employee) \n" +
-                "where r=&n;";
+                "select `username`, `score`, dense_rank() \n" +
+                "over(order by `score` desc)r from `ScoreBoard`) \n" +
+                "where r = rank;";
 
         try {
             Connection conn = DBconnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, username);
+            ps.setString(1, uname);
             ps.setInt(2, rank);
             ResultSet rs = ps.executeQuery();
         } catch (SQLException e) {
