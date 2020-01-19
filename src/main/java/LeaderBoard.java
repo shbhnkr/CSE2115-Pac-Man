@@ -56,11 +56,11 @@ public class LeaderBoard {
         player5.setText(fromResultsetToString(prepAndExecuteQuery(5)));
     }
 
-    public static ResultSet prepAndExecuteQuery( int rank) {
+    public static ResultSet prepAndExecuteQuery(int rank) {
         ResultSet rs = null;
         String query =  "SELECT username, score" +
         "FROM ScoreBoard Emp1" +
-        "WHERE (1) = (" +
+        "WHERE (rank) = (" +
         "SELECT COUNT(DISTINCT(Emp2.score)) " +
         "FROM ScoreBoard Emp2" +
         "WHERE Emp2.score > Emp1.score)";
