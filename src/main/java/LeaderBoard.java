@@ -7,10 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LeaderBoard {
     public static JFrame lframe;
@@ -56,8 +53,8 @@ public class LeaderBoard {
 
     }
 
-    public static void prepAndExecuteQuery(String uname, int rank) {
-
+    public static ResultSet prepAndExecuteQuery(String uname, int rank) {
+        ResultSet rs = null;
         String query = "select * from(\n" +
                 "select `username`, `score`, dense_rank() \n" +
                 "over(order by `score` desc)r from `ScoreBoard`) \n" +
@@ -68,9 +65,30 @@ public class LeaderBoard {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, uname);
             ps.setInt(2, rank);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return rs;
+    }
+
+    public static String fromResultsetToString(ResultSet rs){
+        String result = "";
+        ResultSetMetaData rsmd = null;
+        try {
+            rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = rs.getString(i);
+                   result += (columnValue + " " + rsmd.getColumnName(i));
+                }
+                System.out.println("");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
