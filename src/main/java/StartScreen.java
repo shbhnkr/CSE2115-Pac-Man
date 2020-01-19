@@ -28,7 +28,7 @@ public class StartScreen {
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
-    public String username;
+    public transient String username;
 
     /**
      * Constructor.
