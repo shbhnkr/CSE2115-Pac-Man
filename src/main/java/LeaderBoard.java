@@ -57,10 +57,11 @@ public class LeaderBoard {
     }
 
     public static ResultSet prepAndExecuteQuery(int rank) {
+
         ResultSet rs = null;
         String query =  "SELECT username, score" +
         "FROM ScoreBoard Emp1" +
-        "WHERE (rank) = (" +
+        "WHERE (" + rank +") = (" +
         "SELECT COUNT(DISTINCT(Emp2.score)) " +
         "FROM ScoreBoard Emp2" +
         "WHERE Emp2.score > Emp1.score)";
@@ -68,7 +69,7 @@ public class LeaderBoard {
         try {
             Connection conn = DBconnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(2, rank);
+            //ps.setInt(1, rank);
             rs = ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
