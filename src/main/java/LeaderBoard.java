@@ -52,11 +52,16 @@ public class LeaderBoard {
                 lframe.setVisible(false);
             }
         });
+
+
     }
 
     public static void prepAndExecuteQuery(String username, int rank) {
 
-        String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
+        String query = "select * from(\n" +
+                "select ename, sal, dense_rank() \n" +
+                "over(order by sal desc)r from Employee) \n" +
+                "where r=&n;";
 
         try {
             Connection conn = DBconnection.getConnection();
