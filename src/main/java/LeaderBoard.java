@@ -50,7 +50,10 @@ public class LeaderBoard {
             }
         });
         player1.setText(fromResultsetToString(prepAndExecuteQuery(1)));
-
+        player2.setText(fromResultsetToString(prepAndExecuteQuery(2)));
+        player3.setText(fromResultsetToString(prepAndExecuteQuery(3)));
+        player4.setText(fromResultsetToString(prepAndExecuteQuery(4)));
+        player5.setText(fromResultsetToString(prepAndExecuteQuery(5)));
     }
 
     public static ResultSet prepAndExecuteQuery( int rank) {
