@@ -60,10 +60,10 @@ public class LeaderBoard {
 
         ResultSet rs = null;
         String query =  "SELECT username, score" +
-        "FROM ScoreBoard Emp1" +
+        "FROM ScoreBoard Emp1 " +
         "WHERE (" + rank +") = (" +
         "SELECT COUNT(DISTINCT(Emp2.score)) " +
-        "FROM ScoreBoard Emp2" +
+        "FROM ScoreBoard Emp2 " +
         "WHERE Emp2.score > Emp1.score)";
 
         try {
