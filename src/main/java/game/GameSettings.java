@@ -11,4 +11,7 @@ public class GameSettings {
     public int getSquareSize() {
         return squareSize;
     }
+    public String getUsername() {
+        return username;
+    }
 }
