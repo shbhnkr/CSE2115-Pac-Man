@@ -49,11 +49,11 @@ public class LeaderBoard {
                 lframe.setVisible(false);
             }
         });
-
+        player1.setText(fromResultsetToString(prepAndExecuteQuery(1)));
 
     }
 
-    public static ResultSet prepAndExecuteQuery(String uname, int rank) {
+    public static ResultSet prepAndExecuteQuery( int rank) {
         ResultSet rs = null;
         String query = "select * from(\n" +
                 "select `username`, `score`, dense_rank() \n" +
@@ -63,7 +63,6 @@ public class LeaderBoard {
         try {
             Connection conn = DBconnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, uname);
             ps.setInt(2, rank);
             rs = ps.executeQuery();
         } catch (SQLException e) {
