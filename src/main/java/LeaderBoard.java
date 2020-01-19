@@ -1,3 +1,5 @@
+import database.DBconnection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,6 +7,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LeaderBoard {
     public static JFrame lframe;
@@ -19,7 +25,7 @@ public class LeaderBoard {
     private JTextField player5;
     private transient Font font;
 
-    public LeaderBoard(){
+    public LeaderBoard() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
@@ -32,11 +38,11 @@ public class LeaderBoard {
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
         String fontName = "crackman";
 
-        Color color = new Color(255,255,0);
+        Color color = new Color(255, 255, 0);
 
-        title.setBorder(BorderFactory.createMatteBorder(0,0,0,0,color));
+        title.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
 
-        back.setBorder(BorderFactory.createMatteBorder(2,2,2,2,color));
+        back.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, color));
         title.setFont(new Font(fontName, Font.PLAIN, 30));
         back.setFont(new Font(fontName, Font.PLAIN, 20));
         back.addActionListener(new ActionListener() {
@@ -48,4 +54,18 @@ public class LeaderBoard {
         });
     }
 
+    public static void prepAndExecuteQuery(String username, int rank) {
+
+        String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
+
+        try {
+            Connection conn = DBconnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setInt(2, rank);
+            ResultSet rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
