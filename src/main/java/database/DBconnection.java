@@ -61,7 +61,10 @@ public class DBconnection {
                 while (rs.next()) {
                     for (int i = 1; i <= columnsNumber; i++) {
                         String columnValue = rs.getString(i);
-                        result += columnValue + " ";
+                        result += columnValue;
+                        if(i < columnsNumber){
+                            result += "   Score: ";
+                        }
                         System.out.println(result);
 
 
