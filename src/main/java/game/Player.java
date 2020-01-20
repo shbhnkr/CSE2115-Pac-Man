@@ -68,9 +68,25 @@ public class Player extends Unit implements Observable {
     void moveUp(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
-        if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        if (getLocation().y != 0) {
+            if(pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+                return;
+            }
+            for (char ghostChar : ghostChars) {
+                if(pixels[getLocation().x / 20][(getLocation().y / 20) - 1] == ghostChar) {
+                    return;
+                }
+            }
             if (poweredUp(game)) return;
+        } else {
+            for (char ghostChar : ghostChars) {
+                if(pixels[getLocation().x / 20][(height - 20) / 20] == ghostChar) {
+                    return;
+                }
+            }
         }
+
         if (getLocation().y == 0) {
             Point point = new Point(getLocation().x, height - 20);
             movePlayer(point);
