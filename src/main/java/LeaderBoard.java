@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 
 public class LeaderBoard {
     public static JFrame lframe;
@@ -49,51 +48,11 @@ public class LeaderBoard {
                 lframe.setVisible(false);
             }
         });
-        player1.setText(fromResultsetToString(prepAndExecuteQuery(1)));
-        player2.setText(fromResultsetToString(prepAndExecuteQuery(2)));
-        player3.setText(fromResultsetToString(prepAndExecuteQuery(3)));
-        player4.setText(fromResultsetToString(prepAndExecuteQuery(4)));
-        player5.setText(fromResultsetToString(prepAndExecuteQuery(5)));
+        player1.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(1)));
+        player2.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(2)));
+        player3.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(3)));
+        player4.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(4)));
+        player5.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(5)));
     }
 
-    public static ResultSet prepAndExecuteQuery(int rank) {
-
-        ResultSet rs = null;
-        String query =  "SELECT `username`, `score`" +
-        "FROM `ScoreBoard` Emp1 " +
-        "WHERE (" + rank +") = (" +
-        "SELECT COUNT(DISTINCT(Emp2.score)) " +
-        "FROM `ScoreBoard` Emp2 " +
-        "WHERE Emp2.score > Emp1.score)";
-
-        try {
-            Connection conn = DBconnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            //ps.setInt(1, rank);
-            rs = ps.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rs;
-    }
-
-    public static String fromResultsetToString(ResultSet rs){
-        String result = "";
-        ResultSetMetaData rsmd = null;
-        try {
-            rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            while (rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                   result += (columnValue + " " + rsmd.getColumnName(i));
-                }
-                System.out.println("");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 }

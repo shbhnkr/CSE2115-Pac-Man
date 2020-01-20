@@ -1,8 +1,6 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Create connection to Database using jdbc.
@@ -33,5 +31,47 @@ public class DBconnection {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public static class prepQandToString {
+
+        public static ResultSet prepAndExecuteQuery(int rank) {
+
+            ResultSet rs = null;
+            String query = String.format("SELECT `username`, `score`FROM `ScoreBoard` Emp1 WHERE (%d) = (SELECT COUNT(DISTINCT(Emp2.score)) FROM `ScoreBoard` Emp2 WHERE Emp2.score > Emp1.score)", rank);
+
+            try {
+                Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(query);
+                //ps.setInt(1, rank);
+                rs = ps.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return rs;
+        }
+
+        public static String fromResultsetToString(ResultSet rs){
+            String result = "";
+            ResultSetMetaData rsmd = null;
+            try {
+                rsmd = rs.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                while (rs.next()) {
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        if (i > 1) System.out.print(",  ");
+                        String columnValue = rs.getString(i);
+                        result += columnValue;
+                        if(i < columnsNumber){
+                            result += " ";
+                        }
+                    }
+                    System.out.println("");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
     }
 }
