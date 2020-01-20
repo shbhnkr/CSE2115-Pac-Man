@@ -70,15 +70,12 @@ public class Player extends Unit implements Observable {
         yPixelPlayer = 0;
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         if (getLocation().y != 0) {
-            if(pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
-                return;
-            }
+            if(!poweredUp(game) || pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') { return; }
             for (char ghostChar : ghostChars) {
-                if(pixels[getLocation().x / 20][(getLocation().y / 20) - 1] == ghostChar) {
+                if (pixels[getLocation().x / 20][(getLocation().y / 20) - 1] == ghostChar) {
                     return;
                 }
             }
-            if (poweredUp(game)) return;
         } else {
             for (char ghostChar : ghostChars) {
                 if(pixels[getLocation().x / 20][(height - 20) / 20] == ghostChar) {
@@ -144,8 +141,21 @@ public class Player extends Unit implements Observable {
     void moveLeft(Game game, int width) {
         xPixelPlayer = 16;
         yPixelPlayer = 48;
-        if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
-            if (poweredUp(game)) return;
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        if (getLocation().x != 0) {
+            if (poweredUp(game) || pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') return;
+            for (char ghostChar : ghostChars) {
+                if(pixels[(getLocation().x / 20) - 1][getLocation().y / 20] == ghostChar) {
+                    return;
+                }
+            }
+        } else {
+            for (char ghostChar : ghostChars) {
+                if(pixels[(width - 20) / 20][getLocation().y / 20] == ghostChar) {
+                    return;
+                }
+            }
+
         }
         if (getLocation().x == 0) {
             Point point = new Point(width - 20, getLocation().y);

@@ -377,12 +377,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @SuppressWarnings("PMD")
     private void leftKey() {
         animation(32, 48, player, getGraphics());
-        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
-        for (char ghostChar : ghostChars) {
-            if(pixels[(getLocation().x / 20) - 1][getLocation().y / 20] == ghostChar) {
-                return;
-            }
-        }
         player.moveLeft(this, getWidth());
 
     }
