@@ -292,18 +292,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 }
             }
             char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+            boolean kill = false;
             switch (playerDirection) {
                 case "up":
                     if (getLocation().y != 0) {
                         for (char ghostChar : ghostChars) {
                             if (pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     } else {
                         for (char ghostChar : ghostChars) {
                             if (pixels[getLocation().x / 20][(height - 20) / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     }
@@ -313,13 +314,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     if (getLocation().x != 0) {
                         for (char ghostChar : ghostChars) {
                             if (pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     } else {
                         for (char ghostChar : ghostChars) {
                             if (pixels[(width - 20) / 20][getLocation().y / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     }
@@ -329,13 +330,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     if (getLocation().y != height - 20) {
                         for (char ghostChar : ghostChars) {
                             if (pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     } else {
                         for (char ghostChar : ghostChars) {
                             if (pixels[getLocation().x / 20][0] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     }
@@ -345,18 +346,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     if (getLocation().x != width - 20) {
                         for (char ghostChar : ghostChars) {
                             if (pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     } else {
                         for (char ghostChar : ghostChars) {
                             if (pixels[0][getLocation().y / 20] == ghostChar) {
-                                lose();
+                                kill = true;
                             }
                         }
                     }
                     rightKey();
                     break;
+            }
+            if (kill) {
+                lose();
             }
         }
     }
