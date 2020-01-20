@@ -2,13 +2,12 @@ package ghost;
 
 import game.SpriteSheet;
 
-import java.util.Random;
-
 /**
  * ghost 5.
  */
 public class Randy extends Ghost {
     public static final long serialVersionUID = 4328743;
+    static int random = -1;
 
     Randy(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
@@ -16,27 +15,20 @@ public class Randy extends Ghost {
 
     @Override
     public void moveGhost(int height, int width) {
-        Random rand = new Random();
-        int random = rand.nextInt(4);
-
+        if (random < 0) setRandom(4, 0);
         switch (random) {
-            case 0:
-                this.moveUpGhost(height);
+            case 0: this.moveUpGhost(height);
                 break;
-            case 1:
-                this.moveLeftGhost(width);
+            case 1: this.moveLeftGhost(width);
                 break;
-            case 2:
-                this.moveDownGhost(height);
+            case 2: this.moveDownGhost(height);
                 break;
-            default:
+            case 3:
                 this.moveRightGhost(width);
                 break;
         }
     }
 
     @Override
-    public String getType() {
-        return "r";
-    }
+    public String getType() { return "r"; }
 }

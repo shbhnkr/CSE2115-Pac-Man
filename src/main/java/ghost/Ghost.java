@@ -12,6 +12,7 @@ import java.util.List;
 
 import java.awt.Point;
 import java.awt.Graphics;
+import java.util.Random;
 
 import static game.Level.pixels;
 
@@ -201,5 +202,10 @@ public abstract class Ghost extends Unit implements Observer, Observable {
      */
     public void setObserverCollection(List<Observer> observerCollection) {
         this.observerCollection = observerCollection;
+    }
+
+    public void setRandom(int bound, int offSet) {
+        Random rand = new Random();
+        Randy.random = rand.nextInt(bound) + offSet;
     }
 }

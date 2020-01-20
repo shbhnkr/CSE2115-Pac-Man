@@ -7,7 +7,7 @@ import game.SpriteSheet;
 public class Clyde extends Ghost {
     public static final long serialVersionUID = 4328743;
 
-    public Clyde(int x, int y, SpriteSheet spriteSheet) {
+    Clyde(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
 

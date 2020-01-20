@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-public class GhostObservableTest {
+class GhostObservableTest {
 
     transient Ghost randy;
     transient Player player;

@@ -131,7 +131,6 @@ public class Pinky extends Ghost {
                 moveRightGhost(width);
                 break;
             default:
-                break;
         }
     }
 
