@@ -1,5 +1,6 @@
 package game;
 
+
 import ghost.Ghost;
 
 import javax.swing.JOptionPane;
@@ -8,6 +9,12 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
+
+import database.DBconnection;
+import ghost.Randy;
+import javax.swing.*;
+import java.awt.*;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
@@ -17,7 +24,14 @@ import java.io.FileNotFoundException;
 
 import java.net.URL;
 
+
 import java.util.List;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 import java.util.Scanner;
 
 import static game.SpriteSheet.animation;
@@ -35,6 +49,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletCount = 0;
     private static int width = 0;
     private static int height = 0;
+    private transient Connection conn = null;
+    private transient ResultSet rs = null;
     private static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
@@ -351,9 +367,29 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + "Your Score is: " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                String uname = settings.username;
+                int score = point;
+
+                 //query
+                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+                try {
+                    //connecting to DataBase
+                    conn = DBconnection.getConnection();
+
+                    //preparing and executing query
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, uname+"");
+                    ps.setInt(2, score);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                stop();
+
             }
-            stop();
         }
     }
     @SuppressWarnings("PMD")
