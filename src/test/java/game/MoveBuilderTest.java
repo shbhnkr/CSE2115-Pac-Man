@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Point;
 
 
 class MoveBuilderTest {
 
-    transient Player player;
+    private transient Player player;
 
     @BeforeEach
     void setUp() {

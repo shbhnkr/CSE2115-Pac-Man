@@ -11,43 +11,47 @@ import java.awt.*;
 public class GhostObservableTest {
 
     transient Ghost randy;
-    transient Ghost inky;
+    transient Player player;
 
     @BeforeEach
     void setUp() {
+        int x = 0;
+        int y = 0;
+        player = new Player(x, y);
         try {
             randy = GhostFactory.create(GhostFactory.RANDY, 10, 10);
-            inky = GhostFactory.create(GhostFactory.INKY, 5, 5);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-//    /**
-//     * Test to see if pacman is correctly observable by ghosts. ex. Randy.
-//     */
-//    @Test
-//    void observePacmanTest() {
-//        // assert that the location of thp
-//        Assertions.assertEquals(5, inky.x);
-//        Assertions.assertEquals(5, inky.y);
-//
-//        // Assert that randy has no value for the location of the inky
-//        Assertions.assertNull(randy.unitLocations.get(inky.getType()));
-//
-//
-//        // Let the inky move down and assert the location differs now
-//        inky.moveGhost(100, 100);
-//        Assertions.assertEquals(20, inky.y);
-//
-//        // Notify the observers
-//        inky.notifyObservers();
-//
-//        // Assert that randy now has a value for pacman  and that the y value equals pacmans position
-//        Assertions.assertNotNull(randy.unitLocations.get(inky.getType()));
-//        Point location = randy.unitLocations.get(inky.getType());
-//        Assertions.assertEquals(20, location.y);
-//
-//    }
+    /**
+     * Test to see if pacman is correctly observable by ghosts. ex. Randy.
+     */
+    @Test
+    void observePacmanTest() {
+        // assert that the location of thp
+        Assertions.assertEquals(0, player.getLocation().x);
+        Assertions.assertEquals(0, player.getLocation().y);
+
+        // Assert that randy has no value for the location of the player
+        Assertions.assertNull(randy.unitLocations.get(player.getType()));
+
+        // Register randy as an observer of player
+        player.registerObserver(randy);
+
+        // Let the player move down and assert the location differs now
+        player.movePlayer(new Point(100, 100));
+        Assertions.assertEquals(100, player.y);
+
+        // Notify the observers
+        player.notifyObservers();
+
+        // Assert that randy now has a value for pacman  and that the y value equals pacmans position
+        Assertions.assertNotNull(randy.unitLocations.get(player.getType()));
+        Point location = randy.unitLocations.get(player.getType());
+        Assertions.assertEquals(100, location.y);
+
+    }
 }
