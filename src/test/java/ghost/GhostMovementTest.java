@@ -19,6 +19,11 @@ class GhostMovementTest {
     @BeforeEach
     @SuppressWarnings("PMD")
     void setUp() {
+        try {
+            ghost = GhostFactory.create(GhostFactory.RANDY, x, y);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int n = 0;
         Level.setPixels(new char[width][height]);
         for (int i = 0; i < width/20; i++) {
@@ -28,38 +33,34 @@ class GhostMovementTest {
 
     @Test
     void up() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.RANDY, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ghost.move(new Point(40, 0));
+        ghost.moveUpGhost(height);
+        Point wrapAroundNorth = ghost.getLocation();
+        Assertions.assertEquals(wrapAroundNorth.getY(), height - 20);
+
         ghost.moveUpGhost(height);
         Point north = ghost.getLocation();
-        Assertions.assertEquals(north.getY(), 20);
+        Assertions.assertEquals(north.getY(), height - 40);
     }
 
     @Test
-    void down() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.BLINKY, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    void down() {        ghost.move(new Point(40, width - 20));
+        ghost.moveDownGhost(height);
+        Point wrapAroundSouth = ghost.getLocation();
+        Assertions.assertEquals(wrapAroundSouth.getY(), 0);
+
         ghost.moveDownGhost(height);
         Point south = ghost.getLocation();
-        Assertions.assertEquals(south.getY(), 60);
+        Assertions.assertEquals(south.getY(), 20);
     }
 
     @Test
     void left() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.INKY, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ghost.move(new Point(0, 40));
+        ghost.moveLeftGhost(width);
+        Point  = ghost.getLocation();
+        Assertions.assertEquals(west.getX(), width - 20);
+
         ghost.moveLeftGhost(width);
         Point west = ghost.getLocation();
         Assertions.assertEquals(west.getX(), 20);
@@ -67,56 +68,13 @@ class GhostMovementTest {
 
     @Test
     void right() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.PINKY, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         ghost.moveRightGhost(width);
         Point east = ghost.getLocation();
         Assertions.assertEquals(east.getX(), 60);
     }
-    @Test
-    void upWrapAround() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.CLYDE, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ghost.move(new Point(40, 0));
-        ghost.moveUpGhost(height);
-        Point north = ghost.getLocation();
-        Assertions.assertEquals(north.getY(), height - 20);
-    }
-
-    @Test
-    void downWrapAround() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.CLYDE, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ghost.move(new Point(40, width - 20));
-        ghost.moveDownGhost(height);
-        Point south = ghost.getLocation();
-        Assertions.assertEquals(south.getY(), 0);
-    }
 
     @Test
     void leftWrapAround() {
-        try {
-            ghost = GhostFactory.create(GhostFactory.CLYDE, x, y);
-            ghost.move(new Point(40, 40));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ghost.move(new Point(0, 40));
-        ghost.moveLeftGhost(width);
-        Point west = ghost.getLocation();
-        Assertions.assertEquals(west.getX(), width - 20);
     }
 
     @Test

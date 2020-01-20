@@ -145,6 +145,9 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
+        if (this.getLocation().x != 0 && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#') {
+            return;
+        }
         if (this.getLocation().x == width - 20) {
             Point point = new Point(0, this.getLocation().y);
             if(!(pixels[point.x/20][point.y/20] == '#')) {
