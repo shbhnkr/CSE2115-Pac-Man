@@ -33,7 +33,7 @@ public class DBconnection {
         return null;
     }
 
-    public static class prepQandToString {
+
 
         public static ResultSet prepAndExecuteQuery(int rank) {
 
@@ -74,4 +74,3 @@ public class DBconnection {
             return result;
         }
     }
-}

@@ -48,11 +48,16 @@ public class LeaderBoard {
                 lframe.setVisible(false);
             }
         });
-        player1.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(1)));
-        player2.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(2)));
-        player3.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(3)));
-        player4.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(4)));
-        player5.setText(DBconnection.prepQandToString.fromResultsetToString(DBconnection.prepQandToString.prepAndExecuteQuery(5)));
+        player1.setText(DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(1)));
+        player2.setText(DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(2)));
+        player3.setText(DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(3)));
+        player4.setText(DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(4)));
+        player5.setText(DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(5)));
     }
 
 }
