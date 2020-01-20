@@ -11,6 +11,6 @@ public class fromResultsetToStringTest {
     @Test
     public void covertTest() {
         assertEquals((DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(1))), "B 100");
+                DBconnection.prepAndExecuteQuery(4))), "null 10 ");
     }
 }

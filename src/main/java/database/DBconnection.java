@@ -56,18 +56,21 @@ public class DBconnection {
             ResultSetMetaData rsmd = null;
             try {
                 rsmd = rs.getMetaData();
-                int columnsNumber = 2;
+                int columnsNumber = rsmd.getColumnCount();
 
                 while (rs.next()) {
                     for (int i = 1; i <= columnsNumber; i++) {
                         if (i > 1) System.out.print(",  ");
                         String columnValue = rs.getString(i);
-                        result += columnValue;
-                        if(i < columnsNumber){
-                            result += " ";
-                        }
+                        result += columnValue + " ";
+                        System.out.println(result);
+
+
                     }
                     System.out.println("");
+                    while(rs.next()) {
+                        rs.next();
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
