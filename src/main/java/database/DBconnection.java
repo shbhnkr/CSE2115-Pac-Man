@@ -60,7 +60,6 @@ public class DBconnection {
 
                 while (rs.next()) {
                     for (int i = 1; i <= columnsNumber; i++) {
-                        if (i > 1) System.out.print(",  ");
                         String columnValue = rs.getString(i);
                         result += columnValue + " ";
                         System.out.println(result);
