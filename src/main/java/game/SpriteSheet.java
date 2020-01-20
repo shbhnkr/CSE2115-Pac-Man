@@ -1,7 +1,5 @@
 package game;
 
-import ghost.Ghost;
-
 import javax.imageio.ImageIO;
 
 import java.awt.Graphics;

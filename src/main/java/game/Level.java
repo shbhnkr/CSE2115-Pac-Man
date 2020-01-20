@@ -154,11 +154,11 @@ public class Level {
         Level.fruitPellet = fruitPellet;
     }
 
-    private static char[][] getPixels() {
+    public static char[][] getPixels() {
         return pixels;
     }
 
-    private static void setPixels(char[][] pixels) {
+    public static void setPixels(char[][] pixels) {
         Level.pixels = pixels;
     }
 
