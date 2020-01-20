@@ -35,11 +35,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletCount = 0;
     private static int width = 0;
     private static int height = 0;
-    private static boolean isRunning;
+    public static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int pelletEaten = 0;
-    public transient int point = 0;
+    public static int point = 0;
     private transient int key = Integer.MAX_VALUE;
 
     static {
@@ -291,7 +291,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 //                isRunning = false;
 //            }
 //            else {
-//                isRunning = true;
+//
 //            }
 //        }
 
@@ -347,6 +347,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         player.moveRight(this, getWidth());
         
     }
+
     void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;

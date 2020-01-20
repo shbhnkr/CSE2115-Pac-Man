@@ -88,7 +88,6 @@ public class StartScreen {
                     MainMenu.frame.setLocation(500, 300);
                     MainMenu.frame.setResizable(false);
                     MainMenu.frame.setVisible(true);
-
                     frame1.setVisible(false);
                 }
 

@@ -61,8 +61,10 @@ public class Level {
             setBeers(new Beer[width][height]);
             setPowerPellets(new PowerPellet[width][height]);
 
+
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
+
                     switch (pixels[x][y]) {
                         case ',':
                             getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);

@@ -12,6 +12,7 @@ import java.net.URL;
 public class MainMenu {
     public static JFrame frame;
     public transient JPanel panel1;
+    public static JFrame gameFrame;
     private transient JButton playGameButton;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
@@ -20,9 +21,11 @@ public class MainMenu {
     private transient JTextArea textArea1;
     private transient JTextArea textArea2;
     private transient JButton backButton;
+    private transient JButton pause;
     private transient Font font;
     private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20);;
+    private transient Gamesettings gamesettings = new Gamesettings(20);
+    ;
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";
@@ -47,8 +50,14 @@ public class MainMenu {
         Color color = new Color(0, 0, 0);
 
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
-
-
+        backButton = new JButton("Back to Main Menu");
+        backButton.setFont(new Font(crackman, Font.PLAIN, 20));
+        backButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        backButton.setBackground(Color.orange);
+        pause = new JButton("Pause");
+        pause.setFont(new Font(crackman, Font.PLAIN, 20));
+        pause.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        pause.setBackground(Color.orange);
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         comboBox1.setBackground(Color.orange);
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
@@ -75,19 +84,19 @@ public class MainMenu {
 
                 Game game = new Game(gamesettings, pop);
 
-                //backButton = new JButton("Score: " + game.point);
+                gameFrame = new JFrame();
 
-                JFrame frame1 = new JFrame();
-
-                frame1.setTitle(Game.TITLE);
-                gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.PAGE_AXIS));
-                gamePanel.add(game);
-                frame1.add(gamePanel);
-                frame1.setResizable(false);
-                frame1.pack();
-                frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame1.setLocationRelativeTo(null);
-                frame1.setVisible(true);
+                gameFrame.setTitle(Game.TITLE);
+                gamePanel.setLayout(new BorderLayout());
+                gamePanel.add(pause, BorderLayout.NORTH);
+                gamePanel.add(backButton, BorderLayout.SOUTH);
+                gamePanel.add(game, BorderLayout.CENTER);
+                gameFrame.add(gamePanel);
+                gameFrame.setResizable(false);
+                gameFrame.pack();
+                gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                gameFrame.setLocationRelativeTo(null);
+                gameFrame.setVisible(true);
                 game.start();
                 frame.setVisible(false);
             }
@@ -102,6 +111,27 @@ public class MainMenu {
 //        frame.setResizable(false);
 //        frame.setVisible(true);
 //    }
+        pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Game.isRunning) {
+                    Game.isRunning = false;
+                }
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenu.frame = new JFrame("Main Menu");
+                MainMenu.frame.setContentPane(new MainMenu().panel1);
+                MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                MainMenu.frame.setSize(600, 300);
+                MainMenu.frame.setLocation(500, 300);
+                MainMenu.frame.setResizable(false);
+                MainMenu.frame.setVisible(true);
+                gameFrame.setVisible(false);
+            }
+        });
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
