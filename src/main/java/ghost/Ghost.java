@@ -1,10 +1,6 @@
 package ghost;
 
-import game.MoveBuilder;
-import game.Observable;
-import game.Observer;
-import game.SpriteSheet;
-import game.Unit;
+import game.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -29,8 +25,9 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Constructor for the different ghosts.
-     * @param x position on the map.
-     * @param y position on the map.
+     *
+     * @param x           position on the map.
+     * @param y           position on the map.
      * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
@@ -44,23 +41,26 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Each type of ghost defines its own movement method.
+     *
      * @param height height of the board, needed for the wraparound to work.
-     * @param width width of the board, needed for the wraparound to work.
-
+     * @param width  width of the board, needed for the wraparound to work.
      */
     public abstract void moveGhost(int height, int width);
+
     public abstract String getType();
 
     /**
      * Renders each ghost with a specific sprite.
+     *
      * @param g the graphics to render
      */
     public void render(Graphics g) {
-        g.drawImage(this.sheet.getSprite(0,0),x,y,18,18, null);
+        g.drawImage(this.sheet.getSprite(0, 0), x, y, 18, 18, null);
     }
 
     /**
      * Get the current sheet.
+     *
      * @return returns a sprite sheet
      */
     public SpriteSheet getSheet() {
@@ -69,6 +69,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Change the sprite sheet.
+     *
      * @param sheet the sprite sheet to set to
      */
     public void setSheet(SpriteSheet sheet) {
@@ -76,8 +77,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     }
 
     /**
-     *
-     * @param type the type of the unit
+     * @param type     the type of the unit
      * @param location the location of the unit
      */
     @Override
@@ -101,11 +101,10 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         }
         if (this.getLocation().y == 0) {
             Point point = new Point(this.getLocation().x, height - 20);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
-        }
-        else {
+        } else {
             move(MoveBuilder.UP(this.getLocation()));
         }
     }
@@ -117,8 +116,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
             return;
         }
         if (this.getLocation().x == 0) {
-            Point point = new Point( width - 20, this.getLocation().y);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            Point point = new Point(width - 20, this.getLocation().y);
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
         } else {
@@ -134,7 +133,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         }
         if (this.getLocation().y == height - 20) {
             Point point = new Point(this.getLocation().x, 0);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
         } else {
@@ -145,14 +144,15 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
-        if (this.getLocation().x == width - 20) {
-            Point point = new Point(0, this.getLocation().y);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
-                this.move(point);
-            }
+        if (this.getLocation().x != width - 20 && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
             return;
         }
-        if (!(this.getLocation().x != width - 20 && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#')) {
+        if (this.getLocation().x == width - 20) {
+            Point point = new Point(0, this.getLocation().y);
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+                this.move(point);
+            }
+        } else {
             move(MoveBuilder.RIGHT(this.getLocation()));
         }
     }
@@ -186,6 +186,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Get the observer collection.
+     *
      * @return collection of observers.
      */
     public List<Observer> getObserverCollection() {
@@ -194,6 +195,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Set the observer collection.
+     *
      * @param observerCollection the observerCollection to set to
      */
     public void setObserverCollection(List<Observer> observerCollection) {

@@ -45,7 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public transient int pelletEaten = 0;
     public transient int point = 0;
     private transient int key = Integer.MAX_VALUE;
-    private transient  boolean newKey = false;
+    private transient boolean newKey = false;
 
     static {
         isRunning = false;
@@ -291,18 +291,47 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     }
                 }
             }
+            char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
             switch (playerDirection) {
                 case "up":
+                    if (getLocation().y != 0) {
+                        for (char ghostChar : ghostChars) {
+                            if (pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == ghostChar) {
+                                lose();
+                            }
+                        }
+                    }
                     upKey();
                     break;
                 case "left":
+                    if (getLocation().x != 0) {
+                        for (char ghostChar : ghostChars) {
+                            if (pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == ghostChar) {
+                                lose();
+                            }
+                        }
+                    }
                     leftKey();
                     break;
-                case "right":
-                    rightKey();
-                    break;
                 case "down":
+                    if (getLocation().y != height - 20) {
+                        for (char ghostChar : ghostChars) {
+                            if (pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == ghostChar) {
+                                lose();
+                            }
+                        }
+                    }
                     downKey();
+                    break;
+                case "right":
+                    if (getLocation().x != width - 20) {
+                        for (char ghostChar : ghostChars) {
+                            if (pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == ghostChar) {
+                                lose();
+                            }
+                        }
+                    }
+                    rightKey();
                     break;
             }
         }
@@ -384,12 +413,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @SuppressWarnings("PMD")
     private void downKey() {
         animation(32, 32, player, getGraphics());
-        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
-        for (char ghostChar : ghostChars) {
-            if(pixels[getLocation().x / 20][(getLocation().y / 20) + 1] == ghostChar) {
-                return;
-            }
-        }
         player.moveDown(this, getHeight());
 
     }
@@ -399,7 +422,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         animation(32, 16, player, getGraphics());
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         for (char ghostChar : ghostChars) {
-            if(pixels[(getLocation().x / 20) + 1][getLocation().y / 20] == ghostChar) {
+            if (pixels[(getLocation().x / 20) + 1][getLocation().y / 20] == ghostChar) {
                 return;
             }
         }
