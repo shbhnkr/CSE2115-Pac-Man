@@ -21,11 +21,12 @@ public class StartScreen {
     private transient JButton newUserClickHereButton;
     private transient Font font;
     private transient JTextArea pacmanText;
-    private JButton leaderboardButton;
+    private transient JButton leaderboardButton;
     private transient char password;
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
+    public transient String crackman = "crackman";
 
     /**
      * Constructor.
@@ -113,10 +114,10 @@ public class StartScreen {
         Dimension dimension = new Dimension(5, 5);
         textField1.setPreferredSize(dimension);
         passwordField1.setPreferredSize(dimension);
-        pacmanText.setFont(new Font("crackman", Font.PLAIN, 35));
-        loginButton.setFont(new Font("crackman", Font.PLAIN, 20));
-        leaderboardButton.setFont(new Font("crackman", Font.PLAIN, 20));
-        newUserClickHereButton.setFont(new Font("crackman", Font.PLAIN, 20));
+        pacmanText.setFont(new Font(crackman, Font.PLAIN, 35));
+        loginButton.setFont(new Font(crackman, Font.PLAIN, 20));
+        leaderboardButton.setFont(new Font(crackman, Font.PLAIN, 20));
+        newUserClickHereButton.setFont(new Font(crackman, Font.PLAIN, 20));
         Color color = new Color(0, 0, 0);
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));
         passwordField1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, color));

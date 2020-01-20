@@ -12,13 +12,13 @@ public class LeaderBoard {
     public static JFrame lframe;
     public transient JPanel leaderPanel;
     private transient JTextField title;
-    private JButton back;
-    private JTextField title2;
-    private JTextField player1;
-    private JTextField player2;
-    private JTextField player3;
-    private JTextField player4;
-    private JTextField player5;
+    private transient JButton back;
+    private transient JTextField title2;
+    private transient JTextField player1;
+    private transient JTextField player2;
+    private transient JTextField player3;
+    private transient JTextField player4;
+    private transient JTextField player5;
     private transient Font font;
 
     public LeaderBoard() {
