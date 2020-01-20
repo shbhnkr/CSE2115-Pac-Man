@@ -10,7 +10,7 @@ public class fromResultsetToStringTest {
 
     @Test
     public void covertTest() {
-        assertEquals((DBconnection.prepQandToString.fromResultsetToString(
-                DBconnection.prepQandToString.prepAndExecuteQuery(1))), "B 100");
+        assertEquals((DBconnection.fromResultsetToString(
+                DBconnection.prepAndExecuteQuery(1))), "B 100");
     }
 }
