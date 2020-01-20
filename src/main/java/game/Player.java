@@ -13,7 +13,7 @@ import static game.Level.*;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    
+
     static int xPixelPlayer, yPixelPlayer = 0;
     private List<Observer> observerCollection;
     transient boolean drunk;
@@ -69,7 +69,9 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
         if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
-            if (poweredUp(game)) return;
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().y == 0) {
             Point point = new Point(getLocation().x, height - 20);
@@ -129,7 +131,9 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 48;
         if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
-            if (poweredUp(game)) return;
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().x == 0) {
             Point point = new Point(width - 20, getLocation().y);
@@ -190,7 +194,9 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
         if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
-            if (poweredUp(game)) return;
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().y == height - 20) {
             Point point = new Point(getLocation().x, 0);
@@ -250,7 +256,10 @@ public class Player extends Unit implements Observable {
         xPixelPlayer = 16;
         yPixelPlayer = 16;
         if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
-            if (poweredUp(game)) return;
+            if (poweredUp(game)) {
+                return;
+            }
+
         }
         if (getLocation().x == width - 20) {
             Point point = new Point(0, getLocation().y);
@@ -261,18 +270,6 @@ public class Player extends Unit implements Observable {
             objectCheckerRight(game, width);
         }
         notifyObservers();
-    }
-
-    private boolean poweredUp(Game game) {
-        if (power) {
-            Wall wal = null;
-            pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
-            walls[getLocation().x / 20][getLocation().y / 20] = wal;
-            game.point += 10;
-        } else {
-            return true;
-        }
-        return false;
     }
 
     private void objectCheckerRight(Game game, int width) {
@@ -323,6 +320,18 @@ public class Player extends Unit implements Observable {
             return false;
         }
         return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
+    }
+
+    private boolean poweredUp(Game game) {
+        if (power) {
+            Wall wal = null;
+            pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+            walls[getLocation().x / 20][getLocation().y / 20] = wal;
+            game.point += 10;
+        } else {
+            return true;
+        }
+        return false;
     }
 
     @Override
