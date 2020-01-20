@@ -36,8 +36,6 @@ class GameCollisionTest {
         player.moveUp(game, game.getHeight());
         Assertions.assertEquals(4, game.pelletEaten);
         game.stop();
-
-
     }
 
     @Test
