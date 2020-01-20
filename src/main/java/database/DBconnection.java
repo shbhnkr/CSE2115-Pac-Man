@@ -57,6 +57,9 @@ public class DBconnection {
             try {
                 rsmd = rs.getMetaData();
                 int columnsNumber = rsmd.getColumnCount();
+                if(columnsNumber > 3){
+                    columnsNumber /= 2;
+                }
                 while (rs.next()) {
                     for (int i = 1; i <= columnsNumber; i++) {
                         if (i > 1) System.out.print(",  ");
