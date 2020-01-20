@@ -24,7 +24,7 @@
           <enabled value="false"/>
           <foreground color="-16773962"/>
           <selectedTextColor color="-16777216"/>
-          <text value="Leaders"/>
+          <text value="Highscores"/>
         </properties>
       </component>
       <component id="7860" class="javax.swing.JButton" binding="back">
