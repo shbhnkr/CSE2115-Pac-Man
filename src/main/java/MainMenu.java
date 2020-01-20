@@ -22,7 +22,8 @@ public class MainMenu {
     private transient JButton backButton;
     private transient Font font;
     private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20);;
+    private transient Gamesettings gamesettings = new Gamesettings(20);
+    ;
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";

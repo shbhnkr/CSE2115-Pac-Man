@@ -8,7 +8,7 @@ import java.sql.*;
 public class DBconnection {
 
     static String url = "jdbc:mysql://projects-db.ewi."
-           + "tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
+            + "tudelft.nl:3306/projects_pManProject?serverTimezone=UTC";
     static String username = "pu_pManProject";
     static String password = "HEUGEA4u7zN1";
     public static transient ResultSet rs = null;
@@ -25,9 +25,9 @@ public class DBconnection {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-           if(connect == null) {
-               connect = DriverManager.getConnection(url, username, password);
-           }
+            if (connect == null) {
+                connect = DriverManager.getConnection(url, username, password);
+            }
             return connect;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
@@ -38,56 +38,55 @@ public class DBconnection {
     }
 
 
+    public static ResultSet prepAndExecuteQuery(int rank) {
 
-        public static ResultSet prepAndExecuteQuery(int rank) {
+        String query = String.format("SELECT `username`, `score`FROM `ScoreBoard` Emp1 WHERE (%d) = (SELECT COUNT(DISTINCT(Emp2.score)) FROM `ScoreBoard` Emp2 WHERE Emp2.score > Emp1.score)", rank);
 
-            String query = String.format("SELECT `username`, `score`FROM `ScoreBoard` Emp1 WHERE (%d) = (SELECT COUNT(DISTINCT(Emp2.score)) FROM `ScoreBoard` Emp2 WHERE Emp2.score > Emp1.score)", rank);
-
-            try {
-                conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                //ps.setInt(1, rank);
-                 rs = ps.executeQuery();
-                return rs;
-            } catch (SQLException e) {
-                e.printStackTrace();
-      }
-
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            return null;
+        try {
+            conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            //ps.setInt(1, rank);
+            rs = ps.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        public static String fromResultsetToString(ResultSet rs){
-            String result = "";
-
-            try {
-                rsmd = rs.getMetaData();
-                 columnsNumber = rsmd.getColumnCount();
-
-                while (rs.next()) {
-                    for (int i = 1; i <= columnsNumber; i++) {
-                        String columnValue = rs.getString(i);
-                        result += columnValue;
-                        if(i < columnsNumber){
-                            result += "   Score: ";
-                        }
-                        System.out.println(result);
-
-
-                    }
-                    System.out.println("");
-                    while(rs.next()) {
-                        rs.next();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return result;
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
+
+    public static String fromResultsetToString(ResultSet rs) {
+        String result = "";
+
+        try {
+            rsmd = rs.getMetaData();
+            columnsNumber = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    String columnValue = rs.getString(i);
+                    result += columnValue;
+                    if (i < columnsNumber) {
+                        result += "   Score: ";
+                    }
+                    System.out.println(result);
+
+
+                }
+                System.out.println("");
+                while (rs.next()) {
+                    rs.next();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}

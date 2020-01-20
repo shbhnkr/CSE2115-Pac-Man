@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+/*
+leaderboard class
+ */
 public class LeaderBoard {
     public static JFrame lframe;
     public transient JPanel leaderPanel;
@@ -21,6 +24,9 @@ public class LeaderBoard {
     private transient JTextField player5;
     private transient Font font;
 
+    /*
+    GUI
+     */
     public LeaderBoard() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
@@ -48,6 +54,9 @@ public class LeaderBoard {
                 lframe.setVisible(false);
             }
         });
+        /*
+        filling in the 5 top players and scores
+         */
         player1.setText("Rank 1:  " + DBconnection.fromResultsetToString(
                 DBconnection.prepAndExecuteQuery(0)));
         player2.setText("Rank 2:  " + DBconnection.fromResultsetToString(
