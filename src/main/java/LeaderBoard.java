@@ -49,15 +49,15 @@ public class LeaderBoard {
             }
         });
         player1.setText(DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(1)));
+                DBconnection.prepAndExecuteQuery(0)));
         player2.setText(DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(2)));
+                DBconnection.prepAndExecuteQuery(1)));
         player3.setText(DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(3)));
+                DBconnection.prepAndExecuteQuery(2)));
         player4.setText(DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(4)));
+                DBconnection.prepAndExecuteQuery(3)));
         player5.setText(DBconnection.fromResultsetToString(
-                DBconnection.prepAndExecuteQuery(5)));
+                DBconnection.prepAndExecuteQuery(4)));
     }
 
 }
