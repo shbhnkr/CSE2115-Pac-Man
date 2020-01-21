@@ -26,7 +26,7 @@ public class StartScreen {
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
-    public transient String username;
+    public static transient String username;
     public transient String crackman = "crackman";
     /**
      * Constructor.
@@ -42,6 +42,7 @@ public class StartScreen {
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
         loginButton.addActionListener(new ActionListener() {
             @Override
+            @SuppressWarnings("PMD")
             public void actionPerformed(ActionEvent e) {
 
                 String uname = textField1.getText();
@@ -60,6 +61,7 @@ public class StartScreen {
                     rs = ps.executeQuery();
                     if (rs.next()) {
                         pop = true;
+
                         username = uname;
                         JOptionPane.showMessageDialog(null, "Welcome " + uname);
                     } else {
