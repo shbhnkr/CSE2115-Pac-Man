@@ -351,25 +351,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
+
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
-                String uname = settings.username;
-                int score = point;
-
-                 //query
-                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
-
-                try {
-                    //connecting to DataBase
-                    conn = DBconnection.getConnection();
-
-                    //preparing and executing query
-                    PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, uname+"");
-                    ps.setInt(2, score);
-                    ps.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                setScore(settings.username, point);
                 stop();
 
             }
@@ -384,9 +368,94 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 if (isRunning) {
                     JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
+                setScore(settings.username, point);
                 stop();
                 break;
             }
         }
     }
-}
+
+    /*
+    setting the score
+     */
+    public void setScore(String username, int score) {
+
+        //check query
+        String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+                try {
+                    //connecting to DataBase
+                    conn = DBconnection.getConnection();
+
+                    //preparing and executing query
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, username+"");
+                    ps.setInt(2, score);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                stop();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    void win() {
+//        if (pelletEaten == pelletCount) {
+//            coolDown = 999999;
+//            if (isRunning) {
+//                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+//                String uname = settings.username;
+//                int score = point;
+//
+//                 //query
+//                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+//
+//                try {
+//                    //connecting to DataBase
+//                    conn = DBconnection.getConnection();
+//
+//                    //preparing and executing query
+//                    PreparedStatement ps = conn.prepareStatement(query);
+//                    ps.setString(1, uname+"");
+//                    ps.setInt(2, score);
+//                    ps.executeUpdate();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//                stop();
+//
+//            }
+//        }
+//    }
+//
+//    @SuppressWarnings("PMD")
+//    private void lose() {
+//        for (Ghost ghost : ghosts) {
+//            if (player.hasCollided(ghost)) {
+//                coolDown = 999999;
+//                if (isRunning) {
+//                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+//                }
+//                stop();
+//                break;
+//            }
+//        }
+//    }
+
