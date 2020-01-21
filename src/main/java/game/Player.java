@@ -13,11 +13,11 @@ import static game.Level.*;
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
 
-    
     static int xPixelPlayer, yPixelPlayer = 0;
     private List<Observer> observerCollection;
     transient boolean drunk;
     transient boolean power;
+
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);

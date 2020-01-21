@@ -24,6 +24,7 @@ public class MainMenu {
     private transient Font font;
     private transient String board2 = "board2.txt";
     private transient Gamesettings gamesettings = new Gamesettings(20, null);;
+
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";
@@ -45,6 +46,7 @@ public class MainMenu {
 
         playGameButton.setFont(new Font(crackman, Font.PLAIN, 20));
         logoutButton.setFont(new Font(crackman, Font.PLAIN, 20));
+
         title.setFont(new Font(crackman, Font.PLAIN, 35));
 
         Color color = new Color(0, 0, 0);
