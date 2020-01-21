@@ -1,6 +1,4 @@
 import database.DBconnection;
-import game.Game;
-import game.Gamesettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -92,20 +90,6 @@ public class StartScreen {
                     MainMenu.frame.setLocation(500, 300);
                     MainMenu.frame.setResizable(false);
                     MainMenu.frame.setVisible(true);
-
-
-                    Gamesettings settings = new Gamesettings(20,username);
-                    Game game = new Game(settings, "board2.txt");
-                    JFrame frame = new JFrame();
-                    frame.setTitle(Game.TITLE);
-                    frame.add(game);
-                    frame.setResizable(false);
-                    frame.pack();
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
-                    game.start();
-
                     frame1.setVisible(false);
                 }
 
