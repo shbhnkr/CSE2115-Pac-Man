@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class StartScreen {
     static JFrame frame1;
-    private transient JTextField textField1;
+    public transient JTextField textField1;
     private transient JPanel panel1;
     private transient JPasswordField passwordField1;
     private transient JButton loginButton;
@@ -26,7 +26,7 @@ public class StartScreen {
     private transient Connection conn;
     private transient ResultSet rs;
     private transient boolean pop;
-    public transient String username;
+    public static String username;
     public transient String crackman = "crackman";
     /**
      * Constructor.
