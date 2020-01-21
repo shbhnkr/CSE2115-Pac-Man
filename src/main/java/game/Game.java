@@ -353,6 +353,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (isRunning) {
 
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+
+                System.out.println(settings.username);
+
                 setScore(settings.username, point);
                 stop();
 
@@ -369,6 +372,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
                 setScore(settings.username, point);
+
                 stop();
                 break;
             }
