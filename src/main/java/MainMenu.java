@@ -23,7 +23,7 @@ public class MainMenu {
     private transient JButton backButton;
     private transient Font font;
     private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20, null);;
+    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);;
 
     private transient String board1 = "board1.txt";
 
@@ -77,7 +77,6 @@ public class MainMenu {
                     pop = "";
                 }
                 JPanel gamePanel = new JPanel();
-
                 Game game = new Game(gamesettings, pop);
 
                 //backButton = new JButton("Score: " + game.point);
