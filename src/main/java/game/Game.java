@@ -1,37 +1,22 @@
 package game;
 
 
+import database.DBconnection;
 import ghost.Ghost;
 
-import javax.swing.JOptionPane;
-
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
-
-import database.DBconnection;
-import ghost.Randy;
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.net.URL;
-
-
-import java.util.List;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
+import java.util.List;
 import java.util.Scanner;
 
 import static game.SpriteSheet.animation;
