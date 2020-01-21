@@ -351,7 +351,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
                 String uname = settings.username;
                 int score = point;
