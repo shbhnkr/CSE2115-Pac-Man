@@ -353,6 +353,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (isRunning) {
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
                 String uname = settings.username;
+                System.out.println(uname);
                 int score = point;
 
                  //query
@@ -383,6 +384,25 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 coolDown = 999999;
                 if (isRunning) {
                     JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+                }
+                String uname = settings.username;
+                System.out.println(uname);
+                int score = point;
+
+                //query
+                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+                try {
+                    //connecting to DataBase
+                    conn = DBconnection.getConnection();
+
+                    //preparing and executing query
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, uname+"");
+                    ps.setInt(2, score);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 stop();
                 break;
