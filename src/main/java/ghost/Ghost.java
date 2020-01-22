@@ -12,6 +12,9 @@ import java.util.Random;
 
 import static game.Level.pixels;
 
+/**
+ * the superclass for all ghosts.
+ */
 public abstract class Ghost extends Unit implements Observer, Observable {
     public static final long serialVersionUID = 4328743;
 
@@ -26,17 +29,14 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Constructor for the different ghosts.
-     *
-     * @param x           position on the map.
-     * @param y           position on the map.
+     * @param x x position on the map.
+     * @param y y position on the map.
      * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
         setBounds(x, y, 20, 20);
-
         this.unitLocations = new LinkedHashMap<>();
         this.observerCollection = new ArrayList<Observer>();
-
         this.sheet = spriteSheet;
     }
 
@@ -78,7 +78,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     }
 
     /**
-     * @param type     the type of the unit
+     * observes type and location of the unit.
+     * @param type the type of the unit
      * @param location the location of the unit
      */
     @Override
@@ -97,7 +98,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveUpGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 0;
-        if (this.getLocation().y != 0 && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
+        if (this.getLocation().y != 0
+                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
             return;
         }
         if (this.getLocation().y == 0) {
@@ -113,7 +115,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveLeftGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 48;
-        if (this.getLocation().x != 0 && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
+        if (this.getLocation().x != 0
+                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
             return;
         }
         if (this.getLocation().x == 0) {
@@ -129,7 +132,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveDownGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 32;
-        if (this.getLocation().y != height - 20 && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
+        if (this.getLocation().y != height - 20
+                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
             return;
         }
         if (this.getLocation().y == height - 20) {
@@ -145,7 +149,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
-        if (this.getLocation().x != width - 20 && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#') {
+        if (this.getLocation().x != width - 20
+                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#') {
             return;
         }
         if (this.getLocation().x == width - 20) {
@@ -177,7 +182,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     }
 
     @Override
-    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    // Known issue of PMD, described in the following link:
+    // stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {

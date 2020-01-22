@@ -226,30 +226,35 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         boolean upWall;
         if (player.getLocation().y == 0) {
-            upWall = false;
+            upWall = pixels[player.getLocation().x / 20][(height - 20) / 20] == '#';
         } else {
-            upWall = player.getLocation().y != 0 && pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20] == '#';
+            upWall = pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20]
+                    == '#';
         }
 
         boolean leftWall;
         if (player.getLocation().x == 0) {
-            leftWall = false;
+            leftWall = pixels[(width - 20) / 20][player.getLocation().y / 20] == '#';
         } else {
-            leftWall = player.getLocation().x != 0 && pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20] == '#';
+            leftWall = pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20]
+                    == '#';
         }
 
         boolean downWall;
         if (player.getLocation().y == height - 20) {
-            downWall = false;
+            downWall = pixels[player.getLocation().x / 20][0] == '#';
         } else {
-            downWall = player.getLocation().y != height - 20 && pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20] == '#';
+            downWall = pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20]
+                    == '#';
         }
         boolean rightWall;
         if (player.getLocation().x == width - 20) {
-            rightWall = false;
+            rightWall = pixels[0][player.getLocation().y / 20] == '#';
         } else {
-            rightWall = player.getLocation().x != width - 20 && pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20] == '#';
+            rightWall = pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20]
+                    == '#';
         }
+
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 if (player.drunk) {
@@ -308,6 +313,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     break;
                 case "right":
                     rightKey();
+                    break;
+                default:
                     break;
             }
         }
@@ -403,7 +410,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
+                        + point, "Congrats", JOptionPane.DEFAULT_OPTION);
                 setScore(settings.username, point);
                 stop();
 
@@ -417,7 +425,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (player.hasCollided(ghost)) {
                 coolDown = 999999;
                 if (isRunning) {
-                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: "
+                            + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
                 setScore(settings.username, point);
 
@@ -426,24 +435,27 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
     }
-    /*
-    setting the score
+
+    /**
+     * setting the score.
+     * @param username the username of the current player.
+     * @param score the score of the player after the game ends.
      */
     public void setScore(String username, int score) {
         //check query
         String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
-                try {
-                    //connecting to DataBase
-                    conn = DBconnection.getConnection();
+        try {
+            //connecting to DataBase
+            conn = DBconnection.getConnection();
 
-                    //preparing and executing query
-                    PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, username+"");
-                    ps.setInt(2, score);
-                    ps.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                stop();
+            //preparing and executing query
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username + "");
+            ps.setInt(2, score);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        stop();
     }
+}

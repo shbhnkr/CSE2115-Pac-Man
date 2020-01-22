@@ -1,6 +1,6 @@
 package ghost;
 
-import game.Types;
+import game.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PinkyTest {
 
     private transient Ghost pinky;
-
+    private transient Player player;
     private transient int height = 100;
     private transient int width = 100;
 
     @BeforeEach
     void setUp() {
+        Game game = new Game(new Gamesettings(20, null), "testBoardPinky.txt");
+        player = game.player;
         int x = 0;
         int y = 0;
         try {
@@ -25,17 +27,77 @@ class PinkyTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        pinky.move(new Point(60, 60));
+        player.registerObserver(pinky);
     }
 
     @Test
-    void moveGhost() {
+    void moveGhostNoPlayerDirection() {
+        player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
+        player.notifyObservers();
+        Game.playerDirection = "";
+        int beforeMove = pinky.getLocation().y;
+        pinky.moveGhost(height, width);
+        int afterMove = pinky.getLocation().y;
+        assertEquals(beforeMove - afterMove, 20);
+    }
+
+    @Test
+    void moveUpGhost() {
+        player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
+        player.notifyObservers();
+        Game.playerDirection = "up";
+        int beforeMove = pinky.getLocation().y;
+        pinky.moveGhost(height, width);
+        int afterMove = pinky.getLocation().y;
+        assertEquals(beforeMove - afterMove, 20);
+    }
+
+    @Test
+    void moveLeftGhost() {
+        player.movePlayer(new Point(pinky.getLocation().x - 40, pinky.getLocation().y));
+        player.notifyObservers();
+        Game.playerDirection = "left";
+        int beforeMove = pinky.getLocation().x;
+        pinky.moveGhost(height, width);
+        int afterMove = pinky.getLocation().x;
+        assertEquals(beforeMove - afterMove, 20);
+    }
+
+    @Test
+    void moveDownGhost() {
+        player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y + 40));
+        player.notifyObservers();
+        Game.playerDirection = "down";
+        int beforeMove = pinky.getLocation().y;
+        pinky.moveGhost(height, width);
+        int afterMove = pinky.getLocation().y;
+        assertEquals(afterMove - beforeMove, 20);
+    }
+
+    @Test
+    void moveRightGhost() {
+        player.movePlayer(new Point(pinky.getLocation().x + 40, pinky.getLocation().y));
+        player.notifyObservers();
+        Game.playerDirection = "right";
+        int beforeMove = pinky.getLocation().x;
+        pinky.moveGhost(height, width);
+        int afterMove = pinky.getLocation().x;
+        assertEquals(afterMove - beforeMove, 20);
+    }
+
+    @Test
+    void noPlayer() {
+        Player nullplayer = null;
+        player = nullplayer;
         Point beforeMove = pinky.getLocation();
         pinky.moveGhost(height, width);
-        Assertions.assertEquals(beforeMove, pinky.getLocation());
+        Point afterMove = pinky.getLocation();
+        assertEquals(beforeMove, afterMove);
     }
 
     @Test
     void getType() {
-        assertEquals(pinky.getType(), Types.pinkyType());
+        Assertions.assertEquals(pinky.getType(), Types.pinkyType());
     }
 }

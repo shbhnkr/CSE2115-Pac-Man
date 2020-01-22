@@ -1,11 +1,14 @@
 package ghost;
 
-import game.Level;
+import game.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 
 class GhostTest {
@@ -26,7 +29,7 @@ class GhostTest {
         }
         Level.setPixels(new char[width][height]);
         int n = 0;
-        while (n < height/20) {
+        while (n < height / 20) {
             for (int i = 0; i < width / 20; i++) {
                 Level.pixels[i][n] = ' ';
             }
@@ -35,20 +38,46 @@ class GhostTest {
     }
 
     @Test
-    void getSheet() {
+    void getSetSheet() {
+        ghost.setSheet(Game.randySprite);
+        SpriteSheet sheet = ghost.getSheet();
+        Assertions.assertEquals(sheet, Game.randySprite);
     }
 
     @Test
-    void setSheet() {
-        
+    void getSetUnitLocations() {
+        LinkedHashMap<String, Point> unitLocations = new LinkedHashMap<>();
+        unitLocations.put("player", new Point(60, 60));
+        ghost.setUnitLocations(unitLocations);
+        LinkedHashMap<String, Point> getUnitLocations = ghost.getUnitLocations();
+        Assertions.assertEquals(getUnitLocations, unitLocations);
     }
 
     @Test
-    void observe() {
-    }
+    @SuppressWarnings("PMD")
+    void observer() {
+        int x = 0;
+        int y = 0;
+        Ghost inky = null;
+        try {
+            inky = GhostFactory.create(GhostFactory.INKY, x, y);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ghost.registerObserver(inky);
+        Assertions.assertTrue(ghost.getObserverCollection().get(0) instanceof Inky);
 
-    @Test
-    void move() {
+        ghost.setLocation(x + 40, y + 20);
+        ghost.notifyObservers();
+        Assertions.assertEquals(inky.getUnitLocations().get("r"), ghost.getLocation());
+
+        ghost.deregisterObserver(inky);
+        Assertions.assertTrue(ghost.getObserverCollection().isEmpty());
+
+        List<Observer> observers = new ArrayList<>();
+        observers.add(inky);
+        ghost.setObserverCollection(observers);
+        Assertions.assertEquals(ghost.getObserverCollection().get(0), inky);
     }
 
     @Test
@@ -62,7 +91,7 @@ class GhostTest {
         Point north = ghost.getLocation();
         Assertions.assertEquals(north.getY(), height - 40);
 
-        Level.pixels[(int) north.getX()/20][(int) (north.getY()/20) - 1] = '#';
+        Level.pixels[(int) north.getX() / 20][(int) (north.getY() / 20) - 1] = '#';
         ghost.moveUpGhost(height);
         Point northWall = ghost.getLocation();
         Assertions.assertEquals(northWall.getY(), height - 40);
@@ -79,7 +108,7 @@ class GhostTest {
         Point west = ghost.getLocation();
         Assertions.assertEquals(west.getX(), width - 40);
 
-        Level.pixels[(int) (west.getX()/20) - 1][(int) (west.getY()/20)] = '#';
+        Level.pixels[(int) (west.getX() / 20) - 1][(int) (west.getY() / 20)] = '#';
         ghost.moveLeftGhost(width);
         Point westWall = ghost.getLocation();
         Assertions.assertEquals(westWall.getX(), width - 40);
@@ -96,7 +125,7 @@ class GhostTest {
         Point south = ghost.getLocation();
         Assertions.assertEquals(south.getY(), 20);
 
-        Level.pixels[(int) south.getX()/20][(int) (south.getY()/20) + 1] = '#';
+        Level.pixels[(int) south.getX() / 20][(int) (south.getY() / 20) + 1] = '#';
         ghost.moveDownGhost(height);
         Point southWall = ghost.getLocation();
         Assertions.assertEquals(southWall.getY(), 20);
@@ -113,37 +142,9 @@ class GhostTest {
         Point east = ghost.getLocation();
         Assertions.assertEquals(east.getX(), 20);
 
-        Level.pixels[(int) (east.getX()/20) + 1][(int) (east.getY()/20)] = '#';
+        Level.pixels[(int) (east.getX() / 20) + 1][(int) (east.getY() / 20)] = '#';
         ghost.moveRightGhost(width);
         Point eastWall = ghost.getLocation();
         Assertions.assertEquals(eastWall.getX(), 20);
-    }
-
-    @Test
-    void getUnitLocations() {
-    }
-
-    @Test
-    void setUnitLocations() {
-    }
-
-    @Test
-    void registerObserver() {
-    }
-
-    @Test
-    void deregisterObserver() {
-    }
-
-    @Test
-    void notifyObservers() {
-    }
-
-    @Test
-    void getObserverCollection() {
-    }
-
-    @Test
-    void setObserverCollection() {
     }
 }

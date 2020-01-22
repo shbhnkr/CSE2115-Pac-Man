@@ -28,7 +28,7 @@ class RandyTest {
         }
         Level.setPixels(new char[width][height]);
         int n = 0;
-        while (n < height/20) {
+        while (n < height / 20) {
             for (int i = 0; i < width / 20; i++) {
                 Level.pixels[i][n] = ' ';
             }
@@ -43,18 +43,21 @@ class RandyTest {
         randy.moveGhost(height, width);
         Assertions.assertEquals(randy.getLocation().getY(), 20);
     }
+
     @Test
     void moveLeftGhost() {
         randy.setRandom(1, 1);
         randy.moveGhost(height, width);
         Assertions.assertEquals(randy.getLocation().getX(), 20);
     }
+
     @Test
     void moveDownGhost() {
         randy.setRandom(1, 2);
         randy.moveGhost(height, width);
         Assertions.assertEquals(randy.getLocation().getY(), 60);
     }
+
     @Test
     void moveRightGhost() {
         randy.setRandom(1, 3);

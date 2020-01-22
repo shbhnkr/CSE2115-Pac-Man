@@ -11,33 +11,29 @@ import java.net.URL;
 
 public class MainMenu {
 
-    public static JFrame frame;
+    static JFrame frame;
     public transient JPanel panel1;
     private transient JButton playGameButton;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
-    private transient JPanel playerDetails;
     private transient JTextField textField1;
 
-    private transient JButton backButton;
     private transient Font font;
-    private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);;
-
     private transient String board1 = "board1.txt";
-
+    private transient String board2 = "board2.txt";
     private transient String board3 = "board3.txt";
+    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);
 
-
-    public MainMenu() {
+    /**
+     * the main menu.
+     */
+    MainMenu() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
@@ -56,7 +52,6 @@ public class MainMenu {
         Color color = new Color(0, 0, 0);
 
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
-
 
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         comboBox1.setBackground(Color.orange);
@@ -101,15 +96,6 @@ public class MainMenu {
             }
         });
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Main Menu");
-//        frame.setContentPane(new MainMenu().panel1);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 300);
-//        frame.setLocation(500, 300);
-//        frame.setResizable(false);
-//        frame.setVisible(true);
-//    }
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

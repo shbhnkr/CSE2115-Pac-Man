@@ -65,10 +65,12 @@ public class Level {
                 for (int y = 0; y < height; y++) {
                     switch (pixels[x][y]) {
                         case ',':
-                            getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);
+                            getFruitPellets()[x][y]
+                                    = new FruitPellet(x * squareSize, y * squareSize);
                             break;
                         case '*':
-                            getPowerPellets()[x][y] = new PowerPellet(x * squareSize, y * squareSize);
+                            getPowerPellets()[x][y]
+                                    = new PowerPellet(x * squareSize, y * squareSize);
                             break;
                         case '#':
                             getWalls()[x][y] = new Wall(x * squareSize, y * squareSize);
@@ -110,8 +112,7 @@ public class Level {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }// TODO make a ghostFactory expection.
-
+        }
     }
 
     private Wall[][] getWalls() {

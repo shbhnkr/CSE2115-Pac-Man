@@ -12,7 +12,8 @@ import static game.Level.*;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
-    static int xPixelPlayer, yPixelPlayer = 0;
+    static int xPixelPlayer = 0;
+    static int yPixelPlayer = 0;
     private List<Observer> observerCollection;
     transient boolean drunk;
     transient boolean power;
@@ -67,7 +68,8 @@ public class Player extends Unit implements Observable {
     void moveUp(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
-        if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+        if (getLocation().y != 0
+                && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
             if (poweredUp(game)) {
                 return;
             }
@@ -87,7 +89,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerUp(Game game) {
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         for (char ghostChar : ghostChars) {
-            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
                 game.lose();
             }
         }
@@ -136,7 +138,8 @@ public class Player extends Unit implements Observable {
     void moveLeft(Game game, int width) {
         xPixelPlayer = 16;
         yPixelPlayer = 48;
-        if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
+        if (getLocation().x != 0
+                && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
             if (poweredUp(game)) {
                 return;
             }
@@ -156,7 +159,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerLeft(Game game) {
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         for (char ghostChar : ghostChars) {
-            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
                 game.lose();
             }
         }
@@ -206,7 +209,8 @@ public class Player extends Unit implements Observable {
     void moveDown(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
-        if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
+        if (getLocation().y != height - 20
+                && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
             if (poweredUp(game)) {
                 return;
             }
@@ -226,7 +230,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerDown(Game game, int height) {
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         for (char ghostChar : ghostChars) {
-            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
                 game.lose();
             }
         }
@@ -275,7 +279,8 @@ public class Player extends Unit implements Observable {
     void moveRight(Game game, int width) {
         xPixelPlayer = 16;
         yPixelPlayer = 16;
-        if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
+        if (getLocation().x != width - 20
+                && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
             if (poweredUp(game)) {
                 return;
             }
@@ -296,7 +301,7 @@ public class Player extends Unit implements Observable {
     private void objectCheckerRight(Game game, int width) {
         char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
         for (char ghostChar : ghostChars) {
-            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
                 game.lose();
             }
         }
@@ -346,7 +351,8 @@ public class Player extends Unit implements Observable {
         if (ghost == null) {
             return false;
         }
-        return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
+        return (this.getLocation().x == ghost.getLocation().x
+                && this.getLocation().y == ghost.getLocation().y);
     }
 
     private boolean poweredUp(Game game) {
