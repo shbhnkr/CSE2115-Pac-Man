@@ -13,7 +13,7 @@ public class MainMenu {
 
     public static JFrame frame;
     public transient JPanel panel1;
-    public static JFrame gameFrame = new JFrame();
+    public static JFrame gameFrame;
     private transient JButton playGameButton;
     private transient JTextArea textArea;
     private transient JButton logoutButton;
@@ -84,7 +84,7 @@ public class MainMenu {
         playGameButton.setBackground(Color.orange);
         playGameButton.addActionListener(new ActionListener() {
 
-
+            @SuppressWarnings("PMD")
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -101,7 +101,7 @@ public class MainMenu {
                 JPanel gamePanel = new JPanel();
                 Game game = new Game(gamesettings, pop);
 
-
+                gameFrame = new JFrame();
 
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
