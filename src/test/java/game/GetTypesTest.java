@@ -58,6 +58,7 @@ class GetTypesTest {
         FruitPellet fruitPellet = new FruitPellet(5, 5);
         Assertions.assertEquals(fruitPellet.getType(), Types.fruitPelletType());
     }
+
     @Test
     void getBeerTypeTest() {
         Beer beer = new Beer(5, 5);

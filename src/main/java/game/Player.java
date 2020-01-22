@@ -12,12 +12,11 @@ import static game.Level.*;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
-
-
     static int xPixelPlayer, yPixelPlayer = 0;
     private List<Observer> observerCollection;
     transient boolean drunk;
     transient boolean power;
+
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
@@ -84,7 +83,14 @@ public class Player extends Unit implements Observable {
         notifyObservers();
     }
 
+    @SuppressWarnings("PMD")
     private void objectCheckerUp(Game game) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 if (power) {
@@ -146,8 +152,14 @@ public class Player extends Unit implements Observable {
         notifyObservers();
     }
 
-
+    @SuppressWarnings("PMD")
     private void objectCheckerLeft(Game game) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 if (power) {
@@ -190,6 +202,7 @@ public class Player extends Unit implements Observable {
         }
     }
 
+    @SuppressWarnings("PMD")
     void moveDown(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
@@ -209,7 +222,14 @@ public class Player extends Unit implements Observable {
         notifyObservers();
     }
 
+    @SuppressWarnings("PMD")
     private void objectCheckerDown(Game game, int height) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 if (power) {
@@ -272,7 +292,14 @@ public class Player extends Unit implements Observable {
         notifyObservers();
     }
 
+    @SuppressWarnings("PMD")
     private void objectCheckerRight(Game game, int width) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if(pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
                 if (power) {

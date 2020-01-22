@@ -15,7 +15,6 @@ public class Randy extends Ghost {
 
     @Override
     public void moveGhost(int height, int width) {
-        if (random < 0) setRandom(4, 0);
         switch (random) {
             case 0: this.moveUpGhost(height);
                 break;

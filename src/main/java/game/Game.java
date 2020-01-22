@@ -1,7 +1,8 @@
 package game;
 
-
+import database.DBconnection;
 import ghost.Ghost;
+import ghost.Randy;
 
 import javax.swing.JOptionPane;
 
@@ -9,7 +10,6 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
@@ -19,6 +19,9 @@ import java.io.FileNotFoundException;
 
 import java.net.URL;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,6 +60,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static String playerDirection = "";
     private transient Thread thread;
     private transient Gamesettings settings;
+    private transient Connection conn;
 
     /**
      * Game class.
@@ -73,6 +77,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         ghosts = level.ghosts;
         player = level.player;
+        conn = DBconnection.conn;
         addKeyListener(this);
     }
 
@@ -204,7 +209,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @SuppressWarnings("PMD")
     private void movePlayer() {
         double currentTime = System.currentTimeMillis();
-        if (currentTime - timeSinceLastMove >= coolDown / 2) {
+        if (currentTime - timeSinceLastMove >= coolDown >> 1) {
             win();
             lose();
         }
@@ -291,76 +296,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     }
                 }
             }
-            char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
-            boolean kill = false;
             switch (playerDirection) {
                 case "up":
-                    if (getLocation().y != 0) {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    } else {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[getLocation().x / 20][(height - 20) / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    }
                     upKey();
                     break;
                 case "left":
-                    if (getLocation().x != 0) {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    } else {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[(width - 20) / 20][getLocation().y / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    }
                     leftKey();
                     break;
                 case "down":
-                    if (getLocation().y != height - 20) {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    } else {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[getLocation().x / 20][0] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    }
                     downKey();
                     break;
                 case "right":
-                    if (getLocation().x != width - 20) {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    } else {
-                        for (char ghostChar : ghostChars) {
-                            if (pixels[0][getLocation().y / 20] == ghostChar) {
-                                kill = true;
-                            }
-                        }
-                    }
                     rightKey();
                     break;
-            }
-            if (kill) {
-                lose();
             }
         }
     }
@@ -371,6 +319,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
                 for (Ghost ghost : ghosts) {
+                    if (ghost instanceof Randy) {
+                        ghost.setRandom(4, 0);
+                    }
                     ghost.moveGhost(getHeight(), getWidth());
                 }
                 timeSinceLastMove = currentTime;
@@ -424,28 +375,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    @SuppressWarnings("PMD")
     private void upKey() {
         animation(32, 0, player, getGraphics());
         player.moveUp(this, getHeight());
 
     }
 
-    @SuppressWarnings("PMD")
     private void leftKey() {
         animation(32, 48, player, getGraphics());
         player.moveLeft(this, getWidth());
 
     }
 
-    @SuppressWarnings("PMD")
     private void downKey() {
         animation(32, 32, player, getGraphics());
         player.moveDown(this, getHeight());
 
     }
 
-    @SuppressWarnings("PMD")
     private void rightKey() {
         animation(32, 16, player, getGraphics());
         player.moveRight(this, getWidth());
@@ -456,8 +403,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-
                 JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                setScore(settings.username, point);
                 stop();
 
             }
@@ -472,9 +419,31 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 if (isRunning) {
                     JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
+                setScore(settings.username, point);
+
                 stop();
                 break;
             }
         }
     }
-}
+    /*
+    setting the score
+     */
+    public void setScore(String username, int score) {
+        //check query
+        String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+                try {
+                    //connecting to DataBase
+                    conn = DBconnection.getConnection();
+
+                    //preparing and executing query
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, username+"");
+                    ps.setInt(2, score);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                stop();
+        }
+    }

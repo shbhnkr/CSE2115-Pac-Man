@@ -18,12 +18,13 @@ public class MainMenu {
     private transient JComboBox comboBox1;
     private transient JTextArea title;
     private transient JPanel playerDetails;
-    private transient JTextArea textArea1;
-    private transient JTextArea textArea2;
+    private transient JTextField textField1;
+
     private transient JButton backButton;
     private transient Font font;
     private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20, null);;
+    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);;
+
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";
@@ -45,7 +46,12 @@ public class MainMenu {
 
         playGameButton.setFont(new Font(crackman, Font.PLAIN, 20));
         logoutButton.setFont(new Font(crackman, Font.PLAIN, 20));
+
         title.setFont(new Font(crackman, Font.PLAIN, 35));
+        String welcome = "Hi, " + StartScreen.username;
+        textField1.setText(welcome);
+        textField1.setFont(new Font("Monaco",Font.PLAIN, 15));
+        textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.yellow));
 
         Color color = new Color(0, 0, 0);
 
@@ -75,7 +81,6 @@ public class MainMenu {
                     pop = "";
                 }
                 JPanel gamePanel = new JPanel();
-
                 Game game = new Game(gamesettings, pop);
 
                 //backButton = new JButton("Score: " + game.point);
