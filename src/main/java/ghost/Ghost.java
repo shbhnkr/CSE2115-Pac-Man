@@ -1,10 +1,6 @@
 package ghost;
 
-import game.MoveBuilder;
-import game.Observable;
-import game.Observer;
-import game.SpriteSheet;
-import game.Unit;
+import game.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,9 +8,13 @@ import java.util.List;
 
 import java.awt.Point;
 import java.awt.Graphics;
+import java.util.Random;
 
 import static game.Level.pixels;
 
+/**
+ * the superclass for all ghosts.
+ */
 public abstract class Ghost extends Unit implements Observer, Observable {
     public static final long serialVersionUID = 4328743;
 
@@ -29,38 +29,39 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Constructor for the different ghosts.
-     * @param x position on the map.
-     * @param y position on the map.
+     * @param x x position on the map.
+     * @param y y position on the map.
      * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
         setBounds(x, y, 20, 20);
-
         this.unitLocations = new LinkedHashMap<>();
         this.observerCollection = new ArrayList<Observer>();
-
         this.sheet = spriteSheet;
     }
 
     /**
      * Each type of ghost defines its own movement method.
+     *
      * @param height height of the board, needed for the wraparound to work.
-     * @param width width of the board, needed for the wraparound to work.
-
+     * @param width  width of the board, needed for the wraparound to work.
      */
     public abstract void moveGhost(int height, int width);
+
     public abstract String getType();
 
     /**
      * Renders each ghost with a specific sprite.
+     *
      * @param g the graphics to render
      */
     public void render(Graphics g) {
-        g.drawImage(this.sheet.getSprite(0,0),x,y,18,18, null);
+        g.drawImage(this.sheet.getSprite(0, 0), x, y, 18, 18, null);
     }
 
     /**
      * Get the current sheet.
+     *
      * @return returns a sprite sheet
      */
     public SpriteSheet getSheet() {
@@ -69,6 +70,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Change the sprite sheet.
+     *
      * @param sheet the sprite sheet to set to
      */
     public void setSheet(SpriteSheet sheet) {
@@ -76,7 +78,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     }
 
     /**
-     *
+     * observes type and location of the unit.
      * @param type the type of the unit
      * @param location the location of the unit
      */
@@ -96,16 +98,16 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveUpGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 0;
-        if (this.getLocation().y != 0 && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
+        if (this.getLocation().y != 0
+                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
             return;
         }
         if (this.getLocation().y == 0) {
             Point point = new Point(this.getLocation().x, height - 20);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
-        }
-        else {
+        } else {
             move(MoveBuilder.UP(this.getLocation()));
         }
     }
@@ -113,12 +115,13 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveLeftGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 48;
-        if (this.getLocation().x != 0 && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
+        if (this.getLocation().x != 0
+                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
             return;
         }
         if (this.getLocation().x == 0) {
-            Point point = new Point( width - 20, this.getLocation().y);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            Point point = new Point(width - 20, this.getLocation().y);
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
         } else {
@@ -129,12 +132,13 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveDownGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 32;
-        if (this.getLocation().y != height - 20 && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
+        if (this.getLocation().y != height - 20
+                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
             return;
         }
         if (this.getLocation().y == height - 20) {
             Point point = new Point(this.getLocation().x, 0);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
                 this.move(point);
             }
         } else {
@@ -145,14 +149,16 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
-        if (this.getLocation().x == width - 20) {
-            Point point = new Point(0, this.getLocation().y);
-            if(!(pixels[point.x/20][point.y/20] == '#')) {
-                this.move(point);
-            }
+        if (this.getLocation().x != width - 20
+                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#') {
             return;
         }
-        if (!(this.getLocation().x != width - 20 && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#')) {
+        if (this.getLocation().x == width - 20) {
+            Point point = new Point(0, this.getLocation().y);
+            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+                this.move(point);
+            }
+        } else {
             move(MoveBuilder.RIGHT(this.getLocation()));
         }
     }
@@ -176,7 +182,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     }
 
     @Override
-    // Known issue of PMD, described in the following link: https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    // Known issue of PMD, described in the following link:
+    // stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public void notifyObservers() {
         this.observerCollection.forEach(observer -> {
@@ -186,6 +193,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Get the observer collection.
+     *
      * @return collection of observers.
      */
     public List<Observer> getObserverCollection() {
@@ -194,9 +202,15 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Set the observer collection.
+     *
      * @param observerCollection the observerCollection to set to
      */
     public void setObserverCollection(List<Observer> observerCollection) {
         this.observerCollection = observerCollection;
+    }
+
+    public void setRandom(int bound, int offset) {
+        Random rand = new Random();
+        Randy.random = rand.nextInt(bound) + offset;
     }
 }

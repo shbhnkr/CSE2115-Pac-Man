@@ -13,7 +13,11 @@ public class FruitPellet extends Unit {
     public transient SpriteSheet fin;
     public transient SpriteSheet[] fruitArray = new SpriteSheet[3];
 
-
+    /**
+     * constructor method for the fruit.
+     * @param x x position of fruit.
+     * @param y y position of fruit.
+     */
     public FruitPellet(int x, int y) {
         setBounds(x, y, 20, 20);
 
@@ -28,6 +32,10 @@ public class FruitPellet extends Unit {
 
     }
 
+    /**
+     * assigns points which differ according to fruit type.
+     * @return the points the fruit is worth.
+     */
     public int points() {
         if (num == 0) {
             return 500;

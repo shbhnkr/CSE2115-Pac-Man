@@ -3,7 +3,7 @@ package ghost;
 import game.Game;
 
 /**
- *
+ * the factory that creates ghosts.
  */
 public class GhostFactory {
     /**
@@ -21,7 +21,7 @@ public class GhostFactory {
      * @param x X coordinate where the ghost should be placed
      * @param y Y coordinate where the ghost should be placed.
      * @return Specific implementation of a ghost.
-     * @throws Exception Whenever the type doesn't meet any of the ghosts the method throws an exception.
+     * @throws Exception Whenever the type doesn't meet any of the ghosts.
      */
     public static Ghost create(String ghostType, int x, int y) throws Exception {
 

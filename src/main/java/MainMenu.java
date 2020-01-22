@@ -25,22 +25,21 @@ public class MainMenu {
     private transient JButton backButton;
     private transient JButton pause;
     private transient Font font;
-    private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);
 
     private transient String board1 = "board1.txt";
-
+    private transient String board2 = "board2.txt";
     private transient String board3 = "board3.txt";
+    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);
 
-
+    /**
+     * the main menu.
+     */
     public MainMenu() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
@@ -101,12 +100,22 @@ public class MainMenu {
                 JPanel gamePanel = new JPanel();
                 Game game = new Game(gamesettings, pop);
 
+                JFrame frame1 = new JFrame();
+
+                frame1.setTitle(Game.TITLE);
+                gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.PAGE_AXIS));
+                gamePanel.add(game);
+                frame1.add(gamePanel);
+                frame1.setResizable(false);
+                frame1.pack();
+                frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame1.setLocationRelativeTo(null);
+                frame1.setVisible(true);
                 gameFrame = new JFrame();
 
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.add(game, BorderLayout.CENTER);
-                //gamePanel.add(pause, BorderLayout.NORTH);
                 gamePanel.add(backButton, BorderLayout.NORTH);
                 gamePanel.add(textArea, BorderLayout.WEST);
                 gameFrame.add(gamePanel);
@@ -120,15 +129,6 @@ public class MainMenu {
             }
         });
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Main Menu");
-//        frame.setContentPane(new MainMenu().panel1);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 300);
-//        frame.setLocation(500, 300);
-//        frame.setResizable(false);
-//        frame.setVisible(true);
-//    }
         pause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

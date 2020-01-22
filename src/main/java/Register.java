@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 
 public class Register {
-    public static JFrame rFrame;
+    static JFrame rFrame;
     public transient JPanel panel1;
     private transient JButton button1;
     private transient JTextField enterUsernameTextField;
@@ -40,9 +40,7 @@ public class Register {
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
@@ -106,15 +104,6 @@ public class Register {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//
-//                 if (!display(enterPasswordPasswordField.getText())) {
-//                 enterPasswordPasswordField.setBorder(BorderFactory.createMatteBorder(
-//                 0, 0, 1, 0, new Color(255, 0, 0)));
-//                 } else {
-//                 StartScreen.frame1.setVisible(true);
-//                 rFrame.setVisible(false);
-//                 }
-
                 System.out.println(enterUsernameTextField.getText() + " Username");
                 System.out.println(enterPasswordPasswordField.getText() + " Password");
                 String uname = enterUsernameTextField.getText();
@@ -125,16 +114,6 @@ public class Register {
                 PreparedStatement ps;
                 String query = "INSERT INTO login(username, password) VALUES (?, ?)";
                 try {
-
-//                     boolean qwerty = false;
-//                     while (qwerty == false) {
-//                     JOptionPane.showMessageDialog(null, "choose a stronger password");
-//                     if(display(enterPasswordPasswordField.getText()))
-//                     {
-//                     qwerty = true;
-//                     }
-//                     }
-
                     conn = DBconnection.getConnection();
                     ps = conn.prepareStatement(query);
                     ps.setString(1, uname);
@@ -149,16 +128,12 @@ public class Register {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } finally {
-
                     try {
                         conn.close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-
-
                 }
-
                 StartScreen.frame1.setVisible(true);
                 rFrame.setVisible(false);
             }
@@ -176,15 +151,11 @@ public class Register {
      * checks if password is possible.
      */
     public static boolean display(String password) {
-        if (password.matches(".*[0-9]{1,}.*") && password.matches(".*[@#$]{1,}.*")
-                && password.length() >= 6 && password.length() <= 20) {
-            return true;
-        } else {
-            return false;
-        }
+        return password.matches(".*[0-9]{1,}.*") && password.matches(".*[@#$]{1,}.*")
+                && password.length() >= 6 && password.length() <= 20;
     }
 
-    public static String getSha(String input) {
+    static String getSha(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(input.getBytes());
