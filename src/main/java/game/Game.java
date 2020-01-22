@@ -21,6 +21,7 @@ import java.net.URL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -42,11 +43,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletCount = 0;
     private static int width = 0;
     private static int height = 0;
-    private static boolean isRunning;
+    public static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int pelletEaten = 0;
-    public transient int point = 0;
+    public static int point = 0;
     private transient int key = Integer.MAX_VALUE;
     private transient boolean newKey = false;
 
@@ -61,6 +62,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private transient Thread thread;
     private transient Gamesettings settings;
     private transient Connection conn;
+    private transient ResultSet rs;
 
     /**
      * Game class.
@@ -354,6 +356,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 coolDown = 400;
             }
         }
+
         if (player.drunk) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
