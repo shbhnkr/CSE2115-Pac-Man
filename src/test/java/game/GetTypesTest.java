@@ -64,6 +64,7 @@ class GetTypesTest {
         Beer beer = new Beer(5, 5);
         Assertions.assertEquals(beer.getType(), Types.beerType());
     }
+    
     @Test
     void getPowerPelletTypeTest() {
         PowerPellet powerPellet = new PowerPellet(5, 5);

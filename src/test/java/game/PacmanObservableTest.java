@@ -48,7 +48,7 @@ class PacmanObservableTest {
         // Notify the observers
         player.notifyObservers();
 
-        // Assert that ghost now has a value for pacman  and that the y value equals pacmans position
+        // Assert that ghost now has a value for pacman and that the y value equals pacmans position
         Assertions.assertNotNull(ghost.unitLocations.get(player.getType()));
         Point location = ghost.unitLocations.get(player.getType());
         Assertions.assertEquals(20, location.y);

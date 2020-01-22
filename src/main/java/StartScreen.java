@@ -30,6 +30,7 @@ public class StartScreen {
     public static transient String username;
 
     public transient String crackman = "crackman";
+
     /**
      * Constructor.
      */
@@ -145,7 +146,8 @@ public class StartScreen {
                     textField1.setText("Enter Username");
                 }
             }
-            public String getUserName(){
+
+            public String getUserName() {
                 return username;
             }
         });
@@ -169,7 +171,6 @@ public class StartScreen {
                     passwordField1.setText("Enter Password");
 
                 } else {
-
                     passwordField1.setEchoChar(password);
                 }
 

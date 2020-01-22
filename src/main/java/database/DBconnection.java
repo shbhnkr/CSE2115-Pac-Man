@@ -29,18 +29,23 @@ public class DBconnection {
                 connect = DriverManager.getConnection(url, username, password);
             }
             return connect;
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
 
+    /**
+     * gets the results for the leader board from the database.
+     * @param rank the earned rank
+     * @return the results for the leader board.
+     */
     public static ResultSet prepAndExecuteQuery(int rank) {
 
-        String query = String.format("SELECT `username`, `score`FROM `ScoreBoard` Emp1 WHERE (%d) = (SELECT COUNT(DISTINCT(Emp2.score)) FROM `ScoreBoard` Emp2 WHERE Emp2.score > Emp1.score)", rank);
+        String query = String.format("SELECT `username`, `score`FROM `ScoreBoard` Emp1 WHERE (%d)"
+                + " = (SELECT COUNT(DISTINCT(Emp2.score)) FROM `ScoreBoard` Emp2"
+                + " WHERE Emp2.score > Emp1.score)", rank);
 
         try {
             conn = getConnection();
@@ -61,6 +66,11 @@ public class DBconnection {
         return null;
     }
 
+    /**
+     * converts the result set into a user friendly format.
+     * @param rs the result set to convert
+     * @return string representation of the result set.
+     */
     public static String fromResultsetToString(ResultSet rs) {
         String result = "";
 
