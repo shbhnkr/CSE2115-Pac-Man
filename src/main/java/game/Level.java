@@ -50,7 +50,6 @@ public class Level {
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
                 for (int i = 0; i < s.length(); i++) {
-
                     getPixels()[i][n] = s.charAt(i);
                 }
                 n++;
