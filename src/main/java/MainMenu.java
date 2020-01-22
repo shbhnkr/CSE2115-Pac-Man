@@ -14,6 +14,7 @@ public class MainMenu {
     public transient JPanel panel1;
     public static JFrame gameFrame;
     private transient JButton playGameButton;
+    private transient JTextArea textArea;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
@@ -25,7 +26,7 @@ public class MainMenu {
     private transient Font font;
     private transient String board2 = "board2.txt";
     private transient Gamesettings gamesettings = new Gamesettings(20);
-    ;
+
     private transient String board1 = "board1.txt";
 
     private transient String board3 = "board3.txt";
@@ -48,7 +49,16 @@ public class MainMenu {
         title.setFont(new Font(crackman, Font.PLAIN, 35));
 
         Color color = new Color(0, 0, 0);
-
+        textArea = new JTextArea("Quick Instructions"+ "\n" + "\n");
+        textArea.setEnabled(false);
+        textArea.setBackground(color);
+        textArea.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.orange));
+        textArea.setDisabledTextColor(Color.cyan);
+        textArea.append("* Pellet : 10 points" + "\n");
+        textArea.append("* Cherry : 100 points"+ "\n");
+        textArea.append("* Strawberry : 300 points"+ "\n");
+        textArea.append("* Apple : 500 points" + "\n");
+        textArea.setFont(new Font("Comic Sans MS", Font.ITALIC, 9));
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
         backButton = new JButton("Back to Main Menu");
         backButton.setFont(new Font(crackman, Font.PLAIN, 20));
@@ -88,9 +98,10 @@ public class MainMenu {
 
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
-                gamePanel.add(pause, BorderLayout.NORTH);
-                gamePanel.add(backButton, BorderLayout.SOUTH);
                 gamePanel.add(game, BorderLayout.CENTER);
+                //gamePanel.add(pause, BorderLayout.NORTH);
+                gamePanel.add(backButton, BorderLayout.NORTH);
+                gamePanel.add(textArea, BorderLayout.WEST);
                 gameFrame.add(gamePanel);
                 gameFrame.setResizable(false);
                 gameFrame.pack();
@@ -122,6 +133,7 @@ public class MainMenu {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Game.isRunning = false;
                 MainMenu.frame = new JFrame("Main Menu");
                 MainMenu.frame.setContentPane(new MainMenu().panel1);
                 MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
