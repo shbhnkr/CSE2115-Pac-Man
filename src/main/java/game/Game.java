@@ -37,11 +37,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private static int height = 0;
     private transient Connection conn = null;
     private transient ResultSet rs = null;
-    private static boolean isRunning;
+    public static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int pelletEaten = 0;
-    public transient int point = 0;
+    public static int point = 0;
     private transient int key = Integer.MAX_VALUE;
 
     static {
@@ -291,7 +291,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 //                isRunning = false;
 //            }
 //            else {
-//                isRunning = true;
+//
 //            }
 //        }
 
