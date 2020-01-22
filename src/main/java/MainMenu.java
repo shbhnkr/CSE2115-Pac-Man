@@ -138,10 +138,17 @@ public class MainMenu {
             }
         });
         backButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("PMD")
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.isRunning = false;
-                frame.setVisible(true);
+                MainMenu.frame = new JFrame("Main Menu");
+                MainMenu.frame.setContentPane(new MainMenu().panel1);
+                MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                MainMenu.frame.setSize(600, 300);
+                MainMenu.frame.setLocation(500, 300);
+                MainMenu.frame.setResizable(false);
+                MainMenu.frame.setVisible(true);
                 gameFrame.setVisible(false);
             }
         });
