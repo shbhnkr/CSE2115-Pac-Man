@@ -11,14 +11,16 @@ import java.net.URL;
 
 public class MainMenu {
 
-    static JFrame frame;
+    public static JFrame frame;
     public transient JPanel panel1;
     private transient JButton playGameButton;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
+    private transient JPanel playerDetails;
     private transient JTextField textField1;
 
+    private transient JButton backButton;
     private transient Font font;
     private transient String board1 = "board1.txt";
     private transient String board2 = "board2.txt";
@@ -28,7 +30,7 @@ public class MainMenu {
     /**
      * the main menu.
      */
-    MainMenu() {
+    public MainMenu() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
@@ -52,6 +54,7 @@ public class MainMenu {
         Color color = new Color(0, 0, 0);
 
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
+
 
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         comboBox1.setBackground(Color.orange);
@@ -77,8 +80,6 @@ public class MainMenu {
                 }
                 JPanel gamePanel = new JPanel();
                 Game game = new Game(gamesettings, pop);
-
-                //backButton = new JButton("Score: " + game.point);
 
                 JFrame frame1 = new JFrame();
 
