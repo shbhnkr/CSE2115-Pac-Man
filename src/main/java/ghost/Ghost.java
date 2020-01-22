@@ -108,7 +108,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
                 this.move(point);
             }
         } else {
-            move(MoveBuilder.UP(this.getLocation()));
+            move(MoveBuilder.up(this.getLocation()));
         }
     }
 
@@ -125,7 +125,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
                 this.move(point);
             }
         } else {
-            move(MoveBuilder.LEFT(this.getLocation()));
+            move(MoveBuilder.left(this.getLocation()));
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
                 this.move(point);
             }
         } else {
-            move(MoveBuilder.DOWN(this.getLocation()));
+            move(MoveBuilder.down(this.getLocation()));
         }
     }
 
@@ -159,7 +159,7 @@ public abstract class Ghost extends Unit implements Observer, Observable {
                 this.move(point);
             }
         } else {
-            move(MoveBuilder.RIGHT(this.getLocation()));
+            move(MoveBuilder.right(this.getLocation()));
         }
     }
 

@@ -52,18 +52,18 @@ public class MainMenu {
         title.setFont(new Font(crackman, Font.PLAIN, 35));
         String welcome = "Hi, " + StartScreen.username;
         textField1.setText(welcome);
-        textField1.setFont(new Font("Monaco",Font.PLAIN, 15));
+        textField1.setFont(new Font("Monaco", Font.PLAIN, 15));
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.yellow));
 
         Color color = new Color(0, 0, 0);
-        textArea = new JTextArea("Quick Instructions"+ "\n" + "\n");
+        textArea = new JTextArea("Quick Instructions" + "\n" + "\n");
         textArea.setEnabled(false);
         textArea.setBackground(color);
-        textArea.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.orange));
+        textArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.orange));
         textArea.setDisabledTextColor(Color.cyan);
         textArea.append("* Pellet : 10 points" + "\n");
-        textArea.append("* Cherry : 100 points"+ "\n");
-        textArea.append("* Strawberry : 300 points"+ "\n");
+        textArea.append("* Cherry : 100 points" + "\n");
+        textArea.append("* Strawberry : 300 points" + "\n");
         textArea.append("* Apple : 500 points" + "\n");
         textArea.setFont(new Font("Comic Sans MS", Font.ITALIC, 9));
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
@@ -98,26 +98,15 @@ public class MainMenu {
                     pop = "";
                 }
                 JPanel gamePanel = new JPanel();
-                Game game = new Game(gamesettings, pop);
 
-                JFrame frame1 = new JFrame();
 
-                frame1.setTitle(Game.TITLE);
-                gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.PAGE_AXIS));
-                gamePanel.add(game);
-                frame1.add(gamePanel);
-                frame1.setResizable(false);
-                frame1.pack();
-                frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame1.setLocationRelativeTo(null);
-                frame1.setVisible(true);
                 gameFrame = new JFrame();
-
+                Game game = new Game(gamesettings, pop);
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.add(game, BorderLayout.CENTER);
                 gamePanel.add(backButton, BorderLayout.NORTH);
-                gamePanel.add(textArea, BorderLayout.WEST);
+                //gamePanel.add(textArea, BorderLayout.WEST);
                 gameFrame.add(gamePanel);
                 gameFrame.setResizable(false);
                 gameFrame.pack();

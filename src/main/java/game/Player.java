@@ -79,7 +79,7 @@ public class Player extends Unit implements Observable {
             movePlayer(point);
             objectCheckerUp(game);
         } else {
-            movePlayer(MoveBuilder.UP(getLocation()));
+            movePlayer(MoveBuilder.up(getLocation()));
             objectCheckerUp(game);
         }
         notifyObservers();
@@ -149,7 +149,7 @@ public class Player extends Unit implements Observable {
             movePlayer(point);
             objectCheckerLeft(game);
         } else {
-            movePlayer(MoveBuilder.LEFT(getLocation()));
+            movePlayer(MoveBuilder.left(getLocation()));
             objectCheckerLeft(game);
         }
         notifyObservers();
@@ -220,7 +220,7 @@ public class Player extends Unit implements Observable {
             movePlayer(point);
             objectCheckerDown(game, height);
         } else {
-            movePlayer(MoveBuilder.DOWN(getLocation()));
+            movePlayer(MoveBuilder.down(getLocation()));
             objectCheckerDown(game, height);
         }
         notifyObservers();
@@ -291,7 +291,7 @@ public class Player extends Unit implements Observable {
             movePlayer(point);
             objectCheckerRight(game, width);
         } else {
-            movePlayer(MoveBuilder.RIGHT(getLocation()));
+            movePlayer(MoveBuilder.right(getLocation()));
             objectCheckerRight(game, width);
         }
         notifyObservers();

@@ -42,7 +42,7 @@ class PacmanObservableTest {
 
 
         // Let the player move down and assert the location differs now
-        player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+        player.movePlayer(MoveBuilder.down(player.getLocation()));
         Assertions.assertEquals(20, player.y);
 
         // Notify the observers
