@@ -19,7 +19,7 @@ class PinkyTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(new Gamesettings(20, null), "testBoardpinky.txt");
+        Game game = new Game(new Gamesettings(20, null), "testBoardPinky.txt");
         player = game.player;
         int x = 0;
         int y = 0;
