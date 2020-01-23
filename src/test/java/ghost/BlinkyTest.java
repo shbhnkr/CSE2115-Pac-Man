@@ -33,6 +33,9 @@ class BlinkyTest {
 
     @Test
     void moveUpGhost() {
+        Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] = '#';
+        Level.pixels[(blinky.getLocation().x - 20) / 20][blinky.getLocation().y / 20] = '#';
+        Level.pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
         player.movePlayer(new Point(blinky.getLocation().x, blinky.getLocation().y - 40));
         player.notifyObservers();
         int beforeMove = blinky.getLocation().y;
@@ -53,6 +56,8 @@ class BlinkyTest {
 
     @Test
     void moveDownGhost() {
+        Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y - 20) / 20] = '#';
+
         player.movePlayer(new Point(blinky.getLocation().x, blinky.getLocation().y + 40));
         player.notifyObservers();
         int beforeMove = blinky.getLocation().y;
@@ -72,7 +77,12 @@ class BlinkyTest {
     }
 
     @Test
-    void noPlayer() {
+    void moveFromEdges() {
+
+    }
+
+    @Test
+    void noDestination() {
         Player nullplayer = null;
         player = nullplayer;
         Point beforeMove = blinky.getLocation();

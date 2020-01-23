@@ -13,7 +13,7 @@ public class Blinky extends Ghost {
      */
     public static final long serialVersionUID = 4328743;
 
-    private transient String lastMove;
+    private transient String lastMove = "";
 
     /**
      * ghost constructor 1.
@@ -28,11 +28,12 @@ public class Blinky extends Ghost {
     @Override
     @SuppressWarnings("PMD")
     public void moveGhost(int height, int width) {
-        Point destination = this.unitLocations.get(Types.playerType());
-        if (unitLocations.isEmpty() || destination == null) {
-            System.out.println("no destination for Blinky!");
+        if (unitLocations.isEmpty()) {
+            System.out.println("no destination for Pinky!");
             return;
         }
+        Point destination = this.unitLocations.get(Types.playerType());
+
         double distance = (double) Integer.MAX_VALUE;
 
         boolean upWall;
@@ -64,7 +65,7 @@ public class Blinky extends Ghost {
 
         int res = -1;
         if (!upWall) {
-            if (lastMove == null || !lastMove.equals("down") || downWall && rightWall && leftWall) {
+            if (!lastMove.equals("down") || downWall && rightWall && leftWall) {
                 double temp = Math.sqrt(Math.pow((
                         this.getLocation().x - destination.getLocation().x) / 20, 2)
                         + Math.pow(((
@@ -76,7 +77,7 @@ public class Blinky extends Ghost {
             }
         }
         if (!leftWall) {
-            if (lastMove == null || !lastMove.equals("right") || downWall && rightWall && upWall) {
+            if (!lastMove.equals("right") || downWall && rightWall && upWall) {
                 double temp = Math.sqrt(Math.pow(((
                         this.getLocation().x - 20) - destination.getLocation().x) / 20, 2)
                         + Math.pow((this.getLocation().y - destination.getLocation().y) / 20, 2));
@@ -87,7 +88,7 @@ public class Blinky extends Ghost {
             }
         }
         if (!downWall) {
-            if (lastMove == null || !lastMove.equals("up") || upWall && rightWall && leftWall) {
+            if (!lastMove.equals("up") || upWall && rightWall && leftWall) {
                 double temp = Math.sqrt(Math.pow((
                         this.getLocation().x - destination.getLocation().x) / 20, 2)
                         + Math.pow(((
@@ -99,7 +100,7 @@ public class Blinky extends Ghost {
             }
         }
         if (!rightWall) {
-            if (lastMove == null || !lastMove.equals("left") || downWall && upWall && leftWall) {
+            if (!lastMove.equals("left") || downWall && upWall && leftWall) {
                 double temp = Math.sqrt(Math.pow(((
                         this.getLocation().x + 20) - destination.getLocation().x) / 20, 2)
                         + Math.pow((this.getLocation().y - destination.getLocation().y) / 20, 2));

@@ -44,6 +44,10 @@ class PinkyTest {
 
     @Test
     void moveUpGhost() {
+        Level.pixels[pinky.getLocation().x/20][(pinky.getLocation().y + 20)/20] = '#';
+        Level.pixels[(pinky.getLocation().x - 20)/20][pinky.getLocation().y/20] = '#';
+        Level.pixels[(pinky.getLocation().x + 20)/20][pinky.getLocation().y/20] = '#';
+
         player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
         player.notifyObservers();
         Game.playerDirection = "up";
@@ -66,6 +70,8 @@ class PinkyTest {
 
     @Test
     void moveDownGhost() {
+        Level.pixels[pinky.getLocation().x/20][(pinky.getLocation().y - 20)/20] = '#';
+
         player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y + 40));
         player.notifyObservers();
         Game.playerDirection = "down";
@@ -87,7 +93,12 @@ class PinkyTest {
     }
 
     @Test
-    void noPlayer() {
+    void moveFromEdges() {
+
+    }
+
+    @Test
+    void noDestination() {
         Player nullplayer = null;
         player = nullplayer;
         Point beforeMove = pinky.getLocation();
