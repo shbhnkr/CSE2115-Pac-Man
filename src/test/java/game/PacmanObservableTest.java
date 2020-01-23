@@ -42,13 +42,13 @@ class PacmanObservableTest {
 
 
         // Let the player move down and assert the location differs now
-        player.movePlayer(MoveBuilder.DOWN(player.getLocation()));
+        player.movePlayer(MoveBuilder.down(player.getLocation()));
         Assertions.assertEquals(20, player.y);
 
         // Notify the observers
         player.notifyObservers();
 
-        // Assert that ghost now has a value for pacman  and that the y value equals pacmans position
+        // Assert that ghost now has a value for pacman and that the y value equals pacmans position
         Assertions.assertNotNull(ghost.unitLocations.get(player.getType()));
         Point location = ghost.unitLocations.get(player.getType());
         Assertions.assertEquals(20, location.y);

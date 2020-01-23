@@ -14,13 +14,12 @@ class GameCollisionTest {
         Player player = game.player;
         player.moveRight(game, game.getWidth());
 
-        System.out.println(game);
         Assertions.assertEquals(game.pelletEaten, game.pelletCount);
     }
 
     @Test
     public void pelletCollision() {
- Game game = new Game(new Gamesettings(20, null), "board2.txt");
+        Game game = new Game(new Gamesettings(20, null), "board2.txt");
         Player player = game.player;
         Assertions.assertEquals(0, game.pelletEaten);
         player.moveLeft(game, game.getWidth());
@@ -125,84 +124,4 @@ class GameCollisionTest {
         Game game8 = new Game(new Gamesettings(20, null), "board3.txt");
         game8.stop();
     }
-
-//        Game game = new Game(new Gamesettings(20, null), "wallBoard.txt");
-//        Point loc = game.player.getLocation();
-//        game.leftKey();
-//        Assertions.assertEquals(game.player.getLocation(), loc);
-//        game.moveUp();
-//        Assertions.assertEquals(game.player.getLocation(), loc);
-//        game.moveRight();
-//        Assertions.assertEquals(game.player.getLocation(), loc);
-//        game.moveDown();
-//        Assertions.assertEquals(game.player.getLocation(), loc);
-//        game.stop();
-//    }
-
-//    @Test
-//    public void wrapAroundTest() {
-//        Game game = new Game(new GameSettings(20, null), "wrapLp.txt");
-//        Assertions.assertEquals(0, game.pelletEaten);
-//        game.moveLeft();
-//        game.moveLeft();
-//        Assertions.assertEquals(1, game.pelletEaten);
-//        game.stop();
-//        Game game1 = new Game(new GameSettings(20, null), "wrapUp.txt");
-//        Assertions.assertEquals(0, game1.pelletEaten);
-//        game1.moveUp();
-//        game1.moveUp();
-//        Assertions.assertEquals(1, game1.pelletEaten);
-//        game1.stop();
-//        Game game2 = new Game(new GameSettings(20, null), "wrapDp.txt");
-//        Assertions.assertEquals(0, game2.pelletEaten);
-//        game2.moveDown();
-//        game2.moveDown();
-//        Assertions.assertEquals(1, game2.pelletEaten);
-//        game2.stop();
-//        Game game3 = new Game(new GameSettings(20, null), "wrapRp.txt");
-//        Assertions.assertEquals(0, game3.pelletEaten);
-//        game3.moveRight();
-//        game3.moveRight();
-//        Assertions.assertEquals(1, game3.pelletEaten);
-//        game3.stop();
-//        Game game4 = new Game(new GameSettings(20, null), "wrapLw.txt");
-//        game4.moveLeft();
-//        Point loc = game4.player.getLocation();
-//        game4.moveLeft();
-//        Assertions.assertEquals(game4.player.getLocation(), loc);
-//        game4.stop();
-//        Game game5 = new Game(new GameSettings(20, null), "wrapRw.txt");
-//        game5.moveRight();
-//        Point loc1 = game5.player.getLocation();
-//        game5.moveRight();
-//        Assertions.assertEquals(game5.player.getLocation(), loc1);
-//        game5.stop();
-//        Game game6 = new Game(new GameSettings(20, null), "wrapDw.txt");
-//        game6.moveDown();
-//        Point loc2 = game6.player.getLocation();
-//        game6.moveDown();
-//        Assertions.assertEquals(game6.player.getLocation(), loc2);
-//        game6.stop();
-//        Game game7 = new Game(new GameSettings(20, null), "wrapUw.txt");
-//        Assertions.assertEquals(game7.player.getLocation(), new Point(20, 20));
-//        game7.moveUp();
-//        Point loc3 = game7.player.getLocation();
-//        game7.moveUp();
-//        Assertions.assertEquals(game7.player.getLocation(), loc3);
-//        game7.stop();
-//        Game game8 = new Game(new GameSettings(20, null), "board3.txt");
-//        game8.stop();
-//    }
-//
-//    @Test
-//    public void fruitPelletCollision() {
-//        Game game = new Game(new GameSettings(20,null), "TestWall.txt");
-//        Assertions.assertEquals(2, game.pelletCount);
-//        Assertions.assertEquals(0, game.pelletEaten);
-//        game.moveRight();
-//        game.moveLeft();
-//        Assertions.assertEquals(1, game.pelletEaten);
-//        game.stop();
-//    }
-
 }

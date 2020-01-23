@@ -50,7 +50,6 @@ public class Level {
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
                 for (int i = 0; i < s.length(); i++) {
-
                     getPixels()[i][n] = s.charAt(i);
                 }
                 n++;
@@ -61,14 +60,18 @@ public class Level {
             setBeers(new Beer[width][height]);
             setPowerPellets(new PowerPellet[width][height]);
 
+
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
+
                     switch (pixels[x][y]) {
                         case ',':
-                            getFruitPellets()[x][y] = new FruitPellet(x * squareSize, y * squareSize);
+                            getFruitPellets()[x][y]
+                                    = new FruitPellet(x * squareSize, y * squareSize);
                             break;
                         case '*':
-                            getPowerPellets()[x][y] = new PowerPellet(x * squareSize, y * squareSize);
+                            getPowerPellets()[x][y]
+                                    = new PowerPellet(x * squareSize, y * squareSize);
                             break;
                         case '#':
                             getWalls()[x][y] = new Wall(x * squareSize, y * squareSize);
@@ -110,8 +113,7 @@ public class Level {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }// TODO make a ghostFactory expection.
-
+        }
     }
 
     private Wall[][] getWalls() {

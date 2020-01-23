@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class fromResultsetToStringTest {
+class FromResultsetToStringTest {
 
     @Test
-    public void covertTest() {
+    void covertTest() {
         assertEquals((DBconnection.fromResultsetToString(
                 DBconnection.prepAndExecuteQuery(0))), "pacman   Score: 74874");
     }

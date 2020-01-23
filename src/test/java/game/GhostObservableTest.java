@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-public class GhostObservableTest {
+class GhostObservableTest {
 
     transient Ghost randy;
     transient Player player;
@@ -48,7 +48,7 @@ public class GhostObservableTest {
         // Notify the observers
         player.notifyObservers();
 
-        // Assert that randy now has a value for pacman  and that the y value equals pacmans position
+        // Assert that randy now has a value for pacman and that the y value equals pacmans position
         Assertions.assertNotNull(randy.unitLocations.get(player.getType()));
         Point location = randy.unitLocations.get(player.getType());
         Assertions.assertEquals(100, location.y);

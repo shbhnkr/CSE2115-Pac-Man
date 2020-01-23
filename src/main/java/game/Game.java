@@ -1,17 +1,24 @@
 package game;
 
-
 import database.DBconnection;
 import ghost.Ghost;
+import ghost.Randy;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+
 import java.net.URL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+import static game.Level.pixels;
 import static game.SpriteSheet.animation;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -35,14 +43,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletCount = 0;
     private static int width = 0;
     private static int height = 0;
-    private transient Connection conn = null;
-    private transient ResultSet rs = null;
-    private static boolean isRunning;
+    public static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
     public transient int pelletEaten = 0;
-    public transient int point = 0;
+    public static int point = 0;
     private transient int key = Integer.MAX_VALUE;
+    private transient boolean newKey = false;
 
     static {
         isRunning = false;
@@ -54,6 +61,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static String playerDirection = "";
     private transient Thread thread;
     private transient Gamesettings settings;
+    private transient Connection conn;
+    private transient ResultSet rs;
 
     /**
      * Game class.
@@ -70,6 +79,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         ghosts = level.ghosts;
         player = level.player;
+        conn = DBconnection.conn;
         addKeyListener(this);
     }
 
@@ -198,9 +208,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
+    @SuppressWarnings("PMD")
     private void movePlayer() {
         double currentTime = System.currentTimeMillis();
-        if (currentTime - timeSinceLastMove >= coolDown / 2) {
+        if (currentTime - timeSinceLastMove >= coolDown >> 1) {
             win();
             lose();
         }
@@ -215,46 +226,98 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     15000
             );
         }
+        boolean upWall;
+        if (player.getLocation().y == 0) {
+            upWall = pixels[player.getLocation().x / 20][(height - 20) / 20] == '#';
+        } else {
+            upWall = pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20]
+                    == '#';
+        }
+
+        boolean leftWall;
+        if (player.getLocation().x == 0) {
+            leftWall = pixels[(width - 20) / 20][player.getLocation().y / 20] == '#';
+        } else {
+            leftWall = pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20]
+                    == '#';
+        }
+
+        boolean downWall;
+        if (player.getLocation().y == height - 20) {
+            downWall = pixels[player.getLocation().x / 20][0] == '#';
+        } else {
+            downWall = pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20]
+                    == '#';
+        }
+        boolean rightWall;
+        if (player.getLocation().x == width - 20) {
+            rightWall = pixels[0][player.getLocation().y / 20] == '#';
+        } else {
+            rightWall = pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20]
+                    == '#';
+        }
+
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 if (player.drunk) {
-                    playerDirection = "down";
-                    downKey();
+                    if (!downWall || !newKey) {
+                        playerDirection = "down";
+                    }
                 } else {
-                    playerDirection = "up";
-                    upKey();
+                    if (!upWall || !newKey) {
+                        playerDirection = "up";
+                    }
                 }
             }
-
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 
                 if (player.drunk) {
-                    playerDirection = "right";
-                    rightKey();
+                    if (!rightWall || !newKey) {
+                        playerDirection = "right";
+                    }
                 } else {
-                    playerDirection = "left";
-                    leftKey();
+                    if (!leftWall || !newKey) {
+                        playerDirection = "left";
+                    }
                 }
             }
-
             if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
                 if (player.drunk) {
-                    playerDirection = "up";
-                    upKey();
+                    if (!upWall || !newKey) {
+                        playerDirection = "up";
+                    }
                 } else {
-                    playerDirection = "down";
-                    downKey();
+                    if (!downWall || !newKey) {
+                        playerDirection = "down";
+                    }
                 }
             }
-
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
                 if (player.drunk) {
-                    playerDirection = "left";
-                    leftKey();
+                    if (!leftWall || !newKey) {
+                        playerDirection = "left";
+                    }
                 } else {
-                    playerDirection = "right";
-                    rightKey();
+                    if (!rightWall || !newKey) {
+                        playerDirection = "right";
+                    }
                 }
+            }
+            switch (playerDirection) {
+                case "up":
+                    upKey();
+                    break;
+                case "left":
+                    leftKey();
+                    break;
+                case "down":
+                    downKey();
+                    break;
+                case "right":
+                    rightKey();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -265,6 +328,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
                 for (Ghost ghost : ghosts) {
+                    if (ghost instanceof Randy) {
+                        ghost.setRandom(4, 0);
+                    }
                     ghost.moveGhost(getHeight(), getWidth());
                 }
                 timeSinceLastMove = currentTime;
@@ -274,26 +340,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
 
     @Override
     public void keyReleased(KeyEvent e) {
-
-//        if (e.getKeyCode() == KeyEvent.VK_P) {
-//            if (isRunning) {
-//                isRunning = false;
-//            }
-//            else {
-//                isRunning = true;
-//            }
-//        }
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            if (isRunning && (coolDown < 600)) {
+                coolDown = 9999999;
+            } else if (isRunning && (coolDown > 9999995)) {
+                coolDown = 400;
+            }
+        }
 
         if (player.drunk) {
             new java.util.Timer().schedule(
@@ -318,8 +380,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
             );
         }
         if (isRunning) {
+            newKey = key != e.getKeyCode();
             key = e.getKeyCode();
-
         }
     }
 
@@ -351,11 +413,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
-
-                System.out.println(settings.username);
-
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
+                        + point, "Congrats", JOptionPane.DEFAULT_OPTION);
                 setScore(settings.username, point);
                 stop();
 
@@ -364,12 +423,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     @SuppressWarnings("PMD")
-    private void lose() {
+    void lose() {
         for (Ghost ghost : ghosts) {
             if (player.hasCollided(ghost)) {
                 coolDown = 999999;
                 if (isRunning) {
-                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: "
+                            + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
                 setScore(settings.username, point);
 
@@ -379,87 +439,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    /*
-    setting the score
+    /**
+     * setting the score.
+     * @param username the username of the current player.
+     * @param score the score of the player after the game ends.
      */
     public void setScore(String username, int score) {
-
         //check query
         String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+        try {
+            //connecting to DataBase
+            conn = DBconnection.getConnection();
 
-                try {
-                    //connecting to DataBase
-                    conn = DBconnection.getConnection();
-
-                    //preparing and executing query
-                    PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, username+"");
-                    ps.setInt(2, score);
-                    ps.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                stop();
+            //preparing and executing query
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username + "");
+            ps.setInt(2, score);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        stop();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    void win() {
-//        if (pelletEaten == pelletCount) {
-//            coolDown = 999999;
-//            if (isRunning) {
-//                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
-//                String uname = settings.username;
-//                int score = point;
-//
-//                 //query
-//                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
-//
-//                try {
-//                    //connecting to DataBase
-//                    conn = DBconnection.getConnection();
-//
-//                    //preparing and executing query
-//                    PreparedStatement ps = conn.prepareStatement(query);
-//                    ps.setString(1, uname+"");
-//                    ps.setInt(2, score);
-//                    ps.executeUpdate();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                stop();
-//
-//            }
-//        }
-//    }
-//
-//    @SuppressWarnings("PMD")
-//    private void lose() {
-//        for (Ghost ghost : ghosts) {
-//            if (player.hasCollided(ghost)) {
-//                coolDown = 999999;
-//                if (isRunning) {
-//                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
-//                }
-//                stop();
-//                break;
-//            }
-//        }
-//    }
-
+}

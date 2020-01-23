@@ -12,7 +12,7 @@ import java.net.URL;
 leaderboard class
  */
 public class LeaderBoard {
-    public static JFrame lframe;
+    static JFrame lframe;
     public transient JPanel leaderPanel;
     private transient JTextField title;
     private transient JButton back;
@@ -24,17 +24,15 @@ public class LeaderBoard {
     private transient JTextField player5;
     private transient Font font;
 
-    /*
-    GUI
+    /**
+     * GUI.
      */
-    public LeaderBoard() {
+    LeaderBoard() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);

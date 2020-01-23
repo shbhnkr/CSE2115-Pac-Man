@@ -8,11 +8,20 @@ import java.awt.Point;
 import static game.Game.playerDirection;
 import static game.Level.pixels;
 
+/**
+ * ghost 2.
+ */
 public class Pinky extends Ghost {
     public static final long serialVersionUID = 4328743;
 
     private transient String lastMove;
 
+    /**
+     * ghost constructor 2.
+     * @param x x position of ghost.
+     * @param y y position of ghost.
+     * @param spriteSheet the spritesheet to use.
+     */
     Pinky(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
@@ -47,37 +56,38 @@ public class Pinky extends Ghost {
 
         boolean upWall;
         if (this.getLocation().y == 0) {
-            upWall = false;
-        }
-        else {
-            upWall = getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
+            upWall = pixels[getLocation().x / 20][(height - 20) / 20] == '#';
+        } else {
+            upWall = pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
         }
 
         boolean leftWall;
-        if (this.getLocation().x == 0)  {
-            leftWall = false;
+        if (this.getLocation().x == 0) {
+            leftWall = pixels[(width - 20) / 20][getLocation().y / 20] == '#';
         } else {
-            leftWall = getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
+            leftWall = pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
         }
 
         boolean downWall;
         if (this.getLocation().y == height - 20) {
-            downWall = false;
+            downWall = pixels[getLocation().x / 20][0] == '#';
         } else {
-            downWall = getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
+            downWall = pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
         }
         boolean rightWall;
         if (this.getLocation().x == width - 20) {
-            rightWall = false;
+            rightWall = pixels[0][getLocation().y / 20] == '#';
         } else {
-            rightWall = getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
+            rightWall = pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
         }
 
         int res = -1;
         if (!upWall) {
-            if(lastMove == null || !lastMove.equals("down") || downWall && rightWall && leftWall) {
-                double temp = Math.sqrt(Math.pow((this.getLocation().x - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow(((this.getLocation().y - 20) - newDestination.getLocation().y) / 20, 2));
+            if (lastMove == null || !lastMove.equals("down") || downWall && rightWall && leftWall) {
+                double temp = Math.sqrt(Math.pow((
+                        this.getLocation().x - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow(((this.getLocation().y - 20)
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     distance = temp;
                     res = 0;
@@ -85,9 +95,11 @@ public class Pinky extends Ghost {
             }
         }
         if (!leftWall) {
-            if(lastMove == null || !lastMove.equals("right") || downWall && rightWall && upWall) {
-                double temp = Math.sqrt(Math.pow(((this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+            if (lastMove == null || !lastMove.equals("right") || downWall && rightWall && upWall) {
+                double temp = Math.sqrt(Math.pow(((
+                        this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow((
+                                this.getLocation().y - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     distance = temp;
                     res = 1;
@@ -95,9 +107,11 @@ public class Pinky extends Ghost {
             }
         }
         if (!downWall) {
-            if(lastMove == null || !lastMove.equals("up") || upWall && rightWall && leftWall) {
-                double temp = Math.sqrt(Math.pow((this.getLocation().x - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow(((this.getLocation().y + 20) - newDestination.getLocation().y) / 20, 2));
+            if (lastMove == null || !lastMove.equals("up") || upWall && rightWall && leftWall) {
+                double temp = Math.sqrt(Math.pow((
+                        this.getLocation().x - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow(((this.getLocation().y + 20)
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     distance = temp;
                     res = 2;
@@ -105,15 +119,17 @@ public class Pinky extends Ghost {
             }
         }
         if (!rightWall) {
-            if(lastMove == null || !lastMove.equals("left") || downWall && upWall && leftWall) {
-                double temp = Math.sqrt(Math.pow(((this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+            if (lastMove == null || !lastMove.equals("left") || downWall && upWall && leftWall) {
+                double temp = Math.sqrt(Math.pow(((
+                        this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow((
+                                this.getLocation().y - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     res = 3;
                 }
             }
         }
-        switch(res) {
+        switch (res) {
             case 0:
                 lastMove = "up";
                 moveUpGhost(height);
@@ -131,7 +147,6 @@ public class Pinky extends Ghost {
                 moveRightGhost(width);
                 break;
             default:
-                break;
         }
     }
 
