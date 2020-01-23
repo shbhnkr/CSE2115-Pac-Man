@@ -1,32 +1,32 @@
 package game;
 
+
+import database.DBconnection;
 import ghost.Ghost;
 
-import javax.swing.JOptionPane;
-
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.net.URL;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 import static game.SpriteSheet.animation;
+
 public class Game extends Canvas implements Runnable, KeyListener {
 
     public static final long serialVersionUID = 4328743;
 
     public static final String TITLE = "Pac-Man";
-    static final SpriteSheet playerSprite = new  SpriteSheet("/sprite/pacman.png");
+    static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
     public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
@@ -35,6 +35,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int pelletCount = 0;
     private static int width = 0;
     private static int height = 0;
+    private transient Connection conn = null;
+    private transient ResultSet rs = null;
     private static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
@@ -198,11 +200,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private void movePlayer() {
         double currentTime = System.currentTimeMillis();
-        if (currentTime - timeSinceLastMove >= coolDown/2) {
+        if (currentTime - timeSinceLastMove >= coolDown / 2) {
             win();
             lose();
         }
-        if(player.drunk) {
+        if (player.drunk) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
@@ -215,11 +217,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-                if(player.drunk) {
+                if (player.drunk) {
                     playerDirection = "down";
                     downKey();
-                }
-                else {
+                } else {
                     playerDirection = "up";
                     upKey();
                 }
@@ -227,11 +228,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 
-                if(player.drunk) {
+                if (player.drunk) {
                     playerDirection = "right";
                     rightKey();
-                }
-                else {
+                } else {
                     playerDirection = "left";
                     leftKey();
                 }
@@ -248,23 +248,23 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
 
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-                if(player.drunk) {
+                if (player.drunk) {
                     playerDirection = "left";
                     leftKey();
-                }
-                else {
+                } else {
                     playerDirection = "right";
                     rightKey();
                 }
             }
         }
     }
+
     @SuppressWarnings("PMD")
     private void moveGhosts() {
-        if(isRunning) {
+        if (isRunning) {
             double currentTime = System.currentTimeMillis();
             if ((currentTime - timeSinceLastMove) >= coolDown) {
-                for(Ghost ghost : ghosts) {
+                for (Ghost ghost : ghosts) {
                     ghost.moveGhost(getHeight(), getWidth());
                 }
                 timeSinceLastMove = currentTime;
@@ -295,7 +295,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 //            }
 //        }
 
-        if(player.drunk) {
+        if (player.drunk) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
@@ -306,7 +306,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     15000
             );
         }
-        if(player.power) {
+        if (player.power) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
@@ -323,39 +323,46 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    private void upKey()
-    {
+    private void upKey() {
         animation(32, 0, player, getGraphics());
         player.moveUp(this, getHeight());
-        
+
     }
-    private void leftKey()
-    {
+
+    private void leftKey() {
         animation(32, 48, player, getGraphics());
         player.moveLeft(this, getWidth());
-        
+
     }
-    private void downKey()
-    {
+
+    private void downKey() {
         animation(32, 32, player, getGraphics());
         player.moveDown(this, getHeight());
-        
+
     }
-    private void rightKey()
-    {
+
+    private void rightKey() {
         animation(32, 16, player, getGraphics());
         player.moveRight(this, getWidth());
-        
+
     }
+
     void win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + "Your Score is: " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+
+                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+
+                System.out.println(settings.username);
+
+                setScore(settings.username, point);
+                stop();
+
             }
-            stop();
         }
     }
+
     @SuppressWarnings("PMD")
     private void lose() {
         for (Ghost ghost : ghosts) {
@@ -364,9 +371,95 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 if (isRunning) {
                     JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
                 }
+                setScore(settings.username, point);
+
                 stop();
                 break;
             }
         }
     }
-}
+
+    /*
+    setting the score
+     */
+    public void setScore(String username, int score) {
+
+        //check query
+        String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+                try {
+                    //connecting to DataBase
+                    conn = DBconnection.getConnection();
+
+                    //preparing and executing query
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, username+"");
+                    ps.setInt(2, score);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                stop();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    void win() {
+//        if (pelletEaten == pelletCount) {
+//            coolDown = 999999;
+//            if (isRunning) {
+//                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : " + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+//                String uname = settings.username;
+//                int score = point;
+//
+//                 //query
+//                String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+//
+//                try {
+//                    //connecting to DataBase
+//                    conn = DBconnection.getConnection();
+//
+//                    //preparing and executing query
+//                    PreparedStatement ps = conn.prepareStatement(query);
+//                    ps.setString(1, uname+"");
+//                    ps.setInt(2, score);
+//                    ps.executeUpdate();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//                stop();
+//
+//            }
+//        }
+//    }
+//
+//    @SuppressWarnings("PMD")
+//    private void lose() {
+//        for (Ghost ghost : ghosts) {
+//            if (player.hasCollided(ghost)) {
+//                coolDown = 999999;
+//                if (isRunning) {
+//                    JOptionPane.showMessageDialog(getParent(), "You Lost" + "\n" + "Your Score is: " + point, "Oops", JOptionPane.DEFAULT_OPTION);
+//                }
+//                stop();
+//                break;
+//            }
+//        }
+//    }
+
