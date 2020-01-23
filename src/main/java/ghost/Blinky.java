@@ -5,7 +5,8 @@ import game.Types;
 
 import java.awt.Point;
 
-import static game.Level.pixels;
+import static game.RenderLevel.pixels;
+
 
 public class Blinky extends Ghost {
     /**
