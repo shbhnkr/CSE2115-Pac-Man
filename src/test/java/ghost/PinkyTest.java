@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.Point;
 
+import static game.Game.playerDirection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PinkyTest {
@@ -18,7 +19,7 @@ class PinkyTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(new Gamesettings(20, null), "testBoardPinky.txt");
+        Game game = new Game(new Gamesettings(20, null), "testBoardpinky.txt");
         player = game.player;
         int x = 0;
         int y = 0;
@@ -29,72 +30,106 @@ class PinkyTest {
         }
         pinky.move(new Point(60, 60));
         player.registerObserver(pinky);
-    }
-
-    @Test
-    void moveGhostNoPlayerDirection() {
-        player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
-        player.notifyObservers();
-        Game.playerDirection = "";
-        int beforeMove = pinky.getLocation().y;
-        pinky.moveGhost(height, width);
-        int afterMove = pinky.getLocation().y;
-        assertEquals(beforeMove - afterMove, 20);
+        playerDirection = "";
     }
 
     @Test
     void moveUpGhost() {
-        Level.pixels[pinky.getLocation().x/20][(pinky.getLocation().y + 20)/20] = '#';
-        Level.pixels[(pinky.getLocation().x - 20)/20][pinky.getLocation().y/20] = '#';
-        Level.pixels[(pinky.getLocation().x + 20)/20][pinky.getLocation().y/20] = '#';
-
+        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
+        Level.pixels[(pinky.getLocation().x - 20) / 20][pinky.getLocation().y / 20] = '#';
+        Level.pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
         player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
+        playerDirection = "up";
         player.notifyObservers();
-        Game.playerDirection = "up";
         int beforeMove = pinky.getLocation().y;
         pinky.moveGhost(height, width);
         int afterMove = pinky.getLocation().y;
         assertEquals(beforeMove - afterMove, 20);
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().y, afterMove - 20);
+    }
+
+    @Test
+    void moveDownWrapAroundWall() {
+        player.movePlayer(new Point(60, 60));
+        pinky.move(new Point(60, 0));
+        Level.pixels[pinky.getLocation().x / 20][(height - 20) / 20] = '#';
+        player.notifyObservers();
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().y,20);
     }
 
     @Test
     void moveLeftGhost() {
         player.movePlayer(new Point(pinky.getLocation().x - 40, pinky.getLocation().y));
+        playerDirection = "left";
         player.notifyObservers();
-        Game.playerDirection = "left";
         int beforeMove = pinky.getLocation().x;
         pinky.moveGhost(height, width);
         int afterMove = pinky.getLocation().x;
         assertEquals(beforeMove - afterMove, 20);
+
+        pinky.move(new Point(0, pinky.getLocation().y));
+        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
+        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y - 20) / 20] = '#';
+        Level.pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().x, width - 20);}
+
+    @Test
+    void moveRightWrapAroundWall() {
+        player.movePlayer(new Point(60, 60));
+        pinky.move(new Point(0, 60));
+        Level.pixels[(width - 20) / 20][pinky.getLocation().y / 20] = '#';
+        player.notifyObservers();
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().x,20);
     }
 
     @Test
     void moveDownGhost() {
-        Level.pixels[pinky.getLocation().x/20][(pinky.getLocation().y - 20)/20] = '#';
-
         player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y + 40));
+        playerDirection = "down";
         player.notifyObservers();
-        Game.playerDirection = "down";
         int beforeMove = pinky.getLocation().y;
         pinky.moveGhost(height, width);
         int afterMove = pinky.getLocation().y;
         assertEquals(afterMove - beforeMove, 20);
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().y, 0);
+    }
+
+    @Test
+    void moveUpWrapAroundWall() {
+        player.movePlayer(new Point(60, 60));
+        pinky.move(new Point(60, height - 20));
+        Level.pixels[pinky.getLocation().x / 20][0] = '#';
+        player.notifyObservers();
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().y, height - 40);
     }
 
     @Test
     void moveRightGhost() {
         player.movePlayer(new Point(pinky.getLocation().x + 40, pinky.getLocation().y));
+        playerDirection = "right";
         player.notifyObservers();
-        Game.playerDirection = "right";
         int beforeMove = pinky.getLocation().x;
         pinky.moveGhost(height, width);
         int afterMove = pinky.getLocation().x;
         assertEquals(afterMove - beforeMove, 20);
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().x, 0);
     }
 
     @Test
-    void moveFromEdges() {
-
+    void moveLeftWrapAroundWall() {
+        player.movePlayer(new Point(60, 60));
+        pinky.move(new Point(width - 20, 60));
+        Level.pixels[0][pinky.getLocation().y / 20] = '#';
+        player.notifyObservers();
+        pinky.moveGhost(height, width);
+        assertEquals(pinky.getLocation().x,width - 40);
     }
 
     @Test
