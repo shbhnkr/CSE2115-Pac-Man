@@ -98,6 +98,15 @@ class GhostTest {
     }
 
     @Test
+    void moveUpFailGhost() {
+        ghost.move(new Point(40, 0));
+        Point beforeMove = ghost.getLocation();
+        Level.pixels[beforeMove.x / 20][(height - 20) / 20] = '#';
+        ghost.moveUpGhost(height);
+        Assertions.assertEquals(ghost.getLocation(), beforeMove);
+    }
+
+    @Test
     void moveLeftGhost() {
         ghost.move(new Point(0, 40));
         ghost.moveLeftGhost(width);
@@ -112,6 +121,15 @@ class GhostTest {
         ghost.moveLeftGhost(width);
         Point westWall = ghost.getLocation();
         Assertions.assertEquals(westWall.getX(), width - 40);
+    }
+
+    @Test
+    void moveLeftFailGhost() {
+        ghost.move(new Point(0, 40));
+        Point beforeMove = ghost.getLocation();
+        Level.pixels[(width - 20) / 20][beforeMove.y / 20] = '#';
+        ghost.moveLeftGhost(width);
+        Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
 
     @Test
@@ -132,6 +150,15 @@ class GhostTest {
     }
 
     @Test
+    void moveDownFailGhost() {
+        ghost.move(new Point(40, height - 20));
+        Point beforeMove = ghost.getLocation();
+        Level.pixels[beforeMove.x / 20][0] = '#';
+        ghost.moveDownGhost(height);
+        Assertions.assertEquals(ghost.getLocation(), beforeMove);
+    }
+
+    @Test
     void moveRightGhost() {
         ghost.move(new Point(width - 20, 40));
         ghost.moveRightGhost(width);
@@ -146,5 +173,14 @@ class GhostTest {
         ghost.moveRightGhost(width);
         Point eastWall = ghost.getLocation();
         Assertions.assertEquals(eastWall.getX(), 20);
+    }
+
+    @Test
+    void moveRightFailGhost() {
+        ghost.move(new Point(width - 20, 40));
+        Point beforeMove = ghost.getLocation();
+        Level.pixels[0][beforeMove.y / 20] = '#';
+        ghost.moveRightGhost(width);
+        Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
 }
