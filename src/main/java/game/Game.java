@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static game.Level.pixels;
+import static game.RenderLevel.pixels;
 import static game.SpriteSheet.animation;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -77,8 +77,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Dimension dimension = this.calculateDimensions(file);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
-        ghosts = level.ghosts;
-        player = level.player;
+        ghosts = RenderLevel.ghosts;
+        player = RenderLevel.player;
         conn = DBconnection.conn;
         addKeyListener(this);
     }
@@ -196,8 +196,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     player.registerObserver(ghost);
                 } else if (ghost.getType().equals(Types.inkyType())) {
                     player.registerObserver(ghost);
-                    if (level.blinky != null) {
-                        level.blinky.registerObserver(ghost);
+                    if (RenderLevel.blinky != null) {
+                        RenderLevel.blinky.registerObserver(ghost);
                     }
                 } else if (ghost.getType().equals(Types.clydeType())) {
                     player.registerObserver(ghost);

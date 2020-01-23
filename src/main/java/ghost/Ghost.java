@@ -2,15 +2,13 @@ package ghost;
 
 import game.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import java.awt.Point;
-import java.awt.Graphics;
 import java.util.Random;
 
-import static game.Level.pixels;
+import static game.RenderLevel.pixels;
 
 /**
  * the superclass for all ghosts.

@@ -3,10 +3,10 @@ package ghost;
 import game.SpriteSheet;
 import game.Types;
 
-import java.awt.Point;
+import java.awt.*;
 
 import static game.Game.playerDirection;
-import static game.Level.pixels;
+import static game.RenderLevel.pixels;
 
 /**
  * ghost 2.

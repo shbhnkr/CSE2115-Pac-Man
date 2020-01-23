@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static game.Level.*;
+import static game.RenderLevel.*;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
