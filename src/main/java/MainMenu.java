@@ -16,6 +16,7 @@ public class MainMenu {
     public static JFrame gameFrame;
     private transient JButton playGameButton;
     private transient JTextArea textArea;
+    private transient JTextField pauseText;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
@@ -52,8 +53,14 @@ public class MainMenu {
         textField1.setText(welcome);
         textField1.setFont(new Font("Monaco", Font.PLAIN, 15));
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.yellow));
-
+        pauseText = new JTextField("Press P to pause");
+        pauseText.setEnabled(false);
+        pauseText.setBackground(Color.yellow);
+        pauseText.setHorizontalAlignment(SwingConstants.CENTER);
         Color color = new Color(0, 0, 0);
+        pauseText.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+        pauseText.setDisabledTextColor(color);
+        pauseText.setFont(new Font(crackman, Font.ITALIC, 15));
         textArea = new JTextArea("Quick Instructions" + "\n" + "\n");
         textArea.setEnabled(false);
         textArea.setBackground(color);
@@ -95,7 +102,7 @@ public class MainMenu {
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.add(game, BorderLayout.CENTER);
-                //gamePanel.add(textArea, BorderLayout.WEST);
+                gamePanel.add(pauseText, BorderLayout.NORTH);
                 gameFrame.add(gamePanel);
                 gameFrame.setResizable(false);
                 gameFrame.pack();
