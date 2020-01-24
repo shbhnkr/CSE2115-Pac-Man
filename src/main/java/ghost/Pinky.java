@@ -3,7 +3,7 @@ package ghost;
 import game.SpriteSheet;
 import game.Types;
 
-import java.awt.Point;
+import java.awt.*;
 
 import static game.Game.playerDirection;
 import static game.Level.pixels;
@@ -18,8 +18,9 @@ public class Pinky extends Ghost {
 
     /**
      * ghost constructor 2.
-     * @param x x position of ghost.
-     * @param y y position of ghost.
+     *
+     * @param x           x position of ghost.
+     * @param y           y position of ghost.
      * @param spriteSheet the spritesheet to use.
      */
     Pinky(int x, int y, SpriteSheet spriteSheet) {
@@ -32,7 +33,7 @@ public class Pinky extends Ghost {
         if (unitLocations.isEmpty()) {
             System.out.println("no destination for Pinky!");
             return;
-            }
+        }
 
         boolean upWall;
         if (this.getLocation().y == 0) {
@@ -94,7 +95,8 @@ public class Pinky extends Ghost {
             if (!lastMove.equals("right") || downWall & rightWall & upWall) {
                 double temp = Math.sqrt(Math.pow(((
                         this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                        + Math.pow((this.getLocation().y
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     distance = temp;
                     res = 1;
@@ -117,7 +119,8 @@ public class Pinky extends Ghost {
             if (!lastMove.equals("left") || downWall & upWall & leftWall) {
                 double temp = Math.sqrt(Math.pow(((
                         this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                        + Math.pow((this.getLocation().y
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     res = 3;
                 }

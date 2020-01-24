@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Point;
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -53,7 +53,7 @@ class BlinkyTest {
         Level.pixels[blinky.getLocation().x / 20][(height - 20) / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
-        assertEquals(blinky.getLocation().y,20);
+        assertEquals(blinky.getLocation().y, 20);
     }
 
     @Test
@@ -70,7 +70,8 @@ class BlinkyTest {
         Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y - 20) / 20] = '#';
         Level.pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
         blinky.moveGhost(height, width);
-        assertEquals(blinky.getLocation().x, width - 20);}
+        assertEquals(blinky.getLocation().x, width - 20);
+    }
 
     @Test
     void moveRightWrapAroundWall() {
@@ -79,7 +80,7 @@ class BlinkyTest {
         Level.pixels[(width - 20) / 20][blinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
-        assertEquals(blinky.getLocation().x,20);
+        assertEquals(blinky.getLocation().x, 20);
     }
 
     @Test
@@ -123,7 +124,7 @@ class BlinkyTest {
         Level.pixels[0][blinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
-        assertEquals(blinky.getLocation().x,width - 40);
+        assertEquals(blinky.getLocation().x, width - 40);
     }
 
     @Test
