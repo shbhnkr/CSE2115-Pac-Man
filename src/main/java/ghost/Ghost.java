@@ -2,12 +2,10 @@ package ghost;
 
 import game.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import java.awt.Point;
-import java.awt.Graphics;
 import java.util.Random;
 
 import static game.Level.pixels;
@@ -29,8 +27,9 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Constructor for the different ghosts.
-     * @param x x position on the map.
-     * @param y y position on the map.
+     *
+     * @param x           x position on the map.
+     * @param y           y position on the map.
      * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
@@ -79,7 +78,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * observes type and location of the unit.
-     * @param type the type of the unit
+     *
+     * @param type     the type of the unit
      * @param location the location of the unit
      */
     @Override
@@ -99,7 +99,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 0;
         if (this.getLocation().y != 0
-                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == Types.wallType().charAt(0)) {
+                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20]
+                == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().y == 0) {
@@ -116,7 +117,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 48;
         if (this.getLocation().x != 0
-                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
+                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20]
+                == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().x == 0) {
@@ -133,7 +135,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 32;
         if (this.getLocation().y != height - 20
-                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == Types.wallType().charAt(0)) {
+                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20]
+                == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().y == height - 20) {
@@ -150,7 +153,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 16;
         if (this.getLocation().x != width - 20
-                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
+                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20]
+                == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().x == width - 20) {
