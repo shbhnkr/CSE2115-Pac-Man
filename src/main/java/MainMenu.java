@@ -26,9 +26,9 @@ public class MainMenu {
     private transient JButton pause;
     private transient Font font;
 
-    private transient String board1 = "board1.txt";
-    private transient String board2 = "board2.txt";
-    private transient String board3 = "board3.txt";
+    private transient String board1 = "map1.txt";
+    private transient String board2 = "map2.txt";
+    private transient String board3 = "map3.txt";
     private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);
 
     /**
@@ -89,9 +89,9 @@ public class MainMenu {
 
                 String pop;
                 if (comboBox1.getSelectedItem().toString().equals("Easy")) {
-                    pop = board2;
-                } else if (comboBox1.getSelectedItem().toString().equals("Medium")) {
                     pop = board1;
+                } else if (comboBox1.getSelectedItem().toString().equals("Medium")) {
+                    pop = board2;
                 } else if (comboBox1.getSelectedItem().toString().equals("Hard")) {
                     pop = board3;
                 } else {

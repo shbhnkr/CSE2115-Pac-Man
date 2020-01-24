@@ -99,12 +99,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 0;
         if (this.getLocation().y != 0
-                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == '#') {
+                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().y == 0) {
             Point point = new Point(this.getLocation().x, height - 20);
-            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
                 this.move(point);
             }
         } else {
@@ -116,12 +116,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 48;
         if (this.getLocation().x != 0
-                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == '#') {
+                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().x == 0) {
             Point point = new Point(width - 20, this.getLocation().y);
-            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
                 this.move(point);
             }
         } else {
@@ -133,12 +133,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 32;
         if (this.getLocation().y != height - 20
-                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == '#') {
+                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().y == height - 20) {
             Point point = new Point(this.getLocation().x, 0);
-            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
                 this.move(point);
             }
         } else {
@@ -150,12 +150,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
         xPixelGhost = 0;
         yPixelGhost = 16;
         if (this.getLocation().x != width - 20
-                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == '#') {
+                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
             return;
         }
         if (this.getLocation().x == width - 20) {
             Point point = new Point(0, this.getLocation().y);
-            if (!(pixels[point.x / 20][point.y / 20] == '#')) {
+            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
                 this.move(point);
             }
         } else {
