@@ -18,12 +18,12 @@ public class Level {
      * Generates a level from given file.
      *
      * @param path    Path
-     * @param width1  Width
-     * @param height1 Height
+     * @param width  Width
+     * @param height Height
      */
-    Level(URL path, int width1, int height1, int squareSize) {
-        setWidth(width1 / squareSize);
-        setHeight(height1 / squareSize);
+    Level(URL path, int width, int height, int squareSize) {
+        setWidth(width / squareSize);
+        setHeight(height / squareSize);
         setSquareSize(squareSize);
         setPath(path);
         mapMaker();
