@@ -1,6 +1,8 @@
 package game;
 
+import ghost.GhostFactory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
@@ -13,6 +15,13 @@ import java.io.FileNotFoundException;
 public class GameTest {
 
     final transient String winBoard = "winBoard.txt";
+    Game game;
+
+    @BeforeEach
+    void setUp() {
+        Game.pelletCount = 0;
+        Game.isRunning = false;
+    }
 
     @Test
     public void start() {
@@ -87,5 +96,19 @@ public class GameTest {
         game.start();
         Assertions.assertTrue(game.setScore("testUser", 20));
         Assertions.assertFalse(game.setScore("testUser", 20));
+    }
+
+    @Test
+    public void win() {
+        Game game = new Game(new Gamesettings(20, null), this.winBoard);
+        game.start();
+        // Cannot show GUI in the test.
+        game.showWinPopUp = false;
+
+        Assertions.assertFalse(game.win());
+
+        Game.pelletCount = 2;
+        game.pelletEaten = 2;
+        Assertions.assertTrue(game.win());
     }
 }

@@ -63,6 +63,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private transient Gamesettings settings;
     private transient Connection conn;
     private transient ResultSet rs;
+    public transient boolean showWinPopUp = true;
 
     /**
      * Game class.
@@ -72,7 +73,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game(Gamesettings settings, String filePath) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(filePath);
-
 
         Dimension dimension = this.calculateDimensions(filePath);
         this.setComponentDimensions(dimension);
@@ -415,14 +415,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
-                        + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                if (this.showWinPopUp) {
+                    JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
+                            + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                }
                 setScore(settings.username, point);
                 stop();
-
-
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -449,6 +449,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
      * @param username the username of the current player.
      * @param score the score of the player after the game ends.
      */
+    @SuppressWarnings("PMD")
     public boolean setScore(String username, int score) {
         //check query
         String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
