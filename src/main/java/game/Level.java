@@ -18,15 +18,31 @@ public class Level {
      * Generates a level from given file.
      *
      * @param path    Path
-     * @param width  Width
-     * @param height Height
+     * @param width1  Width
+     * @param height1 Height
      */
-    Level(URL path, int width, int height, int squareSize) {
-        Level.width = width / squareSize;
-        Level.height = height / squareSize;
-        Level.squareSize = squareSize;
-        Level.path = path;
+    Level(URL path, int width1, int height1, int squareSize) {
+        setWidth(width1 / squareSize);
+        setHeight(height1 / squareSize);
+        setSquareSize(squareSize);
+        setPath(path);
         mapMaker();
+    }
+
+    public static void setWidth(int width) {
+        Level.width = width;
+    }
+
+    public static void setHeight(int height) {
+        Level.height = height;
+    }
+
+    public static void setSquareSize(int squareSize) {
+        Level.squareSize = squareSize;
+    }
+
+    public static void setPath(URL path) {
+        Level.path = path;
     }
 
     public static Wall[][] getWalls() {

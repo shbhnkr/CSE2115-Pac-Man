@@ -1,26 +1,17 @@
 package game;
 
 import database.DBconnection;
-import ghost.Blinky;
 import ghost.Ghost;
-import ghost.Pinky;
 import ghost.Randy;
 
-import javax.swing.JOptionPane;
-
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.net.URL;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,31 +27,31 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final long serialVersionUID = 4328743;
 
     public static final String TITLE = "Pac-Man";
-    static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
     public static final SpriteSheet pinkySprite = new SpriteSheet("/sprite/ghost_pink.png");
     public static final SpriteSheet inkySprite = new SpriteSheet("/sprite/ghost_cyan.png");
     public static final SpriteSheet blinkySprite = new SpriteSheet("/sprite/ghost_red.png");
     public static final SpriteSheet clydeSprite = new SpriteSheet("/sprite/ghost_orange.png");
     public static final SpriteSheet randySprite = new SpriteSheet("/sprite/ghost_green.png");
+    static final SpriteSheet playerSprite = new SpriteSheet("/sprite/pacman.png");
     public static int pelletCount = 0;
+    public static boolean isRunning;
+    public static int point = 0;
+    public static String playerDirection = "";
     private static int width = 0;
     private static int height = 0;
-    public static boolean isRunning;
     private static int coolDown = 400;
     private static double timeSinceLastMove = System.currentTimeMillis();
-    public transient int pelletEaten = 0;
-    public static int point = 0;
-    private transient int key = Integer.MAX_VALUE;
-    private transient boolean newKey = false;
 
     static {
         isRunning = false;
     }
 
-    private transient Level level;
+    public transient int pelletEaten = 0;
     public transient Player player;
+    private transient int key = Integer.MAX_VALUE;
+    private transient boolean newKey = false;
+    private transient Level level;
     private transient List<Ghost> ghosts;
-    public static String playerDirection = "";
     private transient Thread thread;
     private transient Gamesettings settings;
     private transient Connection conn;
@@ -228,74 +219,141 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     15000
             );
         }
-        boolean upWall = player.isUpWall(height);
-        boolean leftWall = player.isLeftWall(width);
-        boolean downWall = player.isDownWall(height);
-        boolean rightWall = player.isRightWall(width);
+        boolean upWall = upWall();
+
+        boolean leftWall = leftWall();
+
+        boolean downWall = downWall();
+
+        boolean rightWall = rightWall();
 
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-                if (player.drunk) {
-                    if (!downWall || !newKey || player.power) {
-                        playerDirection = "down";
-                    }
-                } else {
-                    if (!upWall || !newKey || player.power) {
-                        playerDirection = "up";
-                    }
-                }
+                playerDrunkUp(upWall, downWall);
             }
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 
-                if (player.drunk) {
-                    if (!rightWall || !newKey || player.power) {
-                        playerDirection = "right";
-                    }
-                } else {
-                    if (!leftWall || !newKey || player.power) {
-                        playerDirection = "left";
-                    }
-                }
+                playerDrunkLeft(leftWall, rightWall);
             }
             if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-                if (player.drunk) {
-                    if (!upWall || !newKey || player.power) {
-                        playerDirection = "up";
-                    }
-                } else {
-                    if (!downWall || !newKey || player.power) {
-                        playerDirection = "down";
-                    }
-                }
+                playerDrunkDown(upWall, downWall);
             }
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-                if (player.drunk) {
-                    if (!leftWall || !newKey || player.power) {
-                        playerDirection = "left";
-                    }
-                } else {
-                    if (!rightWall || !newKey || player.power) {
-                        playerDirection = "right";
-                    }
-                }
+                playerDrunkRight(leftWall, rightWall);
             }
-            switch (playerDirection) {
-                case "up":
-                    upKey();
-                    break;
-                case "left":
-                    leftKey();
-                    break;
-                case "down":
-                    downKey();
-                    break;
-                case "right":
-                    rightKey();
-                    break;
-                default:
-                    break;
+            switchDirection();
+        }
+    }
+
+    private void switchDirection() {
+        switch (playerDirection) {
+            case "up":
+                upKey();
+                break;
+            case "left":
+                leftKey();
+                break;
+            case "down":
+                downKey();
+                break;
+            case "right":
+                rightKey();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void playerDrunkRight(boolean leftWall, boolean rightWall) {
+        if (player.drunk) {
+            if (!leftWall || !newKey) {
+                playerDirection = "left";
+            }
+        } else {
+            if (!rightWall || !newKey) {
+                playerDirection = "right";
             }
         }
+    }
+
+    private void playerDrunkDown(boolean upWall, boolean downWall) {
+        if (player.drunk) {
+            if (!upWall || !newKey) {
+                playerDirection = "up";
+            }
+        } else {
+            if (!downWall || !newKey) {
+                playerDirection = "down";
+            }
+        }
+    }
+
+    private void playerDrunkLeft(boolean leftWall, boolean rightWall) {
+        if (player.drunk) {
+            if (!rightWall || !newKey) {
+                playerDirection = "right";
+            }
+        } else {
+            if (!leftWall || !newKey) {
+                playerDirection = "left";
+            }
+        }
+    }
+
+    private void playerDrunkUp(boolean upWall, boolean downWall) {
+        if (player.drunk) {
+            if (!downWall || !newKey) {
+                playerDirection = "down";
+            }
+        } else {
+            if (!upWall || !newKey) {
+                playerDirection = "up";
+            }
+        }
+    }
+
+    private boolean rightWall() {
+        boolean rightWall;
+        if (player.getLocation().x == width - 20) {
+            rightWall = pixels[0][player.getLocation().y / 20] == '#';
+        } else {
+            rightWall = pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20]
+                    == '#';
+        }
+        return rightWall;
+    }
+
+    private boolean downWall() {
+        boolean downWall;
+        if (player.getLocation().y == height - 20) {
+            downWall = pixels[player.getLocation().x / 20][0] == '#';
+        } else {
+            downWall = pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20]
+                    == '#';
+        }
+        return downWall;
+    }
+
+    private boolean leftWall() {
+        boolean leftWall;
+        if (player.getLocation().x == 0) {
+            leftWall = pixels[(width - 20) / 20][player.getLocation().y / 20] == '#';
+        } else {
+            leftWall = pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20]
+                    == '#';
+        }
+        return leftWall;
+    }
+
+    private boolean upWall() {
+        boolean upWall;
+        if (player.getLocation().y == 0) {
+            upWall = pixels[player.getLocation().x / 20][(height - 20) / 20] == '#';
+        } else {
+            upWall = pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20]
+                    == '#';
+        }
+        return upWall;
     }
 
     @SuppressWarnings("PMD")
@@ -417,8 +475,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     /**
      * setting the score.
+     *
      * @param username the username of the current player.
-     * @param score the score of the player after the game ends.
+     * @param score    the score of the player after the game ends.
      */
     public void setScore(String username, int score) {
         //check query
