@@ -139,8 +139,7 @@ class PinkyTest {
 
     @Test
     void noDestination() {
-        Player nullPlayer;
-        nullPlayer = null;
+        Player nullPlayer = null;
         player = nullPlayer;
         Point beforeMove = pinky.getLocation();
         pinky.moveGhost(height, width);

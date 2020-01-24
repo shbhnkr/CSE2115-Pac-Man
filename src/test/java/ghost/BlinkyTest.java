@@ -145,8 +145,7 @@ class BlinkyTest {
 
     @Test
     void noDestination() {
-        Player nullPlayer;
-        nullPlayer = null;
+        Player nullPlayer = null;
         player = nullPlayer;
         Point beforeMove = blinky.getLocation();
         blinky.moveGhost(height, width);
