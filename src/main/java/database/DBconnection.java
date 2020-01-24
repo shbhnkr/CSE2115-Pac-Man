@@ -85,7 +85,7 @@ public class DBconnection {
                     if (i < columnsNumber) {
                         result += "   Score: ";
                     }
-                    System.out.println(result);
+                    //System.out.println(result);
 
 
                 }
