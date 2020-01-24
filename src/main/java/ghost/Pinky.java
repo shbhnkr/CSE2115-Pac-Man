@@ -37,7 +37,7 @@ public class Pinky extends Ghost {
         Point destination = this.unitLocations.get(Types.playerType());
         Point newDestination = getNewDestination(destination);
 
-        int res = CommonAIOperations.getRes(this, lastMove, newDestination, width, height);
+        int res = CommonAIOperations.getRes(this, lastMove, newDestination, height, width);
 
         switch (res) {
             case 0:

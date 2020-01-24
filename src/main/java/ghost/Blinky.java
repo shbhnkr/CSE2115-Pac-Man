@@ -5,9 +5,6 @@ import game.Types;
 
 import java.awt.Point;
 
-import static game.RenderLevel.pixels;
-
-
 public class Blinky extends Ghost {
     /**
      * ghost 1.
@@ -29,12 +26,13 @@ public class Blinky extends Ghost {
     @Override
     public void moveGhost(int height, int width) {
         if (unitLocations.isEmpty()) {
-            System.out.println("no destination for Pinky!");
+            System.out.println("no destination for Blinky!");
             return;
         }
 
         Point destination = this.unitLocations.get(Types.playerType());
-        int res = CommonAIOperations.getRes(this, lastMove, newDestination, width, height);
+        int res = CommonAIOperations.getRes(this, lastMove, destination, height, width);
+        System.out.println(res + "debugggg");
         switch (res) {
             case 0:
                 lastMove = "up";
