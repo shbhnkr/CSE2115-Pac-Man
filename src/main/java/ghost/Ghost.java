@@ -98,15 +98,11 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveUpGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 0;
-        if (this.getLocation().y != 0
-                && pixels[this.getLocation().x / 20][(this.getLocation().y - 20) / 20] == Types.wallType().charAt(0)) {
+        if (isUpWall(height)) {
             return;
         }
         if (this.getLocation().y == 0) {
-            Point point = new Point(this.getLocation().x, height - 20);
-            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
-                this.move(point);
-            }
+            this.move(new Point(this.getLocation().x, height - 20));
         } else {
             move(MoveBuilder.up(this.getLocation()));
         }
@@ -115,15 +111,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveLeftGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 48;
-        if (this.getLocation().x != 0
-                && pixels[(this.getLocation().x - 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
+
+        if (isLeftWall(width)) {
             return;
         }
         if (this.getLocation().x == 0) {
-            Point point = new Point(width - 20, this.getLocation().y);
-            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
-                this.move(point);
-            }
+            this.move(new Point(width - 20, this.getLocation().y));
         } else {
             move(MoveBuilder.left(this.getLocation()));
         }
@@ -132,15 +125,12 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveDownGhost(int height) {
         xPixelGhost = 0;
         yPixelGhost = 32;
-        if (this.getLocation().y != height - 20
-                && pixels[this.getLocation().x / 20][(this.getLocation().y + 20) / 20] == Types.wallType().charAt(0)) {
+
+        if (isDownWall(height)) {
             return;
         }
         if (this.getLocation().y == height - 20) {
-            Point point = new Point(this.getLocation().x, 0);
-            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
-                this.move(point);
-            }
+            this.move(new Point(this.getLocation().x, 0));
         } else {
             move(MoveBuilder.down(this.getLocation()));
         }
@@ -149,17 +139,47 @@ public abstract class Ghost extends Unit implements Observer, Observable {
     void moveRightGhost(int width) {
         xPixelGhost = 0;
         yPixelGhost = 16;
-        if (this.getLocation().x != width - 20
-                && pixels[(this.getLocation().x + 20) / 20][this.getLocation().y / 20] == Types.wallType().charAt(0)) {
+
+        if (isRightWall(width)) {
             return;
         }
+
         if (this.getLocation().x == width - 20) {
-            Point point = new Point(0, this.getLocation().y);
-            if (pixels[point.x / 20][point.y / 20] != Types.wallType().charAt(0)) {
-                this.move(point);
-            }
+            this.move(new Point(0, this.getLocation().y));
         } else {
             move(MoveBuilder.right(this.getLocation()));
+        }
+    }
+
+    boolean isUpWall(int height) {
+        if (getLocation().y == 0) {
+            return pixels[getLocation().x / 20][(height - 20) / 20] == '#';
+        } else {
+            return pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
+        }
+    }
+
+    boolean isLeftWall(int width) {
+        if (getLocation().x == 0) {
+            return pixels[(width - 20) / 20][getLocation().y / 20] == '#';
+        } else {
+            return pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
+        }
+    }
+
+    boolean isDownWall(int height) {
+        if (getLocation().y == (height - 20)) {
+            return pixels[getLocation().x / 20][0] == '#';
+        } else {
+            return pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
+        }
+    }
+
+    boolean isRightWall(int width) {
+        if (getLocation().x == (width - 20)) {
+            return pixels[0][getLocation().y / 20] == '#';
+        } else {
+            return pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
         }
     }
 
