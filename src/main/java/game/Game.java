@@ -449,9 +449,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
      * @param username the username of the current player.
      * @param score the score of the player after the game ends.
      */
-    public void setScore(String username, int score) {
+    public boolean setScore(String username, int score) {
         //check query
         String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+        if (!isRunning) {
+            return false;
+        }
+
         try {
             //connecting to DataBase
             conn = DBconnection.getConnection();
@@ -461,9 +466,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             ps.setString(1, username + "");
             ps.setInt(2, score);
             ps.executeUpdate();
+            stop();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        stop();
     }
 }

@@ -80,14 +80,12 @@ public class GameTest {
         Assertions.assertTrue(game.registerObservers());
     }
 
+
     @Test
-    public void win() {
-        // Pellet count = 2
+    public void lose() {
         Game game = new Game(new Gamesettings(20, null), this.winBoard);
-
-        Assertions.assertFalse(game.win());
-
-        game.pelletEaten = 2;
-        Assertions.assertTrue(game.win());
+        game.start();
+        Assertions.assertTrue(game.setScore("testUser", 20));
+        Assertions.assertFalse(game.setScore("testUser", 20));
     }
 }
