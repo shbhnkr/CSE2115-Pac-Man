@@ -13,7 +13,6 @@ public class Gamesettings {
     public Gamesettings(int squareSize, String username) {
         this.username = username;
         this.squareSize = squareSize;
-        System.out.println(username);
     }
 
     public int getSquareSize() {
