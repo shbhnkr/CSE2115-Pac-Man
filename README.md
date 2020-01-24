@@ -44,4 +44,11 @@
     - Game **ends** and displays a popup messgae when all the pellets on the board are eaten by pac-man.
 - Extras:
     - **Wrap-around**: Allows pacman and the ghost to get to the other side of the map.
+
+## Testing (Final Iteration)
+
+### Test coverage
+- We focused on the branch coverage for testing the game and got a **76%** (Approx) branch coverage.
+- We also performed some user testing to get better design choices for the game.
+- GUI Testing was performed as one of the system testing.
  

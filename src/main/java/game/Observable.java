@@ -4,13 +4,13 @@ public interface Observable {
 
     /**
      * Register an observer.
-     * @param observer
+     * @param observer the observer to register.
      */
     void registerObserver(Observer observer);
 
     /**
      * deregister an observer.
-     * @param observer
+     * @param observer the observer to deregister.
      */
     void deregisterObserver(Observer observer);
 

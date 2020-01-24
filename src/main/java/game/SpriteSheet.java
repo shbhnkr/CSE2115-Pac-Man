@@ -1,7 +1,5 @@
 package game;
 
-import ghost.Ghost;
-
 import javax.imageio.ImageIO;
 
 import java.awt.Graphics;
@@ -34,8 +32,7 @@ public class SpriteSheet {
         return sheet.getSubimage(xx, yy, 16, 16);
     }
 
-    static void animation(int xx, int yy, Player player, Graphics graphics)
-    {
+    static void animation(int xx, int yy, Player player, Graphics graphics) {
         int n1 = 0;
         while (n1 < 200) {
             xPixelPlayer = xx;
@@ -44,15 +41,5 @@ public class SpriteSheet {
             n1++;
         }
     }
-//    static void ghostAnimation(int xx, int yy, Ghost ghost, Graphics graphics)
-//    {
-//        int n1 = 0;
-//        while (n1 < 200) {
-//            xPixelGhost = xx;
-//            yPixelGhost = yy;
-//            ghost.render(graphics);
-//            n1++;
-//        }
-//    }
 }
 

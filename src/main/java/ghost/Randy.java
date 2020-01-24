@@ -2,23 +2,26 @@ package ghost;
 
 import game.SpriteSheet;
 
-import java.util.Random;
-
 /**
  * ghost 5.
  */
 public class Randy extends Ghost {
     public static final long serialVersionUID = 4328743;
+    static int random = -1;
 
+    /**
+     * ghost constructor 5.
+     *
+     * @param x           x position of ghost.
+     * @param y           y position of ghost.
+     * @param spriteSheet the spritesheet to use.
+     */
     Randy(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
     }
 
     @Override
     public void moveGhost(int height, int width) {
-        Random rand = new Random();
-        int random = rand.nextInt(4);
-
         switch (random) {
             case 0:
                 this.moveUpGhost(height);
@@ -29,8 +32,10 @@ public class Randy extends Ghost {
             case 2:
                 this.moveDownGhost(height);
                 break;
-            default:
+            case 3:
                 this.moveRightGhost(width);
+                break;
+            default:
                 break;
         }
     }
