@@ -104,11 +104,11 @@ public class Register {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(enterUsernameTextField.getText() + " Username");
-                System.out.println(enterPasswordPasswordField.getText() + " Password");
+                //System.out.println(enterUsernameTextField.getText() + " Username");
+                //System.out.println(enterPasswordPasswordField.getText() + " Password");
                 String uname = enterUsernameTextField.getText();
                 String pwd = getSha(String.valueOf(enterPasswordPasswordField.getPassword()));
-                System.out.println(pwd.length() + " pwd");
+                //System.out.println(pwd.length() + " pwd");
 
 
                 PreparedStatement ps;

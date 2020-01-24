@@ -19,7 +19,7 @@ class GameCollisionTest {
 
     @Test
     public void pelletCollision() {
-        Game game = new Game(new Gamesettings(20, null), "board2.txt");
+        Game game = new Game(new Gamesettings(20, null), "testBoard123.txt");
         Player player = game.player;
         Assertions.assertEquals(0, game.pelletEaten);
         player.moveLeft(game, game.getWidth());
