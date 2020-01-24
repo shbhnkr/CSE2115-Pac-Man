@@ -22,17 +22,17 @@ public class GameTest {
     }
 
 
-//    @Test
-//    public void stop() {
-//        Game game = new Game(new Gamesettings(20, null), this.winBoard);
-//
-//        Assertions.assertFalse(game.stop());
-//
-//        Assertions.assertTrue(game.start());
-//
-//        Assertions.assertTrue(game.stop());
-//
-//    }
+    @Test
+    public void stop() {
+        Game game = new Game(new Gamesettings(20, null), this.winBoard);
+
+        Assertions.assertFalse(game.stop());
+
+        Assertions.assertTrue(game.start());
+
+        Assertions.assertTrue(game.stop());
+
+    }
 
 
     @Test
