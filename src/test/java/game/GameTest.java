@@ -73,7 +73,8 @@ public class GameTest {
 
     @Test
     @SuppressWarnings("PMD")
-    // The warning is suppressed because here we need to check the register Observers when the player is empty.
+    // The warning is suppressed because here we need to check registerObservers
+    // when the player is null.
     public void registerObserversNoPlayer() {
         Game game = new Game(new Gamesettings(20, null), this.winBoard);
         game.player = null;

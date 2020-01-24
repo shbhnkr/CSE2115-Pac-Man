@@ -16,14 +16,13 @@ public class MainMenu {
     public static JFrame gameFrame;
     private transient JButton playGameButton;
     private transient JTextArea textArea;
+    private transient JTextField pauseText;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
     private transient JPanel playerDetails;
     private transient JTextField textField1;
 
-    private transient JButton backButton;
-    private transient JButton pause;
     private transient Font font;
 
     private transient String board1 = "map1.txt";
@@ -54,8 +53,14 @@ public class MainMenu {
         textField1.setText(welcome);
         textField1.setFont(new Font("Monaco", Font.PLAIN, 15));
         textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.yellow));
-
+        pauseText = new JTextField("Press P to pause");
+        pauseText.setEnabled(false);
+        pauseText.setBackground(Color.yellow);
+        pauseText.setHorizontalAlignment(SwingConstants.CENTER);
         Color color = new Color(0, 0, 0);
+        pauseText.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+        pauseText.setDisabledTextColor(color);
+        pauseText.setFont(new Font(crackman, Font.ITALIC, 15));
         textArea = new JTextArea("Quick Instructions" + "\n" + "\n");
         textArea.setEnabled(false);
         textArea.setBackground(color);
@@ -67,14 +72,6 @@ public class MainMenu {
         textArea.append("* Apple : 500 points" + "\n");
         textArea.setFont(new Font("Comic Sans MS", Font.ITALIC, 9));
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
-        backButton = new JButton("Back to Main Menu");
-        backButton.setFont(new Font(crackman, Font.PLAIN, 20));
-        backButton.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-        backButton.setBackground(Color.orange);
-        pause = new JButton("Pause");
-        pause.setFont(new Font(crackman, Font.PLAIN, 20));
-        pause.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-        pause.setBackground(Color.orange);
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         comboBox1.setBackground(Color.orange);
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
@@ -105,8 +102,7 @@ public class MainMenu {
                 gameFrame.setTitle(Game.TITLE);
                 gamePanel.setLayout(new BorderLayout());
                 gamePanel.add(game, BorderLayout.CENTER);
-                gamePanel.add(backButton, BorderLayout.NORTH);
-                //gamePanel.add(textArea, BorderLayout.WEST);
+                gamePanel.add(pauseText, BorderLayout.NORTH);
                 gameFrame.add(gamePanel);
                 gameFrame.setResizable(false);
                 gameFrame.pack();
@@ -118,29 +114,6 @@ public class MainMenu {
             }
         });
 
-        pause.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Game.isRunning) {
-                    Game.isRunning = false;
-                }
-            }
-        });
-        backButton.addActionListener(new ActionListener() {
-            @SuppressWarnings("PMD")
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Game.isRunning = false;
-                MainMenu.frame = new JFrame("Main Menu");
-                MainMenu.frame.setContentPane(new MainMenu().panel1);
-                MainMenu.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                MainMenu.frame.setSize(600, 300);
-                MainMenu.frame.setLocation(500, 300);
-                MainMenu.frame.setResizable(false);
-                MainMenu.frame.setVisible(true);
-                gameFrame.setVisible(false);
-            }
-        });
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

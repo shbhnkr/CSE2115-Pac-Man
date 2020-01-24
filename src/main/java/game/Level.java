@@ -1,168 +1,74 @@
 package game;
 
 
-import ghost.Ghost;
-import ghost.GhostFactory;
-
 import java.awt.*;
-import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-import static game.Game.pelletCount;
+import static game.RenderLevel.*;
 
 public class Level {
 
-    public transient int width;
-    public transient int height;
+    public static int width;
+    public static int height;
     static Wall[][] walls;
-    transient Player player;
-    transient Ghost inky;
-    transient Ghost blinky;
-    transient Ghost pinky;
-    transient Ghost clyde;
-    transient Ghost randy;
-    static Pellet[][] pellets;
-    static FruitPellet[][] fruitPellet;
-    static Beer[][] beers;
-    static PowerPellet[][] dragonBall;
-    public static char[][] pixels;
-    transient List<Ghost> ghosts = new ArrayList<>();
+    static int squareSize;
+    static URL path;
 
     /**
      * Generates a level from given file.
      *
      * @param path    Path
-     * @param width1  Width
-     * @param height1 Height
+     * @param width  Width
+     * @param height Height
      */
-    Level(URL path, int width1, int height1, int squareSize) {
-        this.width = width1 / squareSize;
-        this.height = height1 / squareSize;
-        setPixels(new char[width][height]);
-        File file = new File(path.getFile());
-        Scanner sc;
-        try {
-            sc = new Scanner(file);
-            int n = 0;
-            while (sc.hasNextLine()) {
-                String s = sc.nextLine();
-                for (int i = 0; i < s.length(); i++) {
-                    getPixels()[i][n] = s.charAt(i);
-                }
-                n++;
-            }
-            setWalls(new Wall[width][height]);
-            setPellets(new Pellet[width][height]);
-            setFruitPellets(new FruitPellet[width][height]);
-            setBeers(new Beer[width][height]);
-            setPowerPellets(new PowerPellet[width][height]);
-
-
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-
-                    switch (pixels[x][y]) {
-                        case ',':
-                            getFruitPellets()[x][y]
-                                    = new FruitPellet(x * squareSize, y * squareSize);
-                            break;
-                        case '*':
-                            getPowerPellets()[x][y]
-                                    = new PowerPellet(x * squareSize, y * squareSize);
-                            break;
-                        case '#':
-                            getWalls()[x][y] = new Wall(x * squareSize, y * squareSize);
-                            break;
-                        case 'h':
-                            getBeers()[x][y] = new Beer(x * squareSize, y * squareSize);
-                            break;
-                        case '.':
-                            pelletCount++;
-                            getPellets()[x][y] = new Pellet(x * squareSize, y * squareSize);
-                            break;
-                        case 'p':
-                            this.player = new Player(x * squareSize, y * squareSize);
-                            break;
-                        case 'i':
-                            inky = GhostFactory.create(GhostFactory.INKY, x * 20, y * 20);
-                            ghosts.add(inky);
-                            break;
-                        case 'b':
-                            blinky = GhostFactory.create(GhostFactory.BLINKY, x * 20, y * 20);
-                            ghosts.add(blinky);
-                            break;
-                        case 'g':
-                            pinky = GhostFactory.create(GhostFactory.PINKY, x * 20, y * 20);
-                            ghosts.add(pinky);
-                            break;
-                        case 'c':
-                            clyde = GhostFactory.create(GhostFactory.CLYDE, x * 20, y * 20);
-                            ghosts.add(clyde);
-                            break;
-                        case 'r':
-                            randy = GhostFactory.create(GhostFactory.RANDY, x * 20, y * 20);
-                            ghosts.add(randy);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    Level(URL path, int width, int height, int squareSize) {
+        setWidth(width / squareSize);
+        setHeight(height / squareSize);
+        setSquareSize(squareSize);
+        setPath(path);
+        mapMaker();
     }
 
-    private Wall[][] getWalls() {
+    public static void setWidth(int width) {
+        Level.width = width;
+    }
+
+    public static void setHeight(int height) {
+        Level.height = height;
+    }
+
+    public static void setSquareSize(int squareSize) {
+        Level.squareSize = squareSize;
+    }
+
+    public static void setPath(URL path) {
+        Level.path = path;
+    }
+
+    public static Wall[][] getWalls() {
         return Level.walls;
     }
 
-    private void setWalls(Wall[][] walls) {
+    public static void setWalls(Wall[][] walls) {
         Level.walls = walls;
     }
 
-    private static Beer[][] getBeers() {
+    public static Beer[][] getBeers() {
         return beers;
     }
 
-    private static void setBeers(Beer[][] beers) {
-        Level.beers = beers;
+    public static void setBeers(Beer[][] beers) {
+        RenderLevel.beers = beers;
     }
 
-    private static PowerPellet[][] getPowerPellets() {
+    public static PowerPellet[][] getPowerPellets() {
         return dragonBall;
     }
 
-    private static void setPowerPellets(PowerPellet[][] dragonBall) {
-        Level.dragonBall = dragonBall;
+    public static void setPowerPellets(PowerPellet[][] dragonBall) {
+        RenderLevel.dragonBall = dragonBall;
     }
 
-    private static Pellet[][] getPellets() {
-        return pellets;
-    }
-
-    private static void setPellets(Pellet[][] pellets) {
-        Level.pellets = pellets;
-    }
-
-    private static FruitPellet[][] getFruitPellets() {
-        return fruitPellet;
-    }
-
-    private static void setFruitPellets(FruitPellet[][] fruitPellet) {
-        Level.fruitPellet = fruitPellet;
-    }
-
-    public static char[][] getPixels() {
-        return pixels;
-    }
-
-    public static void setPixels(char[][] pixels) {
-        Level.pixels = pixels;
-    }
 
     /**
      * Renders a screen.
@@ -170,44 +76,7 @@ public class Level {
      * @param g Graphics
      */
     void render(Graphics g) {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (fruitPellet[x][y] != null) {
-                    fruitPellet[x][y].render(g);
-                }
-                if (walls[x][y] != null) {
-                    walls[x][y].render(g);
-                }
-                if (beers[x][y] != null) {
-                    beers[x][y].render(g);
-                }
-                if (dragonBall[x][y] != null) {
-                    dragonBall[x][y].render(g);
-                }
-                if (pellets[x][y] != null) {
-                    pellets[x][y].render(g);
-                }
-                if (player != null) {
-                    player.render(g);
-                }
-                if (inky != null) {
-                    inky.render(g);
-                }
-                if (blinky != null) {
-                    blinky.render(g);
-                }
-                if (pinky != null) {
-                    pinky.render(g);
-                }
-                if (clyde != null) {
-                    clyde.render(g);
-                }
-                if (randy != null) {
-                    randy.render(g);
-                }
-
-            }
-        }
+        RenderLevel.render(g);
     }
 }
 

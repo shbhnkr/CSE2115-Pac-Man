@@ -4,6 +4,7 @@ public class Gamesettings {
     transient int squareSize;
     transient String username;
     transient boolean showWinPopUp = true;
+
     /**
      * constructor method for game settings.
      *
