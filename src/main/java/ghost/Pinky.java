@@ -6,7 +6,6 @@ import game.Types;
 import java.awt.Point;
 
 import static game.Game.playerDirection;
-import static game.RenderLevel.pixels;
 
 /**
  * ghost 2.
@@ -18,12 +17,29 @@ public class Pinky extends Ghost {
 
     /**
      * ghost constructor 2.
-     * @param x x position of ghost.
-     * @param y y position of ghost.
+     *
+     * @param x           x position of ghost.
+     * @param y           y position of ghost.
      * @param spriteSheet the spritesheet to use.
      */
     Pinky(int x, int y, SpriteSheet spriteSheet) {
         super(x, y, spriteSheet);
+    }
+
+    int oneValidMove(int res, boolean upWall, boolean leftWall, boolean downWall, boolean rightWall) {
+        if (leftWall & rightWall & downWall) {
+            return 0;
+        }
+        if (downWall & rightWall & upWall) {
+            return 1;
+        }
+        if (upWall & rightWall & leftWall) {
+            return 2;
+        }
+        if (downWall & upWall & leftWall) {
+            return 3;
+        }
+        return res;
     }
 
     @Override
@@ -50,10 +66,8 @@ public class Pinky extends Ghost {
         int res = -1;
 
         if (!upWall) {
-            if (leftWall & rightWall & downWall) {
-                res = 0;
-            }
-            else if (!lastMove.equals("down")) {
+            res = oneValidMove(res, upWall, leftWall, downWall, rightWall);
+            if (!lastMove.equals("down")) {
                 distance = Math.sqrt(Math.pow((this.getLocation().x
                         - newDestination.getLocation().x) / 20, 2) + Math.pow(((
                         this.getLocation().y - 20) - newDestination.getLocation().y) / 20, 2));
@@ -61,10 +75,8 @@ public class Pinky extends Ghost {
             }
         }
         if (!leftWall) {
-            if (downWall & rightWall & upWall) {
-                res = 1;
-            }
-            else if (!lastMove.equals("right")) {
+            res = oneValidMove(res, upWall, leftWall, downWall, rightWall);
+            if (!lastMove.equals("right")) {
                 temp = Math.sqrt(Math.pow(((
                         this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
                         + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
@@ -75,10 +87,9 @@ public class Pinky extends Ghost {
             }
         }
         if (!downWall) {
-            if (upWall & rightWall & leftWall) {
-                res = 2;
-            }
-            else if (!lastMove.equals("up")) {
+            res = oneValidMove(res, upWall, leftWall, downWall, rightWall);
+
+            if (!lastMove.equals("up")) {
                 temp = Math.sqrt(Math.pow((
                         this.getLocation().x - newDestination.getLocation().x) / 20, 2)
                         + Math.pow(((
@@ -90,10 +101,8 @@ public class Pinky extends Ghost {
             }
         }
         if (!rightWall) {
-            if (downWall & upWall & leftWall) {
-                res = 3;
-            }
-            else if (!lastMove.equals("left")) {
+            res = oneValidMove(res, upWall, leftWall, downWall, rightWall);
+            if (!lastMove.equals("left")) {
                 temp = Math.sqrt(Math.pow(((
                         this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
                         + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));

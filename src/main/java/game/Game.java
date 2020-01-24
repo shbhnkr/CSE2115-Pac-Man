@@ -266,11 +266,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private void playerDrunkRight(boolean leftWall, boolean rightWall) {
         if (player.drunk) {
-            if (!leftWall || !newKey) {
+            if (!leftWall || !newKey || player.power) {
                 playerDirection = "left";
             }
         } else {
-            if (!rightWall || !newKey) {
+            if (!rightWall || !newKey || player.power) {
                 playerDirection = "right";
             }
         }
@@ -278,11 +278,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private void playerDrunkDown(boolean upWall, boolean downWall) {
         if (player.drunk) {
-            if (!upWall || !newKey) {
+            if (!upWall || !newKey || player.power) {
                 playerDirection = "up";
             }
         } else {
-            if (!downWall || !newKey) {
+            if (!downWall || !newKey || player.power) {
                 playerDirection = "down";
             }
         }
@@ -290,11 +290,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private void playerDrunkLeft(boolean leftWall, boolean rightWall) {
         if (player.drunk) {
-            if (!rightWall || !newKey) {
+            if (!rightWall || !newKey || player.power) {
                 playerDirection = "right";
             }
         } else {
-            if (!leftWall || !newKey) {
+            if (!leftWall || !newKey || player.power) {
                 playerDirection = "left";
             }
         }
@@ -302,11 +302,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     private void playerDrunkUp(boolean upWall, boolean downWall) {
         if (player.drunk) {
-            if (!downWall || !newKey) {
+            if (!downWall || !newKey || player.power) {
                 playerDirection = "down";
             }
         } else {
-            if (!upWall || !newKey) {
+            if (!upWall || !newKey || player.power) {
                 playerDirection = "up";
             }
         }
