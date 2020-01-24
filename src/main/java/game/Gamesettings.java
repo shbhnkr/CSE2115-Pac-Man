@@ -3,7 +3,7 @@ package game;
 public class Gamesettings {
     transient int squareSize;
     transient String username;
-
+    transient boolean showWinPopUp = true;
     /**
      * constructor method for game settings.
      *
@@ -13,7 +13,6 @@ public class Gamesettings {
     public Gamesettings(int squareSize, String username) {
         this.username = username;
         this.squareSize = squareSize;
-        System.out.println(username);
     }
 
     public int getSquareSize() {

@@ -63,6 +63,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private transient Gamesettings settings;
     private transient Connection conn;
     private transient ResultSet rs;
+    public transient boolean showWinPopUp = true;
 
     /**
      * Game class.
@@ -72,9 +73,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game(Gamesettings settings, String filePath) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(filePath);
-        File file = new File(path.getFile());
 
-        Dimension dimension = this.calculateDimensions(file);
+        Dimension dimension = this.calculateDimensions(filePath);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         ghosts = level.ghosts;
@@ -107,13 +107,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Checks the given input file for max width and height.
      *
-     * @param file the file to calculate dimensions of.
+     * @param filePath filepath the file to calculate dimensions of.
      * @return dimensions of file.
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    private Dimension calculateDimensions(File file) {
-        Scanner sc;
+    private Dimension calculateDimensions(String filePath) {
         try {
+            URL path = ClassLoader.getSystemResource(filePath);
+            File file = new File(path.getFile());
+            Scanner sc;
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
@@ -121,7 +123,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 n++;
             }
             height = this.settings.getSquareSize() * n;
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return new Dimension(width, height);
@@ -130,33 +132,30 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Start.
      */
-    public synchronized void start() {
+    public synchronized boolean start() {
         if (isRunning) {
-            return;
+            return false;
         }
         isRunning = true;
         thread = new Thread(this);
+
         thread.start();
         registerObservers();
         player.notifyObservers();
+        return true;
     }
 
     /**
      * Stop.
      */
-    public synchronized void stop() {
+    public synchronized boolean stop() {
         pelletCount = 0;
         pelletEaten = 0;
         if (!isRunning) {
-            return;
+            return false;
         }
         isRunning = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        return true;
     }
 
     /**
@@ -187,25 +186,28 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     @SuppressWarnings("PMD")
-    private void registerObservers() {
-        if (player != null) {
-            for (Ghost ghost : ghosts) {
-                if (ghost.getType().equals(Types.blinkyType())) {
-                    player.registerObserver(ghost);
-                } else if (ghost.getType().equals(Types.pinkyType())) {
-                    player.registerObserver(ghost);
-                } else if (ghost.getType().equals(Types.inkyType())) {
-                    player.registerObserver(ghost);
-                    if (level.blinky != null) {
-                        level.blinky.registerObserver(ghost);
-                    }
-                } else if (ghost.getType().equals(Types.clydeType())) {
-                    player.registerObserver(ghost);
-                } else {
-                    return;
+    public boolean registerObservers() {
+        if (player == null) {
+            return false;
+        }
+
+        for (Ghost ghost : ghosts) {
+            if (ghost.getType().equals(Types.blinkyType())) {
+                player.registerObserver(ghost);
+            } else if (ghost.getType().equals(Types.pinkyType())) {
+                player.registerObserver(ghost);
+            } else if (ghost.getType().equals(Types.inkyType())) {
+                player.registerObserver(ghost);
+                if (level.blinky != null) {
+                    level.blinky.registerObserver(ghost);
                 }
+            } else if (ghost.getType().equals(Types.clydeType())) {
+                player.registerObserver(ghost);
             }
         }
+
+        return true;
+
     }
 
     @SuppressWarnings("PMD")
@@ -409,17 +411,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
-    void win() {
+    boolean win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
-                JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
-                        + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                if (this.showWinPopUp) {
+                    JOptionPane.showMessageDialog(getParent(), "You Won" + "\n" + " Your Score is : "
+                            + point, "Congrats", JOptionPane.DEFAULT_OPTION);
+                }
                 setScore(settings.username, point);
                 stop();
-
+                return true;
             }
         }
+        return false;
     }
 
     @SuppressWarnings("PMD")
@@ -444,9 +449,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
      * @param username the username of the current player.
      * @param score the score of the player after the game ends.
      */
-    public void setScore(String username, int score) {
+    @SuppressWarnings("PMD")
+    public boolean setScore(String username, int score) {
         //check query
         String query = "INSERT INTO `ScoreBoard`(`username`, `score`) VALUES (?, ?)";
+
+        if (!isRunning) {
+            return false;
+        }
+
         try {
             //connecting to DataBase
             conn = DBconnection.getConnection();
@@ -456,9 +467,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             ps.setString(1, username + "");
             ps.setInt(2, score);
             ps.executeUpdate();
+            stop();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        stop();
     }
 }
