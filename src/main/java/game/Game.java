@@ -72,9 +72,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game(Gamesettings settings, String filePath) {
         this.settings = settings;
         URL path = ClassLoader.getSystemResource(filePath);
-        File file = new File(path.getFile());
 
-        Dimension dimension = this.calculateDimensions(file);
+
+        Dimension dimension = this.calculateDimensions(filePath);
         this.setComponentDimensions(dimension);
         this.level = new Level(path, width, height, this.settings.getSquareSize());
         ghosts = level.ghosts;
@@ -107,13 +107,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Checks the given input file for max width and height.
      *
-     * @param file the file to calculate dimensions of.
+     * @param filePath filepath the file to calculate dimensions of.
      * @return dimensions of file.
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    private Dimension calculateDimensions(File file) {
-        Scanner sc;
+    private Dimension calculateDimensions(String filePath) {
         try {
+            URL path = ClassLoader.getSystemResource(filePath);
+            File file = new File(path.getFile());
+            Scanner sc;
             sc = new Scanner(file);
             int n = 0;
             while (sc.hasNextLine()) {
@@ -121,7 +123,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 n++;
             }
             height = this.settings.getSquareSize() * n;
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return new Dimension(width, height);
@@ -130,25 +132,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
     /**
      * Start.
      */
-    public synchronized void start() {
+    public synchronized boolean start() {
         if (isRunning) {
-            return;
+            return false;
         }
         isRunning = true;
         thread = new Thread(this);
         thread.start();
         registerObservers();
         player.notifyObservers();
+        return true;
     }
 
     /**
      * Stop.
      */
-    public synchronized void stop() {
+    public synchronized boolean stop() {
         pelletCount = 0;
         pelletEaten = 0;
         if (!isRunning) {
-            return;
+            return false;
         }
         isRunning = false;
         try {
@@ -156,7 +159,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
     /**
@@ -168,6 +171,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             createBufferStrategy(3);
             return;
         }
+         
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, getWidth(), getHeight());
