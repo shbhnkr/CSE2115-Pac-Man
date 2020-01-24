@@ -12,7 +12,7 @@ class FromResultsetToStringTest {
 
     @Test
     void covertTest() {
-        assertEquals((DBconnection.fromResultsetToString(
-                Objects.requireNonNull(DBconnection.prepAndExecuteQuery(0)))), "pacman   Score: 74874");
+        assertEquals((DBconnection.fromResultsetToString(Objects.requireNonNull(
+                DBconnection.prepAndExecuteQuery(0)))), "pacman   Score: 74874");
     }
 }

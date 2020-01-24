@@ -24,7 +24,8 @@ public class Blinky extends Ghost {
         super(x, y, spriteSheet);
     }
 
-    int oneValidMove(int res, boolean upWall, boolean leftWall, boolean downWall, boolean rightWall) {
+    int oneValidMove(int res, boolean upWall,
+                     boolean leftWall, boolean downWall, boolean rightWall) {
         if (leftWall & rightWall & downWall) {
             return 0;
         }

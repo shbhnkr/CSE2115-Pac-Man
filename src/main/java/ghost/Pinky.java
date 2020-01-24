@@ -26,7 +26,8 @@ public class Pinky extends Ghost {
         super(x, y, spriteSheet);
     }
 
-    int oneValidMove(int res, boolean upWall, boolean leftWall, boolean downWall, boolean rightWall) {
+    int oneValidMove(int res, boolean upWall,
+                     boolean leftWall, boolean downWall, boolean rightWall) {
         if (leftWall & rightWall & downWall) {
             return 0;
         }
@@ -79,7 +80,8 @@ public class Pinky extends Ghost {
             if (!lastMove.equals("right")) {
                 temp = Math.sqrt(Math.pow(((
                         this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                        + Math.pow((this.getLocation().y
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     distance = temp;
                     res = 1;
@@ -105,7 +107,8 @@ public class Pinky extends Ghost {
             if (!lastMove.equals("left")) {
                 temp = Math.sqrt(Math.pow(((
                         this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
-                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                        + Math.pow((this.getLocation().y
+                        - newDestination.getLocation().y) / 20, 2));
                 if (temp < distance) {
                     res = 3;
                 }

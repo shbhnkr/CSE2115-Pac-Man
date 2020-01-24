@@ -66,18 +66,7 @@ class BlinkyTest {
         player.movePlayer(new Point(blinky.getLocation().x - 40, blinky.getLocation().y));
         player.notifyObservers();
         int beforeMove = blinky.getLocation().x;
-        System.out.println(blinky.getUnitLocations());
-        System.out.println(blinky.getLocation());
-
         blinky.moveGhost(height, width);
-
-        System.out.print(pixels[blinky.getLocation().x / 20][(blinky.getLocation().y - 20) / 20] + ", ");
-        System.out.print(pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] + ", ");
-        System.out.print(pixels[(blinky.getLocation().x + 20) / 20][(blinky.getLocation().y) / 20] + ", ");
-        System.out.println(pixels[(blinky.getLocation().x - 20) / 20][(blinky.getLocation().y) / 20]);
-        System.out.println(blinky.getUnitLocations());
-        System.out.println(blinky.getLocation());
-
         int afterMove = blinky.getLocation().x;
         assertEquals(beforeMove - afterMove, 20);
 
