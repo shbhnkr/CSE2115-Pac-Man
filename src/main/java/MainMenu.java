@@ -10,44 +10,68 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MainMenu {
+
     public static JFrame frame;
     public transient JPanel panel1;
+    public static JFrame gameFrame;
     private transient JButton playGameButton;
+    private transient JTextArea textArea;
+    private transient JTextField pauseText;
     private transient JButton logoutButton;
     private transient JComboBox comboBox1;
     private transient JTextArea title;
     private transient JPanel playerDetails;
-    private transient JTextArea textArea1;
-    private transient JTextArea textArea2;
-    private transient JButton backButton;
+    private transient JTextField textField1;
+
     private transient Font font;
-    private transient String board2 = "board2.txt";
-    private transient Gamesettings gamesettings = new Gamesettings(20);;
-    private transient String board1 = "board1.txt";
 
-    private transient String board3 = "board3.txt";
+    private transient String board1 = "map1.txt";
+    private transient String board2 = "map2.txt";
+    private transient String board3 = "map3.txt";
+    private transient Gamesettings gamesettings = new Gamesettings(20, StartScreen.username);
 
+    /**
+     * the main menu.
+     */
     public MainMenu() {
         URL path = ClassLoader.getSystemResource("crackman.ttf");
         File file = new File(path.getFile());
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, file);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+
         String crackman = "crackman";
+
         playGameButton.setFont(new Font(crackman, Font.PLAIN, 20));
         logoutButton.setFont(new Font(crackman, Font.PLAIN, 20));
+
         title.setFont(new Font(crackman, Font.PLAIN, 35));
-
+        String welcome = "Hi, " + StartScreen.username;
+        textField1.setText(welcome);
+        textField1.setFont(new Font("Monaco", Font.PLAIN, 15));
+        textField1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.yellow));
+        pauseText = new JTextField("Press P to pause");
+        pauseText.setEnabled(false);
+        pauseText.setBackground(Color.yellow);
+        pauseText.setHorizontalAlignment(SwingConstants.CENTER);
         Color color = new Color(0, 0, 0);
-
+        pauseText.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.black));
+        pauseText.setDisabledTextColor(color);
+        pauseText.setFont(new Font(crackman, Font.ITALIC, 15));
+        textArea = new JTextArea("Quick Instructions" + "\n" + "\n");
+        textArea.setEnabled(false);
+        textArea.setBackground(color);
+        textArea.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.orange));
+        textArea.setDisabledTextColor(Color.cyan);
+        textArea.append("* Pellet : 10 points" + "\n");
+        textArea.append("* Cherry : 100 points" + "\n");
+        textArea.append("* Strawberry : 300 points" + "\n");
+        textArea.append("* Apple : 500 points" + "\n");
+        textArea.setFont(new Font("Comic Sans MS", Font.ITALIC, 9));
         comboBox1.setFont(new Font(crackman, Font.PLAIN, 15));
-
-
         comboBox1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
         comboBox1.setBackground(Color.orange);
         logoutButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, color));
@@ -56,15 +80,15 @@ public class MainMenu {
         playGameButton.setBackground(Color.orange);
         playGameButton.addActionListener(new ActionListener() {
 
-
+            @SuppressWarnings("PMD")
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 String pop;
                 if (comboBox1.getSelectedItem().toString().equals("Easy")) {
-                    pop = board2;
-                } else if (comboBox1.getSelectedItem().toString().equals("Medium")) {
                     pop = board1;
+                } else if (comboBox1.getSelectedItem().toString().equals("Medium")) {
+                    pop = board2;
                 } else if (comboBox1.getSelectedItem().toString().equals("Hard")) {
                     pop = board3;
                 } else {
@@ -72,35 +96,24 @@ public class MainMenu {
                 }
                 JPanel gamePanel = new JPanel();
 
+
+                gameFrame = new JFrame();
                 Game game = new Game(gamesettings, pop);
-
-                //backButton = new JButton("Score: " + game.point);
-
-                JFrame frame1 = new JFrame();
-
-                frame1.setTitle(Game.TITLE);
-                gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.PAGE_AXIS));
-                gamePanel.add(game);
-                frame1.add(gamePanel);
-                frame1.setResizable(false);
-                frame1.pack();
-                frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame1.setLocationRelativeTo(null);
-                frame1.setVisible(true);
+                gameFrame.setTitle(Game.TITLE);
+                gamePanel.setLayout(new BorderLayout());
+                gamePanel.add(game, BorderLayout.CENTER);
+                gamePanel.add(pauseText, BorderLayout.NORTH);
+                gameFrame.add(gamePanel);
+                gameFrame.setResizable(false);
+                gameFrame.pack();
+                gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                gameFrame.setLocationRelativeTo(null);
+                gameFrame.setVisible(true);
                 game.start();
                 frame.setVisible(false);
             }
         });
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Main Menu");
-//        frame.setContentPane(new MainMenu().panel1);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(600, 300);
-//        frame.setLocation(500, 300);
-//        frame.setResizable(false);
-//        frame.setVisible(true);
-//    }
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

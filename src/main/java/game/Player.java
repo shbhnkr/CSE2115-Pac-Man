@@ -2,20 +2,23 @@ package game;
 
 import ghost.Ghost;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static game.Level.*;
+import static game.RenderLevel.*;
 
 public class Player extends Unit implements Observable {
     public static final long serialVersionUID = 4328743;
+    static int xPixelPlayer = 0;
+    static int yPixelPlayer = 0;
+    private List<Observer> observerCollection;
+    transient boolean drunk;
+    transient boolean power;
 
-    
-    public static int xPixelPlayer, yPixelPlayer = 0;
-    public List<Observer> observerCollection;
-    public transient boolean drunk;
-    public transient boolean power;
 
     public Player(int x, int y) {
         setBounds(x, y, 20, 20);
@@ -63,27 +66,69 @@ public class Player extends Unit implements Observable {
         this.setLocation((int) movePosition.getX(), (int) movePosition.getY());
     }
 
+    boolean isUpWall(int height) {
+        if (getLocation().y == 0) {
+            return pixels[getLocation().x / 20][(height - 20) / 20] == '#';
+        } else {
+            return pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#';
+        }
+    }
+
+    boolean isLeftWall(int width) {
+        if (getLocation().x == 0) {
+            return pixels[(width - 20) / 20][getLocation().y / 20] == '#';
+        } else {
+            return pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#';
+        }
+    }
+
+    boolean isDownWall(int height) {
+        if (getLocation().y == (height - 20)) {
+            return pixels[getLocation().x / 20][0] == '#';
+        } else {
+            return pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#';
+        }
+    }
+
+    boolean isRightWall(int width) {
+        if (getLocation().x == (width - 20)) {
+            return pixels[0][getLocation().y / 20] == '#';
+        } else {
+            return pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#';
+        }
+    }
+
     void moveUp(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 0;
-        if (getLocation().y != 0 && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
-            if (poweredUp(game)) return;
+        if (getLocation().y != 0
+                && pixels[getLocation().x / 20][(getLocation().y - 20) / 20] == '#') {
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().y == 0) {
             Point point = new Point(getLocation().x, height - 20);
             movePlayer(point);
             objectCheckerUp(game);
         } else {
-            movePlayer(MoveBuilder.UP(getLocation()));
+            movePlayer(MoveBuilder.up(getLocation()));
             objectCheckerUp(game);
         }
         notifyObservers();
     }
 
+    @SuppressWarnings("PMD")
     private void objectCheckerUp(Game game) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -126,25 +171,34 @@ public class Player extends Unit implements Observable {
     void moveLeft(Game game, int width) {
         xPixelPlayer = 16;
         yPixelPlayer = 48;
-        if (getLocation().x != 0 && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
-            if (poweredUp(game)) return;
+        if (getLocation().x != 0
+                && pixels[(getLocation().x - 20) / 20][getLocation().y / 20] == '#') {
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().x == 0) {
             Point point = new Point(width - 20, getLocation().y);
             movePlayer(point);
             objectCheckerLeft(game);
         } else {
-            movePlayer(MoveBuilder.LEFT(getLocation()));
+            movePlayer(MoveBuilder.left(getLocation()));
             objectCheckerLeft(game);
         }
         notifyObservers();
     }
 
-
+    @SuppressWarnings("PMD")
     private void objectCheckerLeft(Game game) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -184,27 +238,38 @@ public class Player extends Unit implements Observable {
         }
     }
 
+    @SuppressWarnings("PMD")
     void moveDown(Game game, int height) {
         xPixelPlayer = 16;
         yPixelPlayer = 32;
-        if (getLocation().y != height - 20 && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
-            if (poweredUp(game)) return;
+        if (getLocation().y != height - 20
+                && pixels[getLocation().x / 20][(getLocation().y + 20) / 20] == '#') {
+            if (poweredUp(game)) {
+                return;
+            }
         }
         if (getLocation().y == height - 20) {
             Point point = new Point(getLocation().x, 0);
             movePlayer(point);
             objectCheckerDown(game, height);
         } else {
-            movePlayer(MoveBuilder.DOWN(getLocation()));
+            movePlayer(MoveBuilder.down(getLocation()));
             objectCheckerDown(game, height);
         }
         notifyObservers();
     }
 
+    @SuppressWarnings("PMD")
     private void objectCheckerDown(Game game, int height) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -247,36 +312,35 @@ public class Player extends Unit implements Observable {
     void moveRight(Game game, int width) {
         xPixelPlayer = 16;
         yPixelPlayer = 16;
-        if (getLocation().x != width - 20 && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
-            if (poweredUp(game)) return;
+        if (getLocation().x != width - 20
+                && pixels[(getLocation().x + 20) / 20][getLocation().y / 20] == '#') {
+            if (poweredUp(game)) {
+                return;
+            }
+
         }
         if (getLocation().x == width - 20) {
             Point point = new Point(0, getLocation().y);
             movePlayer(point);
             objectCheckerRight(game, width);
         } else {
-            movePlayer(MoveBuilder.RIGHT(getLocation()));
+            movePlayer(MoveBuilder.right(getLocation()));
             objectCheckerRight(game, width);
         }
         notifyObservers();
     }
 
-    private boolean poweredUp(Game game) {
-        if (power == true) {
-            Wall wal = null;
-            pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
-            walls[getLocation().x / 20][getLocation().y / 20] = wal;
-            game.point += 10;
-        } else {
-            return true;
-        }
-        return false;
-    }
-
+    @SuppressWarnings("PMD")
     private void objectCheckerRight(Game game, int width) {
+        char[] ghostChars = {'g', 'b', 'p', 'c', 'r'};
+        for (char ghostChar : ghostChars) {
+            if (pixels[getLocation().x / 20][getLocation().y / 20] == ghostChar) {
+                game.lose();
+            }
+        }
         switch (pixels[getLocation().x / 20][getLocation().y / 20]) {
             case '#':
-                if (power == true) {
+                if (power) {
                     Wall wal = null;
                     pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
                     walls[getLocation().x / 20][getLocation().y / 20] = wal;
@@ -320,7 +384,20 @@ public class Player extends Unit implements Observable {
         if (ghost == null) {
             return false;
         }
-        return (this.getLocation().x == ghost.getLocation().x && this.getLocation().y == ghost.getLocation().y);
+        return (this.getLocation().x == ghost.getLocation().x
+                && this.getLocation().y == ghost.getLocation().y);
+    }
+
+    private boolean poweredUp(Game game) {
+        if (power) {
+            Wall wal = null;
+            pixels[getLocation().x / 20][getLocation().y / 20] = ' ';
+            walls[getLocation().x / 20][getLocation().y / 20] = wal;
+            game.point += 10;
+        } else {
+            return true;
+        }
+        return false;
     }
 
     @Override
