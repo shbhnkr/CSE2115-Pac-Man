@@ -32,10 +32,6 @@ public class GameTest {
         Assertions.assertTrue(game.start());
 
         Assertions.assertTrue(game.stop());
-
-        Assertions.assertTrue(game.start());
-
-        Assertions.assertTrue(game.stop());
     }
 
 
