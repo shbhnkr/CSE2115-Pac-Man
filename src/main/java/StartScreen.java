@@ -56,36 +56,7 @@ public class StartScreen {
 
                 String query = "SELECT * FROM `login` WHERE `username`=? AND `password` =?";
 
-                try {
-                    conn = DBconnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(query);
-                    ps.setString(1, uname);
-                    ps.setString(2, pwd);
-                    rs = ps.executeQuery();
-                    if (rs.next()) {
-                        pop = true;
-
-                        username = uname;
-                        JOptionPane.showMessageDialog(null, "Welcome " + uname);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Invalid password/username");
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    try {
-                        rs.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        conn.close();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-
-
-                }
+                pop = authentication(uname, pwd, query);
                 if (pop) {
 
                     MainMenu.frame = new JFrame("Main Menu");
@@ -135,16 +106,12 @@ public class StartScreen {
         textField1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (textField1.getText().equals("Enter Username")) {
-                    textField1.setText("");
-                }
+                gainedFocusUsername();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (textField1.getText().equals("")) {
-                    textField1.setText("Enter Username");
-                }
+                lostFocusUsername();
             }
 
             public String getUserName() {
@@ -189,6 +156,52 @@ public class StartScreen {
 
             }
         });
+    }
+
+    private boolean authentication(String uname, String pwd, String query) {
+        try {
+            conn = DBconnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, uname);
+            ps.setString(2, pwd);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                pop = true;
+
+                username = uname;
+                JOptionPane.showMessageDialog(null, "Welcome " + uname);
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid password/username");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+
+        }
+        return pop;
+    }
+
+    private void lostFocusUsername() {
+        if (textField1.getText().equals("")) {
+            textField1.setText("Enter Username");
+        }
+    }
+
+    private void gainedFocusUsername() {
+        if (textField1.getText().equals("Enter Username")) {
+            textField1.setText("");
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package ghost;
 
-import game.Level;
 import game.Types;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.Point;
 
+import static game.RenderLevel.pixels;
+import static game.RenderLevel.setPixels;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RandyTest {
@@ -26,11 +27,11 @@ class RandyTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Level.setPixels(new char[width][height]);
+        setPixels(new char[width][height]);
         int n = 0;
         while (n < height / 20) {
             for (int i = 0; i < width / 20; i++) {
-                Level.pixels[i][n] = ' ';
+                pixels[i][n] = ' ';
             }
             n++;
         }

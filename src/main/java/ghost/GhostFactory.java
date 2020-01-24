@@ -24,15 +24,25 @@ public class GhostFactory {
      * @throws Exception Whenever the type doesn't meet any of the ghosts.
      */
     public static Ghost create(String ghostType, int x, int y) throws Exception {
-
         if (ghostType.equals(GhostFactory.RANDY)) {
             return new Randy(x, y, Game.randySprite);
         }
 
+        return blinkyOrPinky(ghostType, x, y);
+    }
+
+    private static Ghost blinkyOrPinky(String ghostType, int x, int y) throws Exception {
         if (ghostType.equals(GhostFactory.BLINKY)) {
             return new Blinky(x, y, Game.blinkySprite);
         }
 
+        if (ghostType.equals(GhostFactory.PINKY)) {
+            return new Pinky(x, y, Game.pinkySprite);
+        }
+        return inkyOrClyde(ghostType, x, y);
+    }
+
+    private static Ghost inkyOrClyde(String ghostType, int x, int y) throws Exception {
         if (ghostType.equals(GhostFactory.CLYDE)) {
             return new Clyde(x, y, Game.clydeSprite);
         }
@@ -40,12 +50,6 @@ public class GhostFactory {
         if (ghostType.equals(GhostFactory.INKY)) {
             return new Inky(x, y, Game.inkySprite);
         }
-
-        if (ghostType.equals(GhostFactory.PINKY)) {
-            return new Pinky(x, y, Game.pinkySprite);
-        }
-
-
         throw new Exception("Cannot find matching ghost for ghost type");
     }
 }
