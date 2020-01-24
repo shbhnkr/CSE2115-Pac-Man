@@ -154,11 +154,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             return false;
         }
         isRunning = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return true;
     }
 
