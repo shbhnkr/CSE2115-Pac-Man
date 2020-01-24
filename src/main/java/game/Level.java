@@ -22,11 +22,27 @@ public class Level {
      * @param height1 Height
      */
     Level(URL path, int width1, int height1, int squareSize) {
-        this.width = width1 / squareSize;
-        this.height = height1 / squareSize;
-        this.squareSize = squareSize;
-        this.path = path;
+        setWidth(width1 / squareSize);
+        setHeight(height1 / squareSize);
+        setSquareSize(squareSize);
+        setPath(path);
         mapMaker();
+    }
+
+    public static void setWidth(int width) {
+        Level.width = width;
+    }
+
+    public static void setHeight(int height) {
+        Level.height = height;
+    }
+
+    public static void setSquareSize(int squareSize) {
+        Level.squareSize = squareSize;
+    }
+
+    public static void setPath(URL path) {
+        Level.path = path;
     }
 
     public static Wall[][] getWalls() {
