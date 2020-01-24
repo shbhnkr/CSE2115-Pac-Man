@@ -411,7 +411,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
-    void win() {
+    boolean win() {
         if (pelletEaten == pelletCount) {
             coolDown = 999999;
             if (isRunning) {
@@ -420,8 +420,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 setScore(settings.username, point);
                 stop();
 
+
             }
+            return true;
         }
+        return false;
     }
 
     @SuppressWarnings("PMD")
