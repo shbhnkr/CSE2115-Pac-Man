@@ -138,6 +138,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         isRunning = true;
         thread = new Thread(this);
+
         thread.start();
         registerObservers();
         player.notifyObservers();
@@ -166,7 +167,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             createBufferStrategy(3);
             return;
         }
-         
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, getWidth(), getHeight());
@@ -186,25 +186,28 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     @SuppressWarnings("PMD")
-    private void registerObservers() {
-        if (player != null) {
-            for (Ghost ghost : ghosts) {
-                if (ghost.getType().equals(Types.blinkyType())) {
-                    player.registerObserver(ghost);
-                } else if (ghost.getType().equals(Types.pinkyType())) {
-                    player.registerObserver(ghost);
-                } else if (ghost.getType().equals(Types.inkyType())) {
-                    player.registerObserver(ghost);
-                    if (level.blinky != null) {
-                        level.blinky.registerObserver(ghost);
-                    }
-                } else if (ghost.getType().equals(Types.clydeType())) {
-                    player.registerObserver(ghost);
-                } else {
-                    return;
+    public boolean registerObservers() {
+        if (player == null) {
+            return false;
+        }
+
+        for (Ghost ghost : ghosts) {
+            if (ghost.getType().equals(Types.blinkyType())) {
+                player.registerObserver(ghost);
+            } else if (ghost.getType().equals(Types.pinkyType())) {
+                player.registerObserver(ghost);
+            } else if (ghost.getType().equals(Types.inkyType())) {
+                player.registerObserver(ghost);
+                if (level.blinky != null) {
+                    level.blinky.registerObserver(ghost);
                 }
+            } else if (ghost.getType().equals(Types.clydeType())) {
+                player.registerObserver(ghost);
             }
         }
+
+        return true;
+
     }
 
     @SuppressWarnings("PMD")

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.Mockito.*;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 
 
@@ -32,6 +33,9 @@ public class GameTest {
 
         Assertions.assertTrue(game.stop());
 
+        Assertions.assertTrue(game.start());
+
+        Assertions.assertTrue(game.stop());
     }
 
 
@@ -62,12 +66,21 @@ public class GameTest {
         });
     }
 
-//    @Test
-//    public void mapFileNotFound() {
-//        Assertions.assertThrows(Exception.class,() -> {
-//            new Game(new Gamesettings(20, null), "doesNotExist.txt");
-//        });
-//    }
+    @Test
+    @SuppressWarnings("PMD")
+    // The warning is suppressed because here we need to check the register Observers when the player is empty.
+    public void registerObserversNoPlayer() {
+        Game game = new Game(new Gamesettings(20, null), this.winBoard);
+        game.player = null;
+
+        Assertions.assertFalse(game.registerObservers());
+    }
 
 
+    @Test
+    public void registerObservers() {
+        Game game = new Game(new Gamesettings(20, null), this.winBoard);
+
+        Assertions.assertTrue(game.registerObservers());
+    }
 }
