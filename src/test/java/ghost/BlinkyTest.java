@@ -1,12 +1,17 @@
 package ghost;
 
-import game.*;
+import game.Game;
+import game.Gamesettings;
+import game.Player;
+import game.Types;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Point;
 
+import static game.RenderLevel.pixels;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BlinkyTest {
@@ -33,9 +38,9 @@ class BlinkyTest {
 
     @Test
     void moveUpGhost() {
-        Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] = '#';
-        Level.pixels[(blinky.getLocation().x - 20) / 20][blinky.getLocation().y / 20] = '#';
-        Level.pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
+        pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] = '#';
+        pixels[(blinky.getLocation().x - 20) / 20][blinky.getLocation().y / 20] = '#';
+        pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
         player.movePlayer(new Point(blinky.getLocation().x, blinky.getLocation().y - 40));
         player.notifyObservers();
         int beforeMove = blinky.getLocation().y;
@@ -50,7 +55,7 @@ class BlinkyTest {
     void moveDownWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         blinky.move(new Point(60, 0));
-        Level.pixels[blinky.getLocation().x / 20][(height - 20) / 20] = '#';
+        pixels[blinky.getLocation().x / 20][(height - 20) / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
         assertEquals(blinky.getLocation().y,20);
@@ -66,9 +71,9 @@ class BlinkyTest {
         assertEquals(beforeMove - afterMove, 20);
 
         blinky.move(new Point(0, blinky.getLocation().y));
-        Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] = '#';
-        Level.pixels[blinky.getLocation().x / 20][(blinky.getLocation().y - 20) / 20] = '#';
-        Level.pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
+        pixels[blinky.getLocation().x / 20][(blinky.getLocation().y + 20) / 20] = '#';
+        pixels[blinky.getLocation().x / 20][(blinky.getLocation().y - 20) / 20] = '#';
+        pixels[(blinky.getLocation().x + 20) / 20][blinky.getLocation().y / 20] = '#';
         blinky.moveGhost(height, width);
         assertEquals(blinky.getLocation().x, width - 20);}
 
@@ -76,7 +81,7 @@ class BlinkyTest {
     void moveRightWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         blinky.move(new Point(0, 60));
-        Level.pixels[(width - 20) / 20][blinky.getLocation().y / 20] = '#';
+        pixels[(width - 20) / 20][blinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
         assertEquals(blinky.getLocation().x,20);
@@ -98,7 +103,7 @@ class BlinkyTest {
     void moveUpWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         blinky.move(new Point(60, height - 20));
-        Level.pixels[blinky.getLocation().x / 20][0] = '#';
+        pixels[blinky.getLocation().x / 20][0] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
         assertEquals(blinky.getLocation().y, height - 40);
@@ -120,7 +125,7 @@ class BlinkyTest {
     void moveLeftWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         blinky.move(new Point(width - 20, 60));
-        Level.pixels[0][blinky.getLocation().y / 20] = '#';
+        pixels[0][blinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         blinky.moveGhost(height, width);
         assertEquals(blinky.getLocation().x,width - 40);
@@ -128,8 +133,9 @@ class BlinkyTest {
 
     @Test
     void noDestination() {
-        Player nullplayer = null;
-        player = nullplayer;
+        Player nullPlayer;
+        nullPlayer = null;
+        player = nullPlayer;
         Point beforeMove = blinky.getLocation();
         blinky.moveGhost(height, width);
         Point afterMove = blinky.getLocation();

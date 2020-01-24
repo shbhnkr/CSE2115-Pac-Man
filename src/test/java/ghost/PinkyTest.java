@@ -1,6 +1,10 @@
 package ghost;
 
-import game.*;
+import game.Game;
+import game.Gamesettings;
+import game.Player;
+import game.Types;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.Point;
 
 import static game.Game.playerDirection;
+import static game.RenderLevel.pixels;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PinkyTest {
@@ -35,9 +40,9 @@ class PinkyTest {
 
     @Test
     void moveUpGhost() {
-        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
-        Level.pixels[(pinky.getLocation().x - 20) / 20][pinky.getLocation().y / 20] = '#';
-        Level.pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
+        pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
+        pixels[(pinky.getLocation().x - 20) / 20][pinky.getLocation().y / 20] = '#';
+        pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
         player.movePlayer(new Point(pinky.getLocation().x, pinky.getLocation().y - 40));
         playerDirection = "up";
         player.notifyObservers();
@@ -53,7 +58,7 @@ class PinkyTest {
     void moveDownWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         pinky.move(new Point(60, 0));
-        Level.pixels[pinky.getLocation().x / 20][(height - 20) / 20] = '#';
+        pixels[pinky.getLocation().x / 20][(height - 20) / 20] = '#';
         player.notifyObservers();
         pinky.moveGhost(height, width);
         assertEquals(pinky.getLocation().y,20);
@@ -70,9 +75,9 @@ class PinkyTest {
         assertEquals(beforeMove - afterMove, 20);
 
         pinky.move(new Point(0, pinky.getLocation().y));
-        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
-        Level.pixels[pinky.getLocation().x / 20][(pinky.getLocation().y - 20) / 20] = '#';
-        Level.pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
+        pixels[pinky.getLocation().x / 20][(pinky.getLocation().y + 20) / 20] = '#';
+        pixels[pinky.getLocation().x / 20][(pinky.getLocation().y - 20) / 20] = '#';
+        pixels[(pinky.getLocation().x + 20) / 20][pinky.getLocation().y / 20] = '#';
         pinky.moveGhost(height, width);
         assertEquals(pinky.getLocation().x, width - 20);}
 
@@ -80,7 +85,7 @@ class PinkyTest {
     void moveRightWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         pinky.move(new Point(0, 60));
-        Level.pixels[(width - 20) / 20][pinky.getLocation().y / 20] = '#';
+        pixels[(width - 20) / 20][pinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         pinky.moveGhost(height, width);
         assertEquals(pinky.getLocation().x,20);
@@ -103,7 +108,7 @@ class PinkyTest {
     void moveUpWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         pinky.move(new Point(60, height - 20));
-        Level.pixels[pinky.getLocation().x / 20][0] = '#';
+        pixels[pinky.getLocation().x / 20][0] = '#';
         player.notifyObservers();
         pinky.moveGhost(height, width);
         assertEquals(pinky.getLocation().y, height - 40);
@@ -126,7 +131,7 @@ class PinkyTest {
     void moveLeftWrapAroundWall() {
         player.movePlayer(new Point(60, 60));
         pinky.move(new Point(width - 20, 60));
-        Level.pixels[0][pinky.getLocation().y / 20] = '#';
+        pixels[0][pinky.getLocation().y / 20] = '#';
         player.notifyObservers();
         pinky.moveGhost(height, width);
         assertEquals(pinky.getLocation().x,width - 40);
@@ -134,8 +139,9 @@ class PinkyTest {
 
     @Test
     void noDestination() {
-        Player nullplayer = null;
-        player = nullplayer;
+        Player nullPlayer;
+        nullPlayer = null;
+        player = nullPlayer;
         Point beforeMove = pinky.getLocation();
         pinky.moveGhost(height, width);
         Point afterMove = pinky.getLocation();

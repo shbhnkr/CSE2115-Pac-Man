@@ -26,6 +26,7 @@ public class RenderLevel {
     static PowerPellet[][] dragonBall;
     public static char[][] pixels;
     static List<Ghost> ghosts = new ArrayList<>();
+
     public static void render(Graphics g)
     {
         for (int x = 0; x < width; x++) {
@@ -62,7 +63,6 @@ public class RenderLevel {
         }
     }
 
-
     public static Pellet[][] getPellets() {
         return pellets;
     }
@@ -86,6 +86,8 @@ public class RenderLevel {
     public static void setPixels(char[][] pixels) {
         RenderLevel.pixels = pixels;
     }
+
+    @SuppressWarnings("PMD")
     public static void mapMaker()
     {
         setPixels(new char[width][height]);

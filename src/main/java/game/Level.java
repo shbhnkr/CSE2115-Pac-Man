@@ -18,14 +18,14 @@ public class Level {
      * Generates a level from given file.
      *
      * @param path    Path
-     * @param width1  Width
-     * @param height1 Height
+     * @param width  Width
+     * @param height Height
      */
-    Level(URL path, int width1, int height1, int squareSize) {
-        this.width = width1 / squareSize;
-        this.height = height1 / squareSize;
-        this.squareSize = squareSize;
-        this.path = path;
+    Level(URL path, int width, int height, int squareSize) {
+        Level.width = width / squareSize;
+        Level.height = height / squareSize;
+        Level.squareSize = squareSize;
+        Level.path = path;
         mapMaker();
     }
 

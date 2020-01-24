@@ -27,8 +27,9 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * Constructor for the different ghosts.
-     * @param x x position on the map.
-     * @param y y position on the map.
+     *
+     * @param x           x position on the map.
+     * @param y           y position on the map.
      * @param spriteSheet the image/spritesheet to display.
      */
     public Ghost(int x, int y, SpriteSheet spriteSheet) {
@@ -77,7 +78,8 @@ public abstract class Ghost extends Unit implements Observer, Observable {
 
     /**
      * observes type and location of the unit.
-     * @param type the type of the unit
+     *
+     * @param type     the type of the unit
      * @param location the location of the unit
      */
     @Override

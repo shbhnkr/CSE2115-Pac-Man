@@ -1,6 +1,9 @@
 package ghost;
 
-import game.*;
+import game.Game;
+import game.SpriteSheet;
+import game.Observer;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static game.RenderLevel.pixels;
+import static game.RenderLevel.setPixels;
 
 
 class GhostTest {
@@ -29,7 +33,7 @@ class GhostTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        RenderLevel.setPixels(new char[width][height]);
+        setPixels(new char[width][height]);
         int n = 0;
         while (n < height / 20) {
             for (int i = 0; i < width / 20; i++) {
@@ -71,7 +75,10 @@ class GhostTest {
 
         ghost.setLocation(x + 40, y + 20);
         ghost.notifyObservers();
-        Assertions.assertEquals(inky.getUnitLocations().get("r"), ghost.getLocation());
+
+        if (inky != null) {
+            Assertions.assertEquals(inky.getUnitLocations().get("r"), ghost.getLocation());
+        }
 
         ghost.deregisterObserver(inky);
         Assertions.assertTrue(ghost.getObserverCollection().isEmpty());
@@ -103,7 +110,7 @@ class GhostTest {
     void moveUpFailGhost() {
         ghost.move(new Point(40, 0));
         Point beforeMove = ghost.getLocation();
-        Level.pixels[beforeMove.x / 20][(height - 20) / 20] = '#';
+        pixels[beforeMove.x / 20][(height - 20) / 20] = '#';
         ghost.moveUpGhost(height);
         Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
@@ -129,7 +136,7 @@ class GhostTest {
     void moveLeftFailGhost() {
         ghost.move(new Point(0, 40));
         Point beforeMove = ghost.getLocation();
-        Level.pixels[(width - 20) / 20][beforeMove.y / 20] = '#';
+        pixels[(width - 20) / 20][beforeMove.y / 20] = '#';
         ghost.moveLeftGhost(width);
         Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
@@ -155,7 +162,7 @@ class GhostTest {
     void moveDownFailGhost() {
         ghost.move(new Point(40, height - 20));
         Point beforeMove = ghost.getLocation();
-        Level.pixels[beforeMove.x / 20][0] = '#';
+        pixels[beforeMove.x / 20][0] = '#';
         ghost.moveDownGhost(height);
         Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
@@ -181,7 +188,7 @@ class GhostTest {
     void moveRightFailGhost() {
         ghost.move(new Point(width - 20, 40));
         Point beforeMove = ghost.getLocation();
-        Level.pixels[0][beforeMove.y / 20] = '#';
+        pixels[0][beforeMove.y / 20] = '#';
         ghost.moveRightGhost(width);
         Assertions.assertEquals(ghost.getLocation(), beforeMove);
     }
