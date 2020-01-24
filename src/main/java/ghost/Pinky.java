@@ -3,7 +3,7 @@ package ghost;
 import game.SpriteSheet;
 import game.Types;
 
-import java.awt.*;
+import java.awt.Point;
 
 import static game.Game.playerDirection;
 import static game.RenderLevel.pixels;
@@ -18,9 +18,8 @@ public class Pinky extends Ghost {
 
     /**
      * ghost constructor 2.
-     *
-     * @param x           x position of ghost.
-     * @param y           y position of ghost.
+     * @param x x position of ghost.
+     * @param y y position of ghost.
      * @param spriteSheet the spritesheet to use.
      */
     Pinky(int x, int y, SpriteSheet spriteSheet) {
@@ -28,17 +27,85 @@ public class Pinky extends Ghost {
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public void moveGhost(int height, int width) {
         if (unitLocations.isEmpty()) {
             System.out.println("no destination for Pinky!");
             return;
         }
 
+        boolean upWall = isUpWall(height);
+
+        boolean leftWall = isLeftWall(width);
+
+        boolean downWall = isDownWall(height);
+
+        boolean rightWall = isRightWall(width);
+
         Point destination = this.unitLocations.get(Types.playerType());
         Point newDestination = getNewDestination(destination);
 
-        int res = getRes(newDestination, height, width);
+        double distance = Integer.MAX_VALUE;
+        double temp;
+        int res = -1;
 
+        if (!upWall) {
+            if (leftWall & rightWall & downWall) {
+                res = 0;
+            }
+            else if (!lastMove.equals("down")) {
+                distance = Math.sqrt(Math.pow((this.getLocation().x
+                        - newDestination.getLocation().x) / 20, 2) + Math.pow(((
+                        this.getLocation().y - 20) - newDestination.getLocation().y) / 20, 2));
+                res = 0;
+            }
+        }
+        if (!leftWall) {
+            if (downWall & rightWall & upWall) {
+                res = 1;
+            }
+            else if (!lastMove.equals("right")) {
+                temp = Math.sqrt(Math.pow(((
+                        this.getLocation().x - 20) - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                if (temp < distance) {
+                    distance = temp;
+                    res = 1;
+                }
+            }
+        }
+        if (!downWall) {
+            if (upWall & rightWall & leftWall) {
+                res = 2;
+            }
+            else if (!lastMove.equals("up")) {
+                temp = Math.sqrt(Math.pow((
+                        this.getLocation().x - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow(((
+                        this.getLocation().y + 20) - newDestination.getLocation().y) / 20, 2));
+                if (temp < distance) {
+                    distance = temp;
+                    res = 2;
+                }
+            }
+        }
+        if (!rightWall) {
+            if (downWall & upWall & leftWall) {
+                res = 3;
+            }
+            else if (!lastMove.equals("left")) {
+                temp = Math.sqrt(Math.pow(((
+                        this.getLocation().x + 20) - newDestination.getLocation().x) / 20, 2)
+                        + Math.pow((this.getLocation().y - newDestination.getLocation().y) / 20, 2));
+                if (temp < distance) {
+                    res = 3;
+                }
+            }
+        }
+        movePinky(height, width, res);
+    }
+
+    private void movePinky(int height, int width, int res) {
         switch (res) {
             case 0:
                 lastMove = "up";
@@ -63,7 +130,6 @@ public class Pinky extends Ghost {
 
     private Point getNewDestination(Point destination) {
         Point newDestination;
-
         switch (playerDirection) {
             case "up":
                 newDestination = new Point(destination.x, destination.y - 80);
@@ -71,118 +137,17 @@ public class Pinky extends Ghost {
             case "left":
                 newDestination = new Point(destination.x - 80, destination.y);
                 break;
-            case "down:":
+            case "down":
                 newDestination = new Point(destination.x, destination.y + 80);
                 break;
             case "right":
                 newDestination = new Point(destination.x + 80, destination.y);
                 break;
             default:
-                newDestination = destination;
+                newDestination = new Point(destination.x, destination.y);
                 break;
         }
         return newDestination;
-    }
-
-//    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    int getRes(Point destination, int height, int width) {
-        System.out.print(pixels[getLocation().x / 20][(getLocation().y - 20) / 20] + ", ");
-        System.out.print(pixels[getLocation().x / 20][(getLocation().y + 20) / 20] + ", ");
-        System.out.print(pixels[(getLocation().x + 20) / 20][(getLocation().y) / 20] + ", ");
-        System.out.println(pixels[(getLocation().x - 20) / 20][(getLocation().y) / 20]);
-
-        boolean upWall = isUpWall(height);
-        boolean leftWall = isLeftWall(width);
-        boolean downWall = isDownWall(height);
-        boolean rightWall = isRightWall(width);
-
-        System.out.print(upWall);
-        System.out.print(leftWall);
-        System.out.print(downWall);
-        System.out.print(rightWall);
-
-        if (!upWall) {
-            upValidMove(leftWall, downWall, rightWall);
-        }
-        if (!leftWall) {
-            leftValidMove(destination, upWall, downWall, rightWall, width);
-        }
-        if (!downWall) {
-            downValidMove(destination, upWall, leftWall, rightWall, height);
-        }
-        if (!rightWall) {
-            rightValidMove(destination, upWall, leftWall, downWall, width);
-        }
-        return res;
-    }
-
-    void rightValidMove(Point destination, boolean upWall, boolean leftWall, boolean downWall, int width) {
-        if (downWall & upWall & leftWall) {
-            res = 3;
-        }
-        if (!lastMove.equals("left")) {
-            double temp;
-            if (getLocation().x == (width - 20)) {
-                temp = Math.sqrt(Math.pow(((0) - destination.x) / 20, 2)
-                        + Math.pow((getLocation().y - destination.y) / 20, 2));
-            } else {
-                temp = Math.sqrt(Math.pow(((getLocation().x + 20)
-                        - destination.x) / 20, 2)
-                        + Math.pow((getLocation().y - destination.y) / 20, 2));
-            }
-            res = compare(temp, res, 3);
-        }
-    }
-
-    void downValidMove(Point destination, boolean upWall, boolean leftWall, boolean rightWall, int height) {
-        if (leftWall & rightWall & upWall) {
-            res = 2;
-        }
-        if (!lastMove.equals("up")) {
-            double temp;
-            if (getLocation().y == (height - 20)) {
-                temp = Math.sqrt(Math.pow(((getLocation().y) - destination.x) / 20, 2)
-                        + Math.pow((0 - destination.y) / 20, 2));
-            } else {
-                temp = Math.sqrt(Math.pow(((getLocation().x)
-                        - destination.x) / 20, 2)
-                        + Math.pow(((getLocation().y + 20) - destination.y) / 20, 2));
-            }
-            res = compare(temp, res, 2);
-        }
-    }
-
-    void leftValidMove(Point destination, boolean upWall, boolean downWall, boolean rightWall, int width) {
-        if (downWall & rightWall & upWall) {
-            res = 1;
-        }
-        if (!lastMove.equals("right")) {
-            double temp;
-            if (getLocation().x == 0) {
-                temp = Math.sqrt(Math.pow(((width - 20) - destination.x) / 20, 2)
-                        + Math.pow((getLocation().y - destination.y) / 20, 2));
-            } else {
-                temp = Math.sqrt(Math.pow(((getLocation().x + 20)
-                        - destination.x) / 20, 2)
-                        + Math.pow((getLocation().y - destination.y) / 20, 2));
-            }
-            res = compare(temp, res, 1);
-        }
-    }
-
-    void upValidMove(boolean leftWall, boolean downWall, boolean rightWall) {
-        if (!lastMove.equals("down") || downWall & rightWall & leftWall) {
-            res = 0;
-        }
-    }
-
-    int compare(double temp, int res, int i) {
-        if (temp < distance) {
-            distance = temp;
-            return i;
-        } else {
-            return res;
-        }
     }
 
     @Override

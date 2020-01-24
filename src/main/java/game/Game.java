@@ -1,7 +1,9 @@
 package game;
 
 import database.DBconnection;
+import ghost.Blinky;
 import ghost.Ghost;
+import ghost.Pinky;
 import ghost.Randy;
 
 import javax.swing.JOptionPane;
@@ -226,45 +228,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     15000
             );
         }
-        boolean upWall;
-        if (player.getLocation().y == 0) {
-            upWall = pixels[player.getLocation().x / 20][(height - 20) / 20] == '#';
-        } else {
-            upWall = pixels[player.getLocation().x / 20][(player.getLocation().y - 20) / 20]
-                    == '#';
-        }
-
-        boolean leftWall;
-        if (player.getLocation().x == 0) {
-            leftWall = pixels[(width - 20) / 20][player.getLocation().y / 20] == '#';
-        } else {
-            leftWall = pixels[(player.getLocation().x - 20) / 20][player.getLocation().y / 20]
-                    == '#';
-        }
-
-        boolean downWall;
-        if (player.getLocation().y == height - 20) {
-            downWall = pixels[player.getLocation().x / 20][0] == '#';
-        } else {
-            downWall = pixels[player.getLocation().x / 20][(player.getLocation().y + 20) / 20]
-                    == '#';
-        }
-        boolean rightWall;
-        if (player.getLocation().x == width - 20) {
-            rightWall = pixels[0][player.getLocation().y / 20] == '#';
-        } else {
-            rightWall = pixels[(player.getLocation().x + 20) / 20][player.getLocation().y / 20]
-                    == '#';
-        }
+        boolean upWall = player.isUpWall(height);
+        boolean leftWall = player.isLeftWall(width);
+        boolean downWall = player.isDownWall(height);
+        boolean rightWall = player.isRightWall(width);
 
         if (key < Integer.MAX_VALUE && (currentTime - timeSinceLastMove) >= coolDown) {
             if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 if (player.drunk) {
-                    if (!downWall || !newKey) {
+                    if (!downWall || !newKey || player.power) {
                         playerDirection = "down";
                     }
                 } else {
-                    if (!upWall || !newKey) {
+                    if (!upWall || !newKey || player.power) {
                         playerDirection = "up";
                     }
                 }
@@ -272,33 +248,33 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 
                 if (player.drunk) {
-                    if (!rightWall || !newKey) {
+                    if (!rightWall || !newKey || player.power) {
                         playerDirection = "right";
                     }
                 } else {
-                    if (!leftWall || !newKey) {
+                    if (!leftWall || !newKey || player.power) {
                         playerDirection = "left";
                     }
                 }
             }
             if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
                 if (player.drunk) {
-                    if (!upWall || !newKey) {
+                    if (!upWall || !newKey || player.power) {
                         playerDirection = "up";
                     }
                 } else {
-                    if (!downWall || !newKey) {
+                    if (!downWall || !newKey || player.power) {
                         playerDirection = "down";
                     }
                 }
             }
             if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
                 if (player.drunk) {
-                    if (!leftWall || !newKey) {
+                    if (!leftWall || !newKey || player.power) {
                         playerDirection = "left";
                     }
                 } else {
-                    if (!rightWall || !newKey) {
+                    if (!rightWall || !newKey || player.power) {
                         playerDirection = "right";
                     }
                 }
